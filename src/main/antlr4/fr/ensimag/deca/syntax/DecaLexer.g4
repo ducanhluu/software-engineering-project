@@ -13,26 +13,6 @@ options {
 
 // Deca lexer rules.
 
-//Identificateur
-fragment LETTER : 'a'  ..  'z' | 'A' .. 'Z';
-fragment DIGIT : '1' .. '9';
-IDENT : (LETTER | '$' | '_')(LETTER | DIGIT | '$' | '_')*;
-
-//Litteraux entiers
-fragment POSITIVE_DIGIT : '1' .. '9';
-INT : POSITIVE_DIGIT DIGIT*;
-
-//Litteraux flottant
-fragment NUM : DIGIT+;
-fragment SIGN : ('+' | '-' )?;
-fragment EXP : ('E' | 'e') SIGN NUM; 
-fragment DEC : NUM '.' NUM;
-fragment FLOATDEC : (DEC | DEC EXP) ('F' | 'f')?;
-fragment DIGITHEX : '0' .. '9' | 'A' .. 'F' | 'a' .. 'f';
-fragment NUMHEX : DIGITHEX+;
-fragment FLOATHEX : ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f' )?;
-FLOAT : FLOATDEC + FLOATHEX;
-
 //Chaines de caracteres
 fragment EOL : '\n';
 fragment STRING_CAR : ~('\\'|'"') ;
@@ -74,12 +54,52 @@ THIS: 'this';
 TRUE: 'true';
 WHILE: 'while';
 
+//Litteraux entiers
+fragment POSITIVE_DIGIT : '1' .. '9';
+INT : POSITIVE_DIGIT DIGIT*;
 
+//Litteraux flottant
+fragment NUM : DIGIT+;
+fragment SIGN : ('+' | '-' )?;
+fragment EXP : ('E' | 'e') SIGN NUM; 
+fragment DEC : NUM '.' NUM;
+fragment FLOATDEC : (DEC | DEC EXP) ('F' | 'f')?;
+fragment DIGITHEX : '0' .. '9' | 'A' .. 'F' | 'a' .. 'f';
+fragment NUMHEX : DIGITHEX+;
+fragment FLOATHEX : ('0x' | '0X') NUMHEX '.' NUMHEX (('P' | 'p') SIGN NUM)? ('F' | 'f' )?;
+FLOAT : FLOATDEC | FLOATHEX;
 
 //Commentaires
-COMMENT : '/*' .*? '*/' { skip(); } ;
+COMMENT : ('/*' .*? '*/' | '//'.*? '\n')  { skip(); } ;
 
 //Symbole speciaux
-// a completer 
+OBRACE: '{';
+CBRACE: '}';
+OPARENT: '(';
+CPARENT: ')';
+COMMA: ',';
+SEMI: ';';
+EQUALS: '=';
+AND: '&&';
+OR: '||';
+EQEQ: '==';
+NEQ: '!=';
+LEQ:'<=';
+GEQ:'>=';
+GT:'<';
+LT:'>';
+PLUS: '+';
+MINUS: '-';
+TIMES:'*';
+SLASH:'/';
+PERCENT:'%';
+EXCLAM: '!';
+DOT: '.';
+
+//Identificateur
+fragment LETTER : 'a'  ..  'z' | 'A' .. 'Z';
+fragment DIGIT : '0' .. '9';
+IDENT : (LETTER | '$' | '_')(LETTER | DIGIT | '$' | '_')*;
+
 
 
