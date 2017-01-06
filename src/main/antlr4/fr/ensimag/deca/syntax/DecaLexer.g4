@@ -31,7 +31,7 @@ WS  :   ( ' '
     
 //Inclusion de fichier
 fragment FILENAME : (LETTER | DIGIT | '.' | '-' | '_')+;
-INCLUDE : '#include' (' ')* '"' FILENAME '"';
+INCLUDE : ('#include' (' ')* '"' FILENAME '"'){doInclude(getText());};
 
 //Mots reserves
 ASM: 'asm';
@@ -47,12 +47,14 @@ NULL: 'null';
 READINT: 'readint';
 READFLOAT: 'readfloat';
 PRINT: 'print';
+PRINTLNX:'printlnx';
 PRINTLN: 'println';
 PRINTX: 'printx';
 RETURN: 'return';
 THIS: 'this';
 TRUE: 'true';
 WHILE: 'while';
+
 
 //Litteraux entiers
 fragment POSITIVE_DIGIT : '1' .. '9';
