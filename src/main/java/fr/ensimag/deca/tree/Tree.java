@@ -5,6 +5,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import static java.sql.DriverManager.println;
 import org.apache.log4j.Logger;
 
 /**
@@ -124,7 +125,7 @@ public abstract class Tree {
      * Pretty-print the type of the tree, if applicable
      */
     protected void prettyPrintType(PrintStream s, String prefix) {
-        // Nothing by default
+        s.print(prefix);
     }
 
     /**
@@ -293,5 +294,9 @@ public abstract class Tree {
         } else {
             return "";
         }
+    }
+
+    private void print(String prettyPrintNode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -47,7 +47,6 @@ NULL: 'null';
 READINT: 'readint';
 READFLOAT: 'readfloat';
 PRINT: 'print';
-PRINTLNX:'printlnx';
 PRINTLN: 'println';
 PRINTX: 'printx';
 PRINTLNX: 'printlnx';

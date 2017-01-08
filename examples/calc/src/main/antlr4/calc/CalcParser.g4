@@ -13,7 +13,7 @@ options {
 // (EOF). The "returns" declaration says which Java type is produced
 // by this rule.
 expr returns[AbstractExpr tree]
-    : sum_expr EOF {
+        : sum_expr EOF {
                     // between braces ({}), an action for this rule,
                     // i.e. a piece of Java code that will be executed
                     // while matching the rule. Must assign a value to
