@@ -125,7 +125,7 @@ public abstract class Tree {
      * Pretty-print the type of the tree, if applicable
      */
     protected void prettyPrintType(PrintStream s, String prefix) {
-        s.print(prefix);
+        //Nothing by default
     }
 
     /**
