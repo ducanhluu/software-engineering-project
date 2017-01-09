@@ -66,7 +66,7 @@ public class CompilerOptions {
         } else {
             logger.info("Java assertions disabled");
         }
-
+// we have to go back here
         throw new UnsupportedOperationException("not yet implemented");
     }
 

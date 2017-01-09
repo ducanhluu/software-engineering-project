@@ -31,7 +31,9 @@ public class Main extends AbstractMain {
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
         LOG.debug("verify Main: end");
-        throw new UnsupportedOperationException("not yet implemented");
+        this.declVariables.verifyListDeclVariable(compiler, null, null);
+        this.insts.verifyListInst(compiler, null, null, null);
+        //throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override

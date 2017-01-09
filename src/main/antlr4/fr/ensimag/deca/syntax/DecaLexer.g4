@@ -47,9 +47,9 @@ NULL: 'null';
 READINT: 'readint';
 READFLOAT: 'readfloat';
 PRINT: 'print';
-PRINTLNX:'printlnx';
 PRINTLN: 'println';
 PRINTX: 'printx';
+PRINTLNX: 'printlnx';
 RETURN: 'return';
 THIS: 'this';
 TRUE: 'true';
@@ -72,7 +72,7 @@ fragment FLOATHEX : ('0x' | '0X') NUMHEX '.' NUMHEX (('P' | 'p') SIGN NUM)? ('F'
 FLOAT : FLOATDEC | FLOATHEX;
 
 //Commentaires
-COMMENT : ('/*' .*? '*/' | '//'.*? '\n')  { skip(); } ;
+COMMENT : ('/*' .*? '*/' | '//'.*? '\n'| '//' .*? EOL )  { skip(); } ;
 
 //Symbole speciaux
 OBRACE: '{';
