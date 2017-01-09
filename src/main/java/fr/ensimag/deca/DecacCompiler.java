@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.EnvironmentType;
-import fr.ensimag.deca.context.EnvironmentType.DoubleDefException;
+import java.util.logging.Level;
 /**
  * Decac compiler instance.
  *
@@ -42,13 +42,16 @@ public class DecacCompiler {
      */
     private static final String nl = System.getProperty("line.separator", "\n");
 
-    public DecacCompiler(CompilerOptions compilerOptions, File source) throws DoubleDefException {
+    public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.envType = new EnvironmentType();
+       
     }
-    
+    public EnvironmentType getEnvType(){
+        return this.envType;
+    }
     /**
      * Source file associated with this compiler instance.
      */

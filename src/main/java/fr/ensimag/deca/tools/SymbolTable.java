@@ -25,9 +25,11 @@ public class SymbolTable {
      * this Symbol. Otherwise, create a new Symbol and add it to the table.
      */
     public Symbol create(String name) {
-        throw new UnsupportedOperationException("Symbol creation");
+        if ( !this.map.containsKey(name))  
+            this.map.put(name, new Symbol(name));
+         return this.map.get(name); 
     }
-
+    
     public static class Symbol {
         // Constructor is private, so that Symbol instances can only be created
         // through SymbolTable.create factory (which thus ensures uniqueness
@@ -47,6 +49,7 @@ public class SymbolTable {
         }
         @Override
         public boolean equals(Object symbol){
+            
             if(symbol instanceof Symbol){
                 return this.getName().equals(((Symbol)symbol).getName());
             }
@@ -54,8 +57,7 @@ public class SymbolTable {
         }
         @Override
         public int hashCode(){
-            return this.getName().hashCode();
-            
+            return this.getName().hashCode();    
         }
         private String name;
     }

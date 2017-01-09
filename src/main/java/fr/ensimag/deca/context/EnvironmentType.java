@@ -4,14 +4,15 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tools.SymbolTable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class EnvironmentType {
     private Map<Symbol,Type> map = new HashMap<Symbol,Type>();
     private SymbolTable Dict = new SymbolTable();
-    //hashmap symbol,type symbol
-    public EnvironmentType() throws DoubleDefException {
+    public EnvironmentType()  {
         this.initialize();
     }
-    public void initialize() throws DoubleDefException {
+    public void initialize()  {
 		
 
         VoidType voidT =  new VoidType(Dict.create("void"));
@@ -32,19 +33,14 @@ public class EnvironmentType {
 
 
     }
-    
-
-    public class DoubleDefException extends Exception {
-        private static final long serialVersionUID = -2733379901827316441L;
+    public SymbolTable getDict(){
+           return this.Dict;
     }
-
     /**
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
     public Type get(Symbol key) {
-        if(map.containsKey(key))
-            throw new UnsupportedOperationException("not yet implemented");
         return map.get(key);
     }
     public class SymbolNotContainedInEnvType extends Exception{
@@ -63,15 +59,9 @@ public class EnvironmentType {
      *            Name of the symbol to define
      * @param def
      *            Definition of the symbol
-     * @throws DoubleDefException
-     *             if the symbol is already defined at the "current" dictionary
-     *
      */
-    public void declare(Symbol name, Type def) throws DoubleDefException{
-        if(map.containsKey(name))
-            throw new DoubleDefException();
+    public void declare(Symbol name, Type def){
         map.put(name,def);
-    
     }
 
 }

@@ -41,9 +41,15 @@ public abstract class AbstractPrint extends AbstractInst {
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
             Iterator it = this.arguments.iterator();
+            
              while (it.hasNext()){
                 AbstractExpr cour=(AbstractExpr) it.next();
-                cour.verifyExpr(compiler,null,null);
+                Type type=cour.verifyExpr(compiler,null,null);
+                assert(type !=null);
+                cour.setType(type);
+                if ( !type.isFloat() && !type.isInt() && !type.isString()){
+                        throw new ContextualError("invalid argument for print",this.getLocation());
+                }
             }
         //throw new UnsupportedOperationException("not yet implemented");
     }
