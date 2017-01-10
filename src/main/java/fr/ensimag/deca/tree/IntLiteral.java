@@ -28,7 +28,8 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type type=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
+        return type;
     }
 
 
