@@ -19,6 +19,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.EnvironmentType;
 import java.util.logging.Level;
+import java.lang.String;
 /**
  * Decac compiler instance.
  *
@@ -131,6 +132,7 @@ public class DecacCompiler {
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
         String destFile = null;
+	destFile=sourceFile.substring(0,sourceFile.lastIndexOf("."))+".ass";
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
         PrintStream err = System.err;

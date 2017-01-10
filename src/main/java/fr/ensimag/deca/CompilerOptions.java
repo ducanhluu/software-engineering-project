@@ -66,8 +66,30 @@ public class CompilerOptions {
         } else {
             logger.info("Java assertions disabled");
         }
-// we have to go back here
-        throw new UnsupportedOperationException("not yet implemented");
+	for (String s:args){
+            switch (s){
+                case  "-b":
+                    System.out.print("Equipegl17");
+                case "-p":
+                   break; 
+                case "-v":
+                  break;
+                case "-n":
+                  break;
+                case "-r X":
+                    break;
+                case "-d":
+                    break;
+                case "-P":
+                    break;
+                default:
+		    File file=new File(s);
+                    if(!this.sourceFiles.contains(file)){
+			this.sourceFiles.add(file);
+		    }
+                    break;
+            }
+	}
     }
 
     protected void displayUsage() {
