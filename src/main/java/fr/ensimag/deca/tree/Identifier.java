@@ -167,8 +167,7 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        Type type=compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.name.getName()));
-        return type;
+           return null;
     }
 
     /**

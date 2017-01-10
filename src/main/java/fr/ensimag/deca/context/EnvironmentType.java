@@ -45,7 +45,7 @@ public class EnvironmentType {
     }
     public class SymbolNotContainedInEnvType extends Exception{
         public SymbolNotContainedInEnvType(){
-            System.out.println("envronnementType ne contient pas le symbol");
+            System.out.println("envronnementType ne contient pas le symbole");
         }
     }
     /**
@@ -61,7 +61,11 @@ public class EnvironmentType {
      *            Definition of the symbol
      */
     public void declare(Symbol name, Type def){
-        map.put(name,def);
+        if (!this.map.containsKey(name)){
+            map.put(name,def);
+        }
     }
+        
+    
 
 }

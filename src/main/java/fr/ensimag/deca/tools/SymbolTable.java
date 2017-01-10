@@ -25,8 +25,9 @@ public class SymbolTable {
      * this Symbol. Otherwise, create a new Symbol and add it to the table.
      */
     public Symbol create(String name) {
-        if ( !this.map.containsKey(name))  
+        if ( !this.map.containsKey(name)){  
             this.map.put(name, new Symbol(name));
+        }
          return this.map.get(name); 
     }
     
