@@ -1,11 +1,11 @@
 {
-	if ( 1<2) {
-	   println("Hello");
-	   } elsif ( 1==2) {
-	     println("Bye");
-	   }else{
-             print("hello from");
-           }
-             
-
+if ( 2 > 5) {
+   println("hello");
+} else if ( 3 < 88 )  {
+  println("bye");
+} else if ( 1 == 1 ) {
+  println("helloagain");
+} else {
+  println("farewell");
+}
 }

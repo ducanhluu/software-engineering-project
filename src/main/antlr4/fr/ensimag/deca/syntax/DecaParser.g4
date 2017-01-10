@@ -63,6 +63,8 @@ block returns[ListDeclVar decls, ListInst insts]
             assert($list_inst.tree != null);
             $decls = $list_decl.tree;
             $insts = $list_inst.tree;
+            setLocation($decls,$list_decl.start);
+            setLocation($insts,$list_inst.start);
         }
     ;
 
@@ -112,13 +114,14 @@ inst returns[AbstractInst tree]
     : e1=expr SEMI {
             assert($e1.tree != null);
             $tree = $e1.tree;
+            setLocation($tree,$e1.start);
         }
     | SEMI {
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Print(false,$list_expr.tree);
-            
+            setLocation($tree,$PRINT);
         }
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
@@ -129,20 +132,24 @@ inst returns[AbstractInst tree]
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Print(true,$list_expr.tree);
-            
+            setLocation($tree,$PRINTX);
         }
     | PRINTLNX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Println(true,$list_expr.tree);
+            setLocation($tree,$PRINTLNX);
         }
     | if_then_else {
             assert($if_then_else.tree != null);
             $tree = $if_then_else.tree ;
+            setLocation($tree,$if_then_else.start);
         }
     | WHILE OPARENT condition=expr CPARENT OBRACE body=list_inst CBRACE {
             assert($condition.tree != null);
             assert($body.tree != null);
             $tree = new While($condition.tree,$body.tree);
+            setLocation($tree,$condition.start);
+            setLocation($tree,$body.start);
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
@@ -150,7 +157,11 @@ inst returns[AbstractInst tree]
     ;
 
 if_then_else returns[IfThenElse tree]
+@init {
+    ListInst instructions = new ListInst();
+}
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
+            instructions = $li_if.tree;
             assert($condition.tree != null);
             assert($li_if.tree != null);
             $tree = new IfThenElse($condition.tree,$li_if.tree,new ListInst());
@@ -158,12 +169,17 @@ if_then_else returns[IfThenElse tree]
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
             assert($elsif_cond.tree != null);
             assert($elsif_li.tree != null);
-            $tree = new IfThenElse($elsif_cond.tree,$elsif_li.tree,new ListInst());
+            Iterator<AbstractInst> it = $elsif_li.tree.iterator();
+            while ( it.hasNext() ) {
+                AbstractInst cour = it.next() ;
+                instructions.add(cour);
+            }
+            $tree = new IfThenElse($elsif_cond.tree,$elsif_li.tree,instructions);
     }
       )*
-      (ELSE OBRACE li_else=list_inst CBRACE {
+      (ELSE OBRACE li_else=list_inst CBRACE {          
             assert($li_else.tree != null);
-            $tree = new IfThenElse($condition.tree,new ListInst(),$li_else.tree);
+            $tree = new IfThenElse($condition.tree,instructions,$li_else.tree);
         }
       )?
     ;
@@ -205,8 +221,7 @@ assign_expr returns[AbstractExpr tree]
       | /* epsilon */ {
             assert($e.tree != null);
             $tree=$e.tree;
-            setLocation($tree,$e.start);
-            
+            setLocation($tree,$e.start);            
         }
       )
     ;
@@ -402,10 +417,9 @@ primary_expr returns[AbstractExpr tree]
             assert($expr.tree != null);
         }
     | literal {
-            assert($literal.tree != null);
+            //assert($literal.tree != null);
             $tree = $literal.tree;
-            setLocation($tree,$literal.start);
-           
+            setLocation($tree,$literal.start);           
         }
     ;
 
@@ -419,6 +433,7 @@ type returns[AbstractIdentifier tree]
 literal returns[AbstractExpr tree]
     : it=INT {
         $tree = new IntLiteral(Integer.parseInt($it.text));
+        setLocation($tree,$it);
         }
     | fd=FLOAT {
         $tree = new FloatLiteral(Float.parseFloat($fd.text));
@@ -441,6 +456,7 @@ literal returns[AbstractExpr tree]
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
+            
         }
     ;
 
