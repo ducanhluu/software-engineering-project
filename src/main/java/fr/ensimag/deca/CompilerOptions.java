@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 
+import static fr.ensimag.deca.codegen.MemoryManagement.setRMAX;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -77,6 +78,8 @@ public class CompilerOptions {
                 case "-n":
                   break;
                 case "-r X":
+                    //change valeur de RMAX dans MemoryManagement
+                    //setRMAX(X - 1);
                     break;
                 case "-d":
                     break;
