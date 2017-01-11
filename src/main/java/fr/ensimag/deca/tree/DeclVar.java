@@ -14,6 +14,8 @@ import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -40,6 +42,23 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+            Type type = this.type.verifyType(compiler);
+            this.varName.verifyExpr(compiler, localEnv, currentClass);
+            this.type.setType(type);
+            assert(type != null);
+            if (this.type.getType().isVoid()){
+                throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
+            }
+            this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
+            VariableDefinition vardef = new VariableDefinition(type,this.varName.getLocation());
+            this.varName.setDefinition(vardef);
+            EnvironmentExp currentEnv=new EnvironmentExp(localEnv);
+            
+            try {
+                currentEnv.declare(this.varName.getName(), vardef);
+            } catch (EnvironmentExp.DoubleDefException ex) {
+                Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     

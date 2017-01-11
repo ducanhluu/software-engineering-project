@@ -22,7 +22,10 @@ public class StringType extends Type {
 
     @Override
     public boolean sameType(Type otherType) {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (this.getName()== otherType.getName()){
+            return true;
+        }
+        return false;
     }
 
 

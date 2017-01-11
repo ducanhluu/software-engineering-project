@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class EnvironmentType {
-    private Map<Symbol,Type> map = new HashMap<Symbol,Type>();
+    private Map<Symbol,TypeDefinition> map = new HashMap<Symbol,TypeDefinition>();
     private SymbolTable Dict = new SymbolTable();
     public EnvironmentType()  {
         this.initialize();
@@ -18,18 +18,18 @@ public class EnvironmentType {
         VoidType voidT =  new VoidType(Dict.create("void"));
         StringType stringT =  new StringType(Dict.create("string"));
         FloatType floatT = new FloatType(Dict.create("float"));
-        BooleanType boolt = new BooleanType(Dict.create("boolean"));
+        BooleanType boolT = new BooleanType(Dict.create("boolean"));
         IntType intT = new IntType(Dict.create("int"));
         NullType nullT = new NullType(Dict.create("null"));
         ClassType classObjT = new ClassType(Dict.create("Object"));
-
-        declare(Dict.create("void"),voidT);
-        declare(Dict.create("string"),stringT);
-        declare(Dict.create("float"),floatT);
-        declare(Dict.create("boolean"),boolt);
-        declare(Dict.create("int"),intT);
-        declare(Dict.create("null"),nullT);
-        declare(Dict.create("Object"),classObjT);
+        
+        declare(Dict.create("void"),new TypeDefinition(voidT,null));
+        declare(Dict.create("string"),new TypeDefinition(stringT,null));
+        declare(Dict.create("float"),new TypeDefinition(floatT,null));
+        declare(Dict.create("boolean"),new TypeDefinition(boolT,null));
+        declare(Dict.create("int"),new TypeDefinition(intT,null));
+        declare(Dict.create("null"),new TypeDefinition(nullT,null));
+        declare(Dict.create("Object"),new ClassDefinition(classObjT,null,null));
 
 
     }
@@ -40,12 +40,12 @@ public class EnvironmentType {
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public Type get(Symbol key) {
+    public TypeDefinition get(Symbol key) {
         return map.get(key);
     }
     public class SymbolNotContainedInEnvType extends Exception{
         public SymbolNotContainedInEnvType(){
-            System.out.println("envronnementType ne contient pas le symbol");
+            System.out.println("envronnementType ne contient pas le symbole");
         }
     }
     /**
@@ -60,8 +60,12 @@ public class EnvironmentType {
      * @param def
      *            Definition of the symbol
      */
-    public void declare(Symbol name, Type def){
-        map.put(name,def);
+    public void declare(Symbol name, TypeDefinition def){
+        if (!this.map.containsKey(name)){
+            map.put(name,def);
+        }
     }
+        
+    
 
 }

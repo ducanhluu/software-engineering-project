@@ -11,6 +11,7 @@ import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  * Integer literal
@@ -32,7 +33,9 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
+       
+        return typeDef.getType();
     }
 
 
