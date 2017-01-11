@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  * String literal
@@ -37,8 +38,8 @@ public class StringLiteral extends AbstractStringLiteral {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-            Type type=compiler.getEnvType().get(compiler.getEnvType().getDict().create("string"));
-            return type;
+            TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("string"));
+            return typeDef.getType();
         //throw new UnsupportedOperationException("not yet implemented");
     }
 

@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  * Integer literal
@@ -28,8 +29,8 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        Type type=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
-        return type;
+        TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
+        return typeDef.getType();
     }
 
 
