@@ -179,8 +179,9 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         //throw new UnsupportedOperationException("not yet implemented");
         TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.getName().getName()));
-        //System.out.println("haaaaaanaaaaaaaa" +type.toString());
-		return typeDef.getType();
+        typeDef.setLocation(Location.BUILTIN);
+        this.setDefinition(typeDef);
+        return typeDef.getType();
     }
     
     
