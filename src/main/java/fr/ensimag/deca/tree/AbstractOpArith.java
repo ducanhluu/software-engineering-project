@@ -7,6 +7,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStor
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
@@ -26,7 +27,21 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type type1=this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        this.getLeftOperand().setType(type1);
+        this.getRightOperand().setType(type2);
+        if((!type1.isFloat() && !type1.isInt()) || (!type2.isFloat() && !type2.isInt())  ){
+            
+            throw new ContextualError("operation impossible",this.getLocation());
+        }
+        //plusieurs a lever selon les cas possibles 
+        if(type1.isFloat() || type2.isFloat()){
+            TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
+            return typeDef.getType();
+        }
+        TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
+        return typeDef.getType();
     }
 
     protected GPRegister reg;

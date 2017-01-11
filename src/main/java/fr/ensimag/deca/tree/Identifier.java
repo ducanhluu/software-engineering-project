@@ -171,6 +171,7 @@ public class Identifier extends AbstractIdentifier {
             if (localEnv.get(name) == null){
                throw new ContextualError("variable not declared ",this.getLocation());
             }
+            //System.out.println("helo");
             this.setDefinition(localEnv.get(name));
             return localEnv.get(name).getType();
     }
@@ -182,6 +183,9 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         //throw new UnsupportedOperationException("not yet implemented");
+        if(compiler.getEnvType().get(name)==null){
+            throw new ContextualError("type not defined ",this.getLocation());
+        }
         TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.getName().getName()));
         typeDef.setLocation(Location.BUILTIN);
         this.setDefinition(typeDef);
