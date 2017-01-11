@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.EnvironmentType;
 import java.util.logging.Level;
 import java.lang.String;
+
 /**
  * Decac compiler instance.
  *
@@ -48,9 +49,10 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.envType = new EnvironmentType();
-       
+
     }
-    public EnvironmentType getEnvType(){
+
+    public EnvironmentType getEnvType() {
         return this.envType;
     }
     /**
@@ -107,22 +109,22 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
-    
+
     /**
-     * @see 
-     * fr.ensimag.ima.pseudocode.IMAProgram#display()
+     * @see fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {
         return program.display();
     }
-    
+
     private final CompilerOptions compilerOptions;
     private final File source;
     /**
-     * The main program. Every instruction generated will eventually end up here.
+     * The main program. Every instruction generated will eventually end up
+     * here.
      */
     private final IMAProgram program = new IMAProgram();
- 
+
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -132,7 +134,7 @@ public class DecacCompiler {
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
         String destFile = null;
-	destFile=sourceFile.substring(0,sourceFile.lastIndexOf("."))+".ass";
+        destFile = sourceFile.substring(0, sourceFile.lastIndexOf(".")) + ".ass";
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
         PrintStream err = System.err;
@@ -183,11 +185,11 @@ public class DecacCompiler {
             LOG.info("Parsing failed");
             return true;
         }
-        assert(prog.checkAllLocations());
+        assert (prog.checkAllLocations());
 
 
         prog.verifyProgram(this);
-        assert(prog.checkAllDecorations());
+        assert (prog.checkAllDecorations());
 
         addComment("start main program");
         prog.codeGenProgram(this);
