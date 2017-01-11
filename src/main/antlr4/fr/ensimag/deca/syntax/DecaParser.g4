@@ -93,13 +93,15 @@ list_decl_var[ListDeclVar l, AbstractIdentifier t]
 
 decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
-            $tree = new DeclVar(t, t, new NoInitialization() );
+            $tree = new DeclVar(t, t, new NoInitialization() );        
         }
     : i=ident {
             $tree = new DeclVar(t,$i.tree,new NoInitialization() );
+            setLocation($tree,$i.start);
         }
       (EQUALS e=expr {
             $tree = new DeclVar(t,$i.tree,new Initialization($e.tree) );
+            setLocation($tree,$e.start);
         }
       )? {
         }

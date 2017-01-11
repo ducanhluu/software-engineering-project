@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -87,7 +88,7 @@ public class DeclVar extends AbstractDeclVar {
         varName.getVariableDefinition().setOperand(new RegisterOffset(getNumberGlobalVariables(), GB));
         if (initialization instanceof Initialization) {
             ((Initialization) initialization).getExpression().codeGenInst(compiler);
-            compiler.addInstruction(new STORE(getR(2), varName.getVariableDefinition().getOperand()));
+            compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), varName.getVariableDefinition().getOperand()));
         }
     }
 }
