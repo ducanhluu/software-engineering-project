@@ -88,7 +88,7 @@ public class DeclVar extends AbstractDeclVar {
         varName.getVariableDefinition().setOperand(new RegisterOffset(getNumberGlobalVariables(), GB));
         if (initialization instanceof Initialization) {
             ((Initialization) initialization).getExpression().codeGenInst(compiler);
-            compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), varName.getVariableDefinition().getOperand()));
+            varName.codeGenInst(compiler);
         }
     }
 }

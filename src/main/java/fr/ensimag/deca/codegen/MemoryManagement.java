@@ -34,7 +34,7 @@ public class MemoryManagement {
         RMAX = max;
     }
     
-    public static GPRegister getAvailableRegister() {
+    public static GPRegister getAvailableRegister(DecacCompiler compiler) {
         int i;
         for (i = 2; i <= RMAX; i++) {
             if (avaRegs[i]) {
@@ -42,6 +42,11 @@ public class MemoryManagement {
                 lastReg = i;
                 break;
             }
+        }
+        
+        if (i == RMAX + 1) {
+            compiler.addInstruction(new PUSH(getR(2)));
+            return getR(2);
         }
         return getR(i);
     }
