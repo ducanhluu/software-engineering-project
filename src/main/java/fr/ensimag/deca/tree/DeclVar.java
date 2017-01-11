@@ -33,7 +33,13 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-            
+            Type type = this.type.verifyType(compiler);
+            this.varName.verifyExpr(compiler, localEnv, currentClass);
+            this.type.setType(type);
+            assert(type != null);
+            if (this.type.getType().isVoid()){
+                throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
+            }
     }
 
     
