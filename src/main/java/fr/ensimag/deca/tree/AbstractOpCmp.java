@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  *
@@ -25,8 +26,8 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);
         //plusieurs a lever selon les cas possibles 
-        Type type=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
-        return type;
+        TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
+        return typeDef.getType();
     }
 
 

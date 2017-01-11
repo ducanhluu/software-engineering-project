@@ -17,6 +17,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  * Deca Identifier
@@ -177,9 +178,9 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         //throw new UnsupportedOperationException("not yet implemented");
-        Type type = compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.getName().getName()));
+        TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.getName().getName()));
         //System.out.println("haaaaaanaaaaaaaa" +type.toString());
-		return type;
+		return typeDef.getType();
     }
     
     
