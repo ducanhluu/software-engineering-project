@@ -44,7 +44,6 @@ public class DeclVar extends AbstractDeclVar {
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
             Type type = this.type.verifyType(compiler);
-            this.varName.verifyExpr(compiler, localEnv, currentClass);
             this.type.setType(type);
             assert(type != null);
             if (this.type.getType().isVoid()){
@@ -53,13 +52,14 @@ public class DeclVar extends AbstractDeclVar {
             this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
             VariableDefinition vardef = new VariableDefinition(type,this.varName.getLocation());
             this.varName.setDefinition(vardef);
-            EnvironmentExp currentEnv=new EnvironmentExp(localEnv);
             
             try {
-                currentEnv.declare(this.varName.getName(), vardef);
+                localEnv.declare(this.varName.getName(), vardef);
             } catch (EnvironmentExp.DoubleDefException ex) {
-                Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ContextualError("La variable est déjà définie",this.varName.getLocation());
+                //Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
             }
+            this.varName.verifyExpr(compiler, localEnv, currentClass);
     }
 
     

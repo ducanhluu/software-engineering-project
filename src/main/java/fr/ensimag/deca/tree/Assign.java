@@ -31,10 +31,11 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        this.getLeftOperand().verifyExpr(compiler,null, null);
-        this.getRightOperand().verifyExpr(compiler, null,null);
+        Type type = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, type);
+        
         //throw new UnsupportedOperationException("not yet implemented");
-        return null;
+        return type;
     }
 
 

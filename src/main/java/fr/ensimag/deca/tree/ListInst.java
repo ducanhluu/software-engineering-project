@@ -31,7 +31,8 @@ public class ListInst extends TreeList<AbstractInst> {
             Iterator it = this.iterator();
             while (it.hasNext()){
                 AbstractInst cour=(AbstractInst) it.next();
-                cour.verifyInst(compiler,null,null,null);
+                
+                cour.verifyInst(compiler, localEnv, currentClass, returnType);
             }
         //throw new UnsupportedOperationException("not yet implemented");
     }
