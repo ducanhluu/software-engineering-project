@@ -1,0 +1,5 @@
+{
+int x;
+float y=2.3;
+y=y+x+y;
+}
