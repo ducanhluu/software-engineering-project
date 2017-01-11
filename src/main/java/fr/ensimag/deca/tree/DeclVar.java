@@ -40,6 +40,8 @@ public class DeclVar extends AbstractDeclVar {
             if (this.type.getType().isVoid()){
                 throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
             }
+            this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
+            
     }
 
     
