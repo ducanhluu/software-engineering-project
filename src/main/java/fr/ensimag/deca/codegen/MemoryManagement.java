@@ -12,6 +12,7 @@ import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
@@ -67,6 +68,16 @@ public class MemoryManagement {
         compiler.addInstruction(new WINT());
     }
 
+    public static void codeGenPrintFloat(DecacCompiler compiler, float val) {
+        compiler.addInstruction(new LOAD(val, getR(1)));
+        compiler.addInstruction(new WFLOAT());
+    }
+    
+        public static void codeGenPrintFloat(DecacCompiler compiler, DAddr val) {
+        compiler.addInstruction(new LOAD(val, getR(1)));
+        compiler.addInstruction(new WFLOAT());
+    }
+    
     public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
         avaRegs[lastReg] = true;
         compiler.addInstruction(new STORE(getR(lastReg), val));

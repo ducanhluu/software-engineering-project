@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.codeGenPrintFloat;
 import static fr.ensimag.deca.codegen.MemoryManagement.codeGenPrintInteger;
 import static fr.ensimag.deca.codegen.MemoryManagement.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
@@ -237,6 +238,9 @@ public class Identifier extends AbstractIdentifier {
     protected void codeGenPrint(DecacCompiler compiler) {
         if (definition.getType().isInt()) {
             codeGenPrintInteger(compiler, getVariableDefinition().getOperand());
+        }
+        else if (definition.getType().isFloat()){
+            codeGenPrintFloat(compiler,getVariableDefinition().getOperand());
         }
     }
     
