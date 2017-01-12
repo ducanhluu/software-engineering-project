@@ -1,0 +1,4 @@
+{
+if ( 3=="hello"){
+   println("this shouldn't be printed");
+}

@@ -25,8 +25,14 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);
+        if (this.getOperatorName() == "=="){
+            if (!type1.sameType(type2)){
+                throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());
+            }
+        }
         //plusieurs a lever selon les cas possibles 
         TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
+        this.setType(typeDef.getType());
         return typeDef.getType();
     }
 

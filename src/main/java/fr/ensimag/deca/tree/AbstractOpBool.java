@@ -21,12 +21,15 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-                Type type1=this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type type1=this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        if ( !type1.isBoolean() || !type2.isBoolean() ){
+            throw new ContextualError("Or can be done only on boolean types",this.getLocation());
+        }
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);
-        //plusieurs a lever selon les cas possibles 
         TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
+        this.setType(typeDef.getType());
         return typeDef.getType();
     }
 
