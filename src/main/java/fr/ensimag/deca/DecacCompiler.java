@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.ima.pseudocode.Line;
 import java.util.logging.Level;
 import java.lang.String;
 
@@ -85,6 +86,13 @@ public class DecacCompiler {
         program.addComment(comment);
     }
 
+    /**
+     * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
+     */
+    public void addFirstComment(String comment) {
+        program.addFirst(new Line(comment));
+    }
+    
     /**
      * @see
      * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
