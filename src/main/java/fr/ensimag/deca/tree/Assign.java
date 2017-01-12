@@ -33,8 +33,8 @@ public class Assign extends AbstractBinaryExpr {
             ClassDefinition currentClass) throws ContextualError {
         Type type = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, type);
-        
-        //throw new UnsupportedOperationException("not yet implemented");
+        //j'ai intialiser le type de l'instruction assign
+        this.setType(type);
         return type;
     }
 
