@@ -97,9 +97,14 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
         }
     : i=ident {
             $tree = new DeclVar(t,$i.tree,new NoInitialization() );
+            setLocation($tree,$i.start);
         }
       (EQUALS e=expr {
-            $tree = new DeclVar(t,$i.tree,new Initialization($e.tree) );
+            Initialization init=new Initialization($e.tree);
+            setLocation(init,$e.start);
+            $tree = new DeclVar(t,$i.tree,init );
+            setLocation($tree,$i.start);
+            
         }
       )? {
         }
@@ -159,6 +164,7 @@ inst returns[AbstractInst tree]
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            setLocation($tree,$expr.tree);
         }
     ;
 
