@@ -52,7 +52,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         
-        if (getLeftOperand() instanceof Identifier) {
+        if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier ) {
             val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
             getRightOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
@@ -62,7 +62,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
             
-        } else if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
+        } else if (getLeftOperand() instanceof Identifier) {
             val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
             compiler.addInstruction(
                     new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(),

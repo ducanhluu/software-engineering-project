@@ -26,7 +26,7 @@ public class Minus extends AbstractOpArith {
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
         
-        if (getRightOperand() instanceof Identifier) {
+        if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
             compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
             GPRegister reg2 = getLastUsedRegisterToStore();
             compiler.addInstruction(new SUB(reg, reg2));
