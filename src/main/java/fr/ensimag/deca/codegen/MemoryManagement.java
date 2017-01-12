@@ -35,6 +35,7 @@ public class MemoryManagement {
         true, true, true, true,
         true, true, true, true};
     private static int lastReg = 2;
+    private static int numberSavedRegisters = 0;
 
     public static int getNumberGlobalVariables() {
         return ++numberGlobalVariables;
@@ -56,6 +57,7 @@ public class MemoryManagement {
 
         if (i == RMAX + 1) {
             compiler.addInstruction(new PUSH(getR(2)), "sauvegarde");
+            numberSavedRegisters++;
             return getR(2);
         }
         return getR(i);
@@ -95,9 +97,10 @@ public class MemoryManagement {
     }
     
     public static void addTestOverflow(DecacCompiler compiler) {
-        compiler.addFirst(new ADDSP(1));
+        int i = numberSavedRegisters + numberGlobalVariables;
+        compiler.addFirst(new ADDSP(i));
         compiler.addFirst(new BOV(new Label("stack_overflow_error")));
-        compiler.addFirst(new TSTO(1));
+        compiler.addFirst(new TSTO(i));
         
         compiler.addLabel(new Label("stack_overflow_error"));
         compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
