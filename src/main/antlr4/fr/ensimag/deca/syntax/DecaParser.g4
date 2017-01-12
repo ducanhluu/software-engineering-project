@@ -163,7 +163,7 @@ inst returns[AbstractInst tree]
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
-            setLocation($tree,$expr.tree);
+            setLocation($tree,$expr.start);
         }
     ;
 
