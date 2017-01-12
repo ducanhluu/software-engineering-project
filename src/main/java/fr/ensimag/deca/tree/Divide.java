@@ -6,7 +6,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStor
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.DIV;
-
+import fr.ensimag.ima.pseudocode.instructions.QUO;
 
 /**
  *
@@ -14,26 +14,36 @@ import fr.ensimag.ima.pseudocode.instructions.DIV;
  * @date 01/01/2017
  */
 public class Divide extends AbstractOpArith {
+
     public Divide(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
-
 
     @Override
     protected String getOperatorName() {
         return "/";
     }
+// test type pour savoir si on utilise div ou quo
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        
+
         if (getRightOperand() instanceof Identifier) {
             compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
             GPRegister reg2 = getLastUsedRegisterToStore();
-            compiler.addInstruction(new DIV(reg, reg2));
+            if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
+                compiler.addInstruction(new QUO(reg, reg2));
+            } else {
+                compiler.addInstruction(new DIV(reg, reg2));
+            }
         } else {
-            compiler.addInstruction(new DIV(val,reg));
+            if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
+                compiler.addInstruction(new QUO(val, reg));
+            } else {
+                compiler.addInstruction(new DIV(val, reg));
+            }
         }
     }
+
 }
