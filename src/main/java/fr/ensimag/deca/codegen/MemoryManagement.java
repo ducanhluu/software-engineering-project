@@ -8,12 +8,19 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  *
@@ -48,7 +55,7 @@ public class MemoryManagement {
         }
 
         if (i == RMAX + 1) {
-            compiler.addInstruction(new PUSH(getR(2)));
+            compiler.addInstruction(new PUSH(getR(2)), "sauvegarde");
             return getR(2);
         }
         return getR(i);
@@ -85,5 +92,17 @@ public class MemoryManagement {
     
     public static void setLastUsedRegiter(int val) {
         lastReg = val;
+    }
+    
+    public static void addTestOverflow(DecacCompiler compiler) {
+        compiler.addFirst(new ADDSP(1));
+        compiler.addFirst(new BOV(new Label("stack_overflow_error")));
+        compiler.addFirst(new TSTO(1));
+        
+        compiler.addLabel(new Label("stack_overflow_error"));
+        compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+
     }
 }

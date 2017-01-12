@@ -106,7 +106,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         
         if (val instanceof GPRegister && reg == val) {
             compiler.addInstruction(new LOAD(reg, getR(0)));
-            compiler.addInstruction(new POP((GPRegister) reg));
+            compiler.addInstruction(new POP((GPRegister) reg), "restauration");
             val = getR(0);
         }
     }
