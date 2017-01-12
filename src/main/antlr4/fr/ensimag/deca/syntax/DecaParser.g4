@@ -27,6 +27,7 @@ options {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
     import fr.ensimag.deca.tools.*;
+    import java.util.*;
 }
 
 @members {
@@ -171,28 +172,32 @@ inst returns[AbstractInst tree]
 
 if_then_else returns[IfThenElse tree]
 @init {
-    ListInst instructions = new ListInst();
+    ListInst inst = new ListInst();
+    LinkedList<ListInst> myList = new LinkedList<ListInst>();
+    ListInst cour = new ListInst();
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
-            instructions = $li_if.tree;
             assert($condition.tree != null);
             assert($li_if.tree != null);
-            $tree = new IfThenElse($condition.tree,$li_if.tree,new ListInst());
+            $tree = new IfThenElse($condition.tree,$li_if.tree,inst);
+            myList.add(inst);
     }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
             assert($elsif_cond.tree != null);
             assert($elsif_li.tree != null);
-            Iterator<AbstractInst> it = $elsif_li.tree.iterator();
-            while ( it.hasNext() ) {
-                AbstractInst cour = it.next() ;
-                instructions.add(cour);
-            }
-            $tree = new IfThenElse($elsif_cond.tree,$elsif_li.tree,instructions);
+            cour=new ListInst();
+            myList.getLast().add(new IfThenElse($elsif_cond.tree,$elsif_li.tree,cour));
+            myList.add(cour);
     }
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {          
             assert($li_else.tree != null);
-            $tree = new IfThenElse($condition.tree,instructions,$li_else.tree);
+            Iterator<AbstractInst> it = $li_else.tree.iterator();
+            if ( myList.size() > 1 ) {
+                cour.add(it.next());
+            } else {
+                inst.add(it.next());
+            }
         }
       )?
     ;
