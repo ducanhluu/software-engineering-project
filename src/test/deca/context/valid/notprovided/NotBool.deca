@@ -1,0 +1,6 @@
+{
+
+boolean x = true;
+x = !x;
+
+}
