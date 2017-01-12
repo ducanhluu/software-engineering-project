@@ -1,0 +1,7 @@
+{
+	int y ;
+	y = 2;
+	println(y);
+	y = y - 1;
+	println(y);
+}
