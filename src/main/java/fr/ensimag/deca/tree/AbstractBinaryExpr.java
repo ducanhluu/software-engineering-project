@@ -1,6 +1,14 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -66,4 +74,40 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    protected GPRegister reg;
+    protected DVal val;
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        
+        if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier ) {
+            val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
+            compiler.addInstruction(
+                    new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
+            reg = getLastUsedRegisterToStore();
+            
+        } else if (getRightOperand() instanceof Identifier) {
+            val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
+            getLeftOperand().codeGenInst(compiler);
+            reg = getLastUsedRegisterToStore();
+            
+        } else if (getLeftOperand() instanceof Identifier) {  
+            val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
+            getRightOperand().codeGenInst(compiler);
+            reg = getLastUsedRegisterToStore();
+        }
+        else {
+            getLeftOperand().codeGenInst(compiler);
+            reg = getLastUsedRegisterToStore();
+            getRightOperand().codeGenInst(compiler);
+            val = getLastUsedRegisterToStore();
+        }
+        
+        if (val instanceof GPRegister && reg == val) {
+            compiler.addInstruction(new LOAD(reg, getR(0)));
+            compiler.addInstruction(new POP((GPRegister) reg));
+            val = getR(0);
+        }
+    }
 }

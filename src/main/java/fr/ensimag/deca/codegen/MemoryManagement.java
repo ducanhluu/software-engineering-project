@@ -8,10 +8,8 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
@@ -72,5 +70,9 @@ public class MemoryManagement {
     public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
         avaRegs[lastReg] = true;
         compiler.addInstruction(new STORE(getR(lastReg), val));
+    }
+    
+    public static void setLastUsedRegiter(int val) {
+        lastReg = val;
     }
 }
