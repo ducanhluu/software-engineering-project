@@ -6,6 +6,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -67,5 +68,19 @@ public class MemoryManagement {
             compiler.addInstruction(new WINT());
             compiler.addInstruction(new POP(getR(1)));
         }
+    }
+    
+    public static void codeGenPrintInteger(DecacCompiler compiler, DAddr val) {
+        if (avaRegs[1]) {
+            compiler.addInstruction(new LOAD(val, getR(1)));
+            compiler.addInstruction(new WINT());
+            avaRegs[1] = false;
+        } else {
+            compiler.addInstruction(new PUSH(getR(1)));
+            compiler.addInstruction(new LOAD(val, getR(1)));
+            compiler.addInstruction(new WINT());
+            compiler.addInstruction(new POP(getR(1)));
+        }
+        
     }
 }
