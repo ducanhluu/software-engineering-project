@@ -31,7 +31,7 @@ public class Minus extends AbstractOpArith {
             GPRegister reg2 = getLastUsedRegisterToStore();
             compiler.addInstruction(new SUB(reg, reg2));
         } else {
-            compiler.addInstruction(new SUB(val,reg));
+            compiler.addInstruction(new SUB(val, reg));
         }
     }
     

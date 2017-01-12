@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.codeGenPrintInteger;
+import static fr.ensimag.deca.codegen.MemoryManagement.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -241,7 +242,6 @@ public class Identifier extends AbstractIdentifier {
     
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        compiler.addInstruction(new STORE(getLastUsedRegisterToStore(),
-                getVariableDefinition().getOperand()));
+        codeGenSaveLastValue(compiler, getVariableDefinition().getOperand());
     }
 }
