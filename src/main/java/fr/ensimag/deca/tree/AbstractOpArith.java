@@ -28,10 +28,9 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         this.getRightOperand().setType(type2);
         if((!type1.isFloat() && !type1.isInt()) || (!type2.isFloat() && !type2.isInt())  ){
             
-            throw new ContextualError("operation impossible",this.getLocation());
+            throw new ContextualError("this operation can't be applied to this givien types",this.getLocation());
         }
-        //plusieurs a lever selon les cas possibles 
-        //TypeDefinition typeDef;
+
         Type t=null;
         if(type1.isInt() && type2.isFloat()){
             ConvFloat cf=new ConvFloat(this.getLeftOperand());
