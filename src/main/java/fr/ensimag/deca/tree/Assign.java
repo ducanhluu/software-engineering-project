@@ -32,7 +32,14 @@ public class Assign extends AbstractBinaryExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         Type type = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
-        this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, type);
+        if (this.getRightOperand() instanceof AbstractReadExpr){
+           Type type1= this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+           if (!type1.sameType(type)){
+               throw new ContextualError("variable not compatible to instruction read",this.getLocation());
+           }
+        }else{
+            this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, type);
+        }
         //j'ai intialiser le type de l'instruction assign
         this.setType(type);
         return type;

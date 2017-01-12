@@ -38,12 +38,20 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             throw new ContextualError("operation impossible",this.getLocation());
         }
         //plusieurs a lever selon les cas possibles 
-        if(type1.isFloat() || type2.isFloat()){
-            TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
-            return typeDef.getType();
+        //TypeDefinition typeDef;
+        Type t=null;
+        if(type1.isInt() && type2.isFloat()){
+            ConvFloat cf=new ConvFloat(this.getLeftOperand());
+            this.setLeftOperand(cf);
+            t =cf.verifyExpr(compiler, localEnv, currentClass);
+        }else if (type2.isInt() && type1.isFloat()){
+            ConvFloat cf=new ConvFloat(this.getLeftOperand());
+            this.setRightOperand(cf);
+            t =cf.verifyExpr(compiler, localEnv, currentClass);
+        }else{
+            t=type1;
         }
-        TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
-        return typeDef.getType();
+        return t;
     }
 
     protected GPRegister reg;
