@@ -58,7 +58,7 @@ WHILE: 'while';
 
 //Litteraux entiers
 fragment POSITIVE_DIGIT : '1' .. '9';
-INT : POSITIVE_DIGIT DIGIT*;
+INT : '0' | (POSITIVE_DIGIT DIGIT*);
 
 //Litteraux flottant
 fragment NUM : DIGIT+;
