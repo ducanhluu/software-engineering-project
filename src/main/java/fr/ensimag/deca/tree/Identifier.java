@@ -3,6 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.codeGenPrintInteger;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -18,6 +20,9 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  * Deca Identifier
@@ -168,7 +173,12 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-           return null;
+            if (localEnv.get(name) == null){
+               throw new ContextualError("variable not declared ",this.getLocation());
+            }
+            //System.out.println("helo");
+            this.setDefinition(localEnv.get(name));
+            return localEnv.get(name).getType();
     }
 
     /**
@@ -178,6 +188,9 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         //throw new UnsupportedOperationException("not yet implemented");
+        if(compiler.getEnvType().get(name)==null){
+            throw new ContextualError("type not defined ",this.getLocation());
+        }
         TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create(this.getName().getName()));
         typeDef.setLocation(Location.BUILTIN);
         this.setDefinition(typeDef);
@@ -218,5 +231,17 @@ public class Identifier extends AbstractIdentifier {
             s.println();
         }
     }
-
+    
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        if (definition.getType().isInt()) {
+            codeGenPrintInteger(compiler, getVariableDefinition().getOperand());
+        }
+    }
+    
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        compiler.addInstruction(new STORE(getLastUsedRegisterToStore(),
+                getVariableDefinition().getOperand()));
+    }
 }

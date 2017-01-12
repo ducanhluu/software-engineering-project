@@ -47,12 +47,7 @@ public class IfThenElse extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-            //recuperer le type de la condition 
-            Type type=this.condition.verifyExpr(compiler, localEnv, currentClass);
-            if (!type.isBoolean()){
-                throw new ContextualError("Contextual error: condition is not boolean",this.getLocation());
-            }
-            this.condition.setType(type);
+            this.condition.verifyCondition(compiler, localEnv, currentClass);
             this.thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
             this.elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
