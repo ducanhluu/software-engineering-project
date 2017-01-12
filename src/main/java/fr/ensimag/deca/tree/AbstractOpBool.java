@@ -24,7 +24,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         Type type1=this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         if ( !type1.isBoolean() || !type2.isBoolean() ){
-            throw new ContextualError("Or can be done only on boolean types",this.getLocation());
+            throw new ContextualError("this operation can be done only on boolean types",this.getLocation());
         }
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);

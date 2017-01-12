@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.TypeDefinition;
 
 /**
  *
@@ -20,7 +21,15 @@ public class Not extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type type = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
+        if(!type.isBoolean()){
+            throw new ContextualError("Operation can't be applied on this giving types",this.getLocation());
+        }
+        else 
+        {
+           this.setType(type);
+           return type;
+        }
     }
 
 
