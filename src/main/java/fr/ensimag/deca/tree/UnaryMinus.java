@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.ima.pseudocode.instructions.OPP;
 import org.apache.commons.lang.Validate;
 
@@ -27,9 +28,9 @@ public class UnaryMinus extends AbstractUnaryExpr {
         }
         else 
         {
-           
-           this.setType(type);
-           return type;
+           TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
+           this.setType(typeDef.getType());
+           return typeDef.getType();
         }
     }
 

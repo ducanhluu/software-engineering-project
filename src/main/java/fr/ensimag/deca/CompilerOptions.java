@@ -36,7 +36,11 @@ public class CompilerOptions {
     public List<File> getSourceFiles() {
         return Collections.unmodifiableList(sourceFiles);
     }
-
+    private boolean parse=false;
+    public boolean getParse() {
+        return parse;
+    }
+    
     private int debug = 0;
     private boolean parallel = false;
     private boolean printBanner = false;
@@ -70,9 +74,10 @@ public class CompilerOptions {
 	for (String s:args){
             switch (s){
                 case  "-b":
-                    System.out.print("Equipegl17");
+                    System.out.println("Equipegl17");
                 case "-p":
-                   break; 
+                    this.parse=true;
+                    break; 
                 case "-v":
                   break;
                 case "-n":
