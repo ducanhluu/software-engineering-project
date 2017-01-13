@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -37,9 +38,12 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        setLabel();
-        condition.codeGenInst(compiler);
+        setLabelWhile();
+        compiler.addInstruction(new BRA(getLabelCond()));
+        compiler.addLabel(getLabelDebut());
         body.codeGenListInst(compiler);
+        compiler.addLabel(getLabelCond());
+        condition.codeGenInst(compiler);
     }
 
     @Override
@@ -73,16 +77,22 @@ public class While extends AbstractInst {
         body.prettyPrint(s, prefix, true);
     }
 
-    private int nb_label = 0;
-    static Label label;
+    private static int nbLabel = 0;
+    protected static Label labelCond;
+    protected static Label labelDebut;
 
-    private void setLabel() {
-        nb_label++;
-        label = new Label("Loop." + nb_label);
+    private void setLabelWhile() {
+        nbLabel++;
+        labelCond = new Label("E_Cond." + nbLabel);
+        labelDebut = new Label ("E_Debut." + nbLabel);
     }
 
-    public static Label getLabel() {
-        return label;
+    public static Label getLabelCond() {
+        return labelCond;
+    }
+    
+    public static Label getLabelDebut() {
+        return labelDebut;
     }
 
 }
