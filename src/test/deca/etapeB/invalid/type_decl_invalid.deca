@@ -1,0 +1,7 @@
+// Description : 
+// 	test de declaration d'un type qui n'existe pas 
+//Resultat:
+//      Erreur Contextuelle :integer n'est pas un type 
+{
+integer x;
+}

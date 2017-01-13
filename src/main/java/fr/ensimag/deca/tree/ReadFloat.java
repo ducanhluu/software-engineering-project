@@ -6,6 +6,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.codeGenReadFloat;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -19,7 +20,10 @@ public class ReadFloat extends AbstractReadExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
+        
+        this.setType(typeDef.getType());
+        return typeDef.getType();
     }
 
     @Override
