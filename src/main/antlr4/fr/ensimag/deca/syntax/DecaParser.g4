@@ -415,11 +415,11 @@ select_expr returns[AbstractExpr tree]
     : e=primary_expr {
             assert($e.tree != null);
             $tree=$e.tree;
-            setLocation($tree,$primary_expr.start);
+            setLocation($tree,$e.start);
         }
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
-            assert($i.tree != null);           
+            assert($i.tree != null);     
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -446,7 +446,7 @@ primary_expr returns[AbstractExpr tree]
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
             $tree = $expr.tree;
-            setLocation($tree,$expr.start);
+            setLocation($tree,$expr.start);     
         }
     | READINT OPARENT CPARENT {
             $tree = new ReadInt();
@@ -466,7 +466,7 @@ primary_expr returns[AbstractExpr tree]
             assert($expr.tree != null);
         }
     | literal {
-            //assert($literal.tree != null);
+            assert($literal.tree != null);
             $tree = $literal.tree;
             setLocation($tree,$literal.start);           
         }
@@ -487,6 +487,7 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT {
         $tree = new FloatLiteral(Float.parseFloat($fd.text));
+        setLocation($tree,$fd);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);

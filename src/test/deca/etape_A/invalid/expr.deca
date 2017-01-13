@@ -1,0 +1,10 @@
+// Description :
+//   test d'une expression
+
+// Résultats : 
+//   Erreur syntaxique 
+// Ligne 9 : extraneous input '<' expecting {STRING, 'false', 'if', 'new', 'null', 'readint', 'readfloat', 'print', 'println', 'printx', 'printlnx', 'return', 'this', 'true', 'while', INT, FLOAT, '}', '(', ';', '-', '!', IDENT}
+
+{
+ 2 < "hello" ; < "hello" ;
+}

@@ -1,0 +1,16 @@
+// Description :
+//   test d'une boucle if ( else if )* else 
+
+// Résultats :
+//   Ok
+{
+if( 1 < 2 ) {
+print("hello") ;
+} else if ( 2 < 3 ){
+print("ok") ;
+} else if ( 3 < 4 ) {
+ print("ko") ;
+} else {
+print("bye") ;
+}
+}

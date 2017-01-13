@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -16,6 +17,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2017
  */
 public class While extends AbstractInst {
+
     private AbstractExpr condition;
     private ListInst body;
 
@@ -36,15 +38,20 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        setLabelWhile();
+        compiler.addInstruction(new BRA(getLabelCond()));
+        compiler.addLabel(getLabelDebut());
+        body.codeGenListInst(compiler);
+        compiler.addLabel(getLabelCond());
+        condition.codeGenInst(compiler);
     }
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-            this.condition.verifyCondition(compiler, localEnv, currentClass);
-            this.body.verifyListInst(compiler, localEnv, currentClass, returnType);
+        this.condition.verifyCondition(compiler, localEnv, currentClass);
+        this.body.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
     @Override
@@ -68,6 +75,24 @@ public class While extends AbstractInst {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         condition.prettyPrint(s, prefix, false);
         body.prettyPrint(s, prefix, true);
+    }
+
+    private static int nbLabel = 0;
+    protected static Label labelCond;
+    protected static Label labelDebut;
+
+    private void setLabelWhile() {
+        nbLabel++;
+        labelCond = new Label("E_Cond." + nbLabel);
+        labelDebut = new Label ("E_Debut." + nbLabel);
+    }
+
+    public static Label getLabelCond() {
+        return labelCond;
+    }
+    
+    public static Label getLabelDebut() {
+        return labelDebut;
     }
 
 }

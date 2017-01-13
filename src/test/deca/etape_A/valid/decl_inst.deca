@@ -1,0 +1,13 @@
+// Description :
+//    block -> '{' list_decl list_inst '}'
+//    Toutes les déclarations doivent être avant la première instruction
+//
+// Resultats :
+//    Ok
+
+
+{
+int x = 1;
+int y = 2;
+println("hello");
+}
