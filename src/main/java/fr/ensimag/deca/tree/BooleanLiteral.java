@@ -2,11 +2,13 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 
 /**
@@ -54,4 +56,13 @@ public class BooleanLiteral extends AbstractExpr {
         return "BooleanLiteral (" + value + ")";
     }
 
+        @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        if (value) {
+            compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
+        } else {
+            compiler.addInstruction(new LOAD(0, getAvailableRegister(compiler)));
+        }  
+    }
+        
 }
