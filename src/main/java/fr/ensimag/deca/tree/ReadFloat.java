@@ -21,7 +21,6 @@ public class ReadFloat extends AbstractReadExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
-        
         this.setType(typeDef.getType());
         return typeDef.getType();
     }
