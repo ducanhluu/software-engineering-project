@@ -6,6 +6,8 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tree.AbstractExpr;
+import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
@@ -14,6 +16,7 @@ import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.OPP;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
@@ -89,13 +92,13 @@ public class MemoryManagement {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WFLOAT());
     }
-
+    
     public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
         avaRegs[lastReg] = true;
         compiler.addInstruction(new STORE(getR(lastReg), val));
     }
 
-    public static void setLastUsedRegiter(int val) {
+    public static void setLastUsedRegister(int val) {
         lastReg = val;
     }
 

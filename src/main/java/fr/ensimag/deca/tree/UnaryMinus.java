@@ -5,7 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.OPP;
+import org.apache.commons.lang.Validate;
 
 /**
  * @author gl17
@@ -22,7 +23,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
             ClassDefinition currentClass) throws ContextualError {
         Type type = this.getOperand().verifyExpr(compiler, localEnv, currentClass);
         if(!type.isFloat() && !type.isInt()){
-            throw new ContextualError("Operation can't be applied on this giving types",this.getLocation());
+            throw new ContextualError("Operation can't be applied on this giving types", this.getLocation());
         }
         else 
         {
@@ -38,4 +39,9 @@ public class UnaryMinus extends AbstractUnaryExpr {
         return "-";
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        super.codeGenInst(compiler);
+        compiler.addInstruction(new OPP(reg, reg));
+    }
 }

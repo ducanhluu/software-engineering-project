@@ -488,6 +488,7 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT {
         $tree = new FloatLiteral(Float.parseFloat($fd.text));
+        setLocation($tree,$fd);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);
