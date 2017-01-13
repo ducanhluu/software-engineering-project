@@ -1,7 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegiter;
+import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.ima.pseudocode.instructions.ADD;
 
 /**
@@ -24,6 +24,6 @@ public class Plus extends AbstractOpArith {
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
         compiler.addInstruction(new ADD(val, reg));
-        setLastUsedRegiter(reg.getNumber());
+        setLastUsedRegister(reg.getNumber());
     }
 }

@@ -1,5 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.tree.While.getLabelDebut;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
 
 /**
  *
@@ -12,10 +15,14 @@ public class Equals extends AbstractOpExactCmp {
         super(leftOperand, rightOperand);
     }
 
-
     @Override
     protected String getOperatorName() {
         return "==";
-    }    
-    
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        super.codeGenInst(compiler);
+        compiler.addInstruction(new BEQ(getLabelDebut()));
+    }
 }
