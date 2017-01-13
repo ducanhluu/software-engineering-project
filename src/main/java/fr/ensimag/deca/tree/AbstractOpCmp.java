@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
+import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 
 /**
  *
@@ -36,5 +38,11 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         return typeDef.getType();
     }
 
+     @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        super.codeGenInst(compiler);
+        compiler.addInstruction(new CMP(val,reg));
+        setLastUsedRegister(reg.getNumber());
+    }
 
 }

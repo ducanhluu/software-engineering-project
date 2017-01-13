@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.OPP;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -31,4 +33,9 @@ public class ConvFloat extends AbstractUnaryExpr {
         return "/* conv float */";
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        super.codeGenInst(compiler);
+        compiler.addInstruction(new FLOAT(reg, reg));
+    }
 }

@@ -1,0 +1,13 @@
+// Description :
+//  test d'une boucle if else
+
+// Résultats :
+//  Ok
+
+{
+if ( 1 < 2 ) {
+   println("hello") ;
+} else {
+  println("bye") ;
+}
+}

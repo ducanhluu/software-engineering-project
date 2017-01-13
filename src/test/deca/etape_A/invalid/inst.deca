@@ -1,0 +1,10 @@
+// Description :
+//  test pour instruction
+
+// Résultats :
+//  Erreur syntaxique
+//  Ligne 9 : missing ')' at ';'
+
+{
+print(;
+}

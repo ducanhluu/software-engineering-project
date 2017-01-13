@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.codeGenReadInt;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -24,6 +25,7 @@ public class ReadInt extends AbstractReadExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
         TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create("int"));
+        
         this.setType(typeDef.getType());
         return typeDef.getType();
         // throw new UnsupportedOperationException("not yet implemented");
@@ -47,7 +49,6 @@ public class ReadInt extends AbstractReadExpr {
     
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        compiler.addInstruction(new RINT());
-        compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
+        codeGenReadInt(compiler);
     }
 }

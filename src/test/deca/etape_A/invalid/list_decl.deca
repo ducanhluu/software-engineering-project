@@ -1,0 +1,11 @@
+// Description :
+//   test de déclarations multiples
+
+// Résulats :
+//   Erreur syntaxique
+//   Ligne 9 : mismatched input ',' expecting {'instanceof', ';', '=', '&&', '||', '==', '!=', '<=', '>=', '<', '>', '+', '-', '*', '/', '%', '.'}
+
+
+{
+x,y;
+}

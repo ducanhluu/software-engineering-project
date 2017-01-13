@@ -1,0 +1,11 @@
+// Description :
+//   test d'un seul if
+
+// Résultats :
+//   Ok
+
+{
+if ( 2 > 5 ) {
+   println("hello") ;
+}
+}

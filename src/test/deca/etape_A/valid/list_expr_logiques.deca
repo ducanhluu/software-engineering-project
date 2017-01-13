@@ -1,0 +1,9 @@
+// Description :
+//   test de liste d'expressions ( utilisation de ||, && et ! )
+
+// Résultats :
+//   Ok
+
+{
+ (( 2 || 3 ) && ( !4)) != true ;
+} 

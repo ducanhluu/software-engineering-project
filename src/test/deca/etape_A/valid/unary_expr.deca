@@ -1,0 +1,9 @@
+// Description :
+//   test d'une expression unaire
+
+// Résultats :
+//   Ok
+
+{
+!-!true;
+}

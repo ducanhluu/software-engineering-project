@@ -1,0 +1,14 @@
+// Description :
+//    block -> '{' list_decl list_inst '}'
+//    Toutes les déclarations doivent être avant la première instruction
+//
+// Resultats :
+//    Erreur syntaxique
+//    Ligne 13 : extraneous input 'y' expecting {'instanceof', ';', '=', '&&', '||', '==', '!=', '<=', '>=', '<', '>', '+', '-', '*', '/', '%', '.'}
+
+
+{
+int x = 1;
+println("hello");
+int y = 2;
+}

@@ -1,4 +1,0 @@
-{
-boolean x = true;
-boolean y = (2==3);
-}

@@ -1,0 +1,9 @@
+// Description : 
+// 	test de condition non boolean dans while   
+//Resultat:
+//      Erreur Contextuelle :la condition doit etre boolean 
+{
+if (1){
+   println();
+}
+}

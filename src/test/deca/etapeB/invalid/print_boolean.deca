@@ -1,0 +1,7 @@
+// Description : 
+// 	test de print d'un boolean 
+//Resultat:
+//      Erreur Contextuelle : print ne peut etre appelé que sur int,string,float
+{
+print(true);
+}

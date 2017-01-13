@@ -1,0 +1,7 @@
+// Description : 
+// 	test de declaration d'un void 
+//Resultat:
+//      Erreur Contextuelle :on peut pas declarer un type void;
+{
+void x;
+}

@@ -27,6 +27,7 @@ options {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
     import fr.ensimag.deca.tools.*;
+    import java.util.*;
 }
 
 @members {
@@ -127,6 +128,8 @@ inst returns[AbstractInst tree]
             setLocation($tree,$e1.start);
         }
     | SEMI {
+            $tree=new NoOperation();
+            setLocation($tree,$SEMI);
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
@@ -163,34 +166,39 @@ inst returns[AbstractInst tree]
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            $tree=$expr.tree;
             setLocation($tree,$expr.start);
         }
     ;
 
 if_then_else returns[IfThenElse tree]
 @init {
-    ListInst instructions = new ListInst();
+    ListInst inst = new ListInst();
+    LinkedList<ListInst> myList = new LinkedList<ListInst>();
+    ListInst cour = new ListInst();
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
-            instructions = $li_if.tree;
             assert($condition.tree != null);
             assert($li_if.tree != null);
-            $tree = new IfThenElse($condition.tree,$li_if.tree,new ListInst());
+            $tree = new IfThenElse($condition.tree,$li_if.tree,inst);
+            myList.add(inst);
     }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
             assert($elsif_cond.tree != null);
             assert($elsif_li.tree != null);
-            Iterator<AbstractInst> it = $elsif_li.tree.iterator();
-            while ( it.hasNext() ) {
-                AbstractInst cour = it.next() ;
-                instructions.add(cour);
-            }
-            $tree = new IfThenElse($elsif_cond.tree,$elsif_li.tree,instructions);
+            cour=new ListInst();
+            myList.getLast().add(new IfThenElse($elsif_cond.tree,$elsif_li.tree,cour));
+            myList.add(cour);
     }
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {          
             assert($li_else.tree != null);
-            $tree = new IfThenElse($condition.tree,instructions,$li_else.tree);
+            Iterator<AbstractInst> it = $li_else.tree.iterator();
+            if ( myList.size() > 1 ) {
+                cour.add(it.next());
+            } else {
+                inst.add(it.next());
+            }
         }
       )?
     ;
@@ -407,11 +415,11 @@ select_expr returns[AbstractExpr tree]
     : e=primary_expr {
             assert($e.tree != null);
             $tree=$e.tree;
-            setLocation($tree,$primary_expr.start);
+            setLocation($tree,$e.start);
         }
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
-            assert($i.tree != null);           
+            assert($i.tree != null);     
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -438,7 +446,7 @@ primary_expr returns[AbstractExpr tree]
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
             $tree = $expr.tree;
-            setLocation($tree,$expr.start);
+            setLocation($tree,$expr.start);     
         }
     | READINT OPARENT CPARENT {
             $tree = new ReadInt();
@@ -458,7 +466,7 @@ primary_expr returns[AbstractExpr tree]
             assert($expr.tree != null);
         }
     | literal {
-            //assert($literal.tree != null);
+            assert($literal.tree != null);
             $tree = $literal.tree;
             setLocation($tree,$literal.start);           
         }
@@ -479,6 +487,7 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT {
         $tree = new FloatLiteral(Float.parseFloat($fd.text));
+        setLocation($tree,$fd);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);

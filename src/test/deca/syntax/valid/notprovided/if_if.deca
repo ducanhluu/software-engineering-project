@@ -1,7 +1,0 @@
-{
-if ( 2 < x ) {
-   if ( 2 < 3 ) {
-      print("boucle imbriquée : OK") ;
-      }     
-   }	    
-}    

@@ -1,0 +1,10 @@
+// Description :
+//   test de la règle du primary_expr
+
+// Résultats :
+//   Erreur syntaxique
+//   Ligne 10 : mismatched input '}' expecting {'instanceof', ')', '=', '&&', '||', '==', '!=', '<=', '>=', '<', '>', '+', '-', '*', '/', '%', '.'}
+
+{
+( 2 || 3 
+}
