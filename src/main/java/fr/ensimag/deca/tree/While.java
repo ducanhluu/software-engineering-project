@@ -16,6 +16,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2017
  */
 public class While extends AbstractInst {
+
     private AbstractExpr condition;
     private ListInst body;
 
@@ -36,15 +37,17 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        setLabel();
+        condition.codeGenInst(compiler);
+        body.codeGenListInst(compiler);
     }
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-            this.condition.verifyCondition(compiler, localEnv, currentClass);
-            this.body.verifyListInst(compiler, localEnv, currentClass, returnType);
+        this.condition.verifyCondition(compiler, localEnv, currentClass);
+        this.body.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
     @Override
@@ -68,6 +71,18 @@ public class While extends AbstractInst {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         condition.prettyPrint(s, prefix, false);
         body.prettyPrint(s, prefix, true);
+    }
+
+    private int nb_label = 0;
+    static Label label;
+
+    private void setLabel() {
+        nb_label++;
+        label = new Label("Loop." + nb_label);
+    }
+
+    public static Label getLabel() {
+        return label;
     }
 
 }

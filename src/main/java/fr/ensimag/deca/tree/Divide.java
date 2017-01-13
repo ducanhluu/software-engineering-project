@@ -3,7 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
-import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegiter;
+import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.DIV;
@@ -35,18 +35,18 @@ public class Divide extends AbstractOpArith {
             GPRegister reg2 = getLastUsedRegisterToStore();
             if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
                 compiler.addInstruction(new QUO(reg, reg2));
-                setLastUsedRegiter(reg2.getNumber());
+                setLastUsedRegister(reg2.getNumber());
             } else {
                 compiler.addInstruction(new DIV(reg, reg2));
-                setLastUsedRegiter(reg2.getNumber());
+                setLastUsedRegister(reg2.getNumber());
             }
         } else {
             if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
                 compiler.addInstruction(new QUO(val, reg));
-                setLastUsedRegiter(reg.getNumber());
+                setLastUsedRegister(reg.getNumber());
             } else {
                 compiler.addInstruction(new DIV(val, reg));
-                setLastUsedRegiter(reg.getNumber());
+                setLastUsedRegister(reg.getNumber());
             }
         }
     }

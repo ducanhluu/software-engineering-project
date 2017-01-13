@@ -98,7 +98,7 @@ public class MemoryManagement {
         compiler.addInstruction(new STORE(getR(lastReg), val));
     }
 
-    public static void setLastUsedRegiter(int val) {
+    public static void setLastUsedRegister(int val) {
         lastReg = val;
     }
 
