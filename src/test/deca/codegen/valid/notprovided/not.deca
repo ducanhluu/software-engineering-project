@@ -1,0 +1,7 @@
+{
+	boolean x = true;
+	while (!x) {
+	      print("on est dans le boucle");
+	}
+	print("NOT est bien implemente");
+}
