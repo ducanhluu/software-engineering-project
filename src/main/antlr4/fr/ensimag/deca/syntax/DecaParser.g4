@@ -127,6 +127,8 @@ inst returns[AbstractInst tree]
             setLocation($tree,$e1.start);
         }
     | SEMI {
+            $tree=new NoOperation();
+            setLocation($tree,$SEMI);
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
@@ -479,6 +481,7 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT {
         $tree = new FloatLiteral(Float.parseFloat($fd.text));
+        setLocation($tree,$fd);
         }
     | STRING {
         $tree = new StringLiteral($STRING.text);
