@@ -1,0 +1,11 @@
+// Description :
+//   test d'un if
+
+// Résultats :
+//   Erreur syntaxique
+//   Ligne 9 : no viable alternative at input 'print'
+
+{ 
+if ( print("hello") ) {
+   print("bye");
+}

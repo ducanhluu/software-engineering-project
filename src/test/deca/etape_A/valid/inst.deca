@@ -1,0 +1,11 @@
+// Description :
+//   test pour liste d'instructions 
+
+// Résultats : 
+//   Ok
+
+{
+print();
+print("hello");
+print("bye");
+}

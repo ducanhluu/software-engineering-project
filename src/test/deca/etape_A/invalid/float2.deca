@@ -1,0 +1,13 @@
+// Description :
+//    test de programme lexicalement incorrect
+//
+// Resultats :
+//    Erreur lexicale
+//    Ligne 8 : mismatched input 'float' expecting {<EOF>, 'class', '{'}   
+
+float x = 124561341.1e10
+
+float y = 0x12.5
+
+0X2.0p3
+

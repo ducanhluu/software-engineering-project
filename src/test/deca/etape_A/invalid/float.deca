@@ -1,0 +1,10 @@
+// Description :
+//   test sur écriture d'un float 
+//
+// Résultats :
+//   Erreur lexicale
+//   Ligne 9  : mismatched input '2' expecting IDENT
+
+{
+println(1.5.2);
+}

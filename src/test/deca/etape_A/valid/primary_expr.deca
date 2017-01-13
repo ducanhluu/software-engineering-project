@@ -1,0 +1,10 @@
+// Description :
+//   test pour la règle du primary_expr
+
+// Résultats :
+//   Ok
+
+{
+readint();
+readfloat();
+}

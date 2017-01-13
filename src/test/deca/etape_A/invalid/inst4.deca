@@ -1,0 +1,10 @@
+// Description :
+//   test pour instructions 
+
+// Résultats :
+//   Erreur syntaxique
+//   Ligne 9 : extraneous input 'y' expecting {',', ';'}
+
+{
+int x = 2, int y = 3, int z = 4;
+}

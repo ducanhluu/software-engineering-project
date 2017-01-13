@@ -1,0 +1,12 @@
+// Description :
+//   test des déclarations de tous les types prédéfinis pour le sans objet
+
+// Résultats :
+//   Ok
+
+{ 
+int x = 1 ;
+string y = "hello" ;
+boolean z = true ;
+float t = 2.2 ;
+}
