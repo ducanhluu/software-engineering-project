@@ -1,0 +1,7 @@
+// Description : 
+// 	test d'affichage d'un boolean  
+//Resultat:
+//      Erreur Contextuelle :type non supporté,println supporte int,float,string
+{
+   println(true);
+}

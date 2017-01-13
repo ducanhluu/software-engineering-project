@@ -1,0 +1,7 @@
+// Description : 
+// 	test d'affectation d'une variable non declaré  
+//Resultat:
+//      Erreur Contextuelle :on peut pas manipuler des identifier non declaré
+{
+x=1;
+}

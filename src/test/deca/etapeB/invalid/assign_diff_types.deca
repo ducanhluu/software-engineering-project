@@ -1,0 +1,8 @@
+// Description : 
+// 	test d'affecter deux variables de types diffenrents
+//Resultat:
+//      Erreur Contextuelle :pour une affectation les variables doivent etre de //meme type. 
+{
+int x;
+x=3.2;
+}
