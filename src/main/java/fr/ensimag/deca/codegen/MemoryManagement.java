@@ -42,6 +42,7 @@ public class MemoryManagement {
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
     private static boolean ioUsed = false;
+    private static Label label ;
 
     public static int getNumberGlobalVariables() {
         return ++numberGlobalVariables;
@@ -104,28 +105,30 @@ public class MemoryManagement {
 
     public static void addTestOverflow(DecacCompiler compiler) {
         int i = numberSavedRegisters + numberGlobalVariables;
-        compiler.addFirst(new ADDSP(i));
-        compiler.addFirst(new BOV(new Label("stack_overflow_error")));
-        compiler.addFirst(new TSTO(i), "test de debordement de pile");
-        compiler.addFirstComment("start main program");
-        compiler.addLabel(new Label("stack_overflow_error"));
-        compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+        if (i > 0) {
+            compiler.addFirst(new ADDSP(i));
+            compiler.addFirst(new BOV(new Label("stack_overflow_error")));
+            compiler.addFirst(new TSTO(i), "test de debordement de pile");
+            compiler.addFirstComment("start main program");
+            compiler.addLabel(new Label("stack_overflow_error"));
+            compiler.addInstruction(new WSTR("Error: Stack Overflow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
         addTestIO(compiler);
     }
 
     public static void codeGenReadFloat(DecacCompiler compiler) {
         ioUsed = true;
         compiler.addInstruction(new RFLOAT());
-        compiler.addFirst(new BOV(new Label("io_error")));
+        compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
     public static void codeGenReadInt(DecacCompiler compiler) {
         ioUsed = true;
         compiler.addInstruction(new RINT());
-        compiler.addFirst(new BOV(new Label("io_error")));
+        compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
@@ -136,5 +139,13 @@ public class MemoryManagement {
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
+    }
+    
+     public static void setLabel(Label lab){
+        label = lab;
+    }
+    
+    public static Label getLabel(){
+        return label;
     }
 }

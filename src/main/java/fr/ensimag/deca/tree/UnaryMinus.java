@@ -7,7 +7,6 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.ima.pseudocode.instructions.OPP;
-import org.apache.commons.lang.Validate;
 
 /**
  * @author gl17
