@@ -1,0 +1,9 @@
+// Description :
+//   test de liste d'expressions ( utilisation de +, -, *, / et % )
+
+// Résultats :
+//   Ok
+
+{
+ int x = 3*5 + 2/(3%44) ;
+}

@@ -1,0 +1,11 @@
+// Description :
+//  test d'une boucle while 
+
+// Résultats : 
+//   Ok
+
+{
+while ( 1 < 2 ) {
+ println("Hello");
+ }
+}

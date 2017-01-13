@@ -1,0 +1,11 @@
+// Description :
+//   test d'un if 
+
+// Résultats :
+//   Erreur syntaxique
+//   Ligne 8 : no viable alternative at input 'if'
+
+{ if ( if ( 1 < 2 ) { } {
+print("hello");
+}
+}

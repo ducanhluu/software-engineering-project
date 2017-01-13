@@ -1,0 +1,10 @@
+// Description :
+//   test de déclarations multiples
+
+// Resulats :
+//   Ok
+
+{
+int i,j,k = 2;
+float l,m,n = 2.0;
+}

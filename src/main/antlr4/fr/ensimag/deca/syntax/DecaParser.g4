@@ -166,6 +166,7 @@ inst returns[AbstractInst tree]
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            
             setLocation($tree,$expr.start);
         }
     ;
@@ -414,11 +415,12 @@ select_expr returns[AbstractExpr tree]
     : e=primary_expr {
             assert($e.tree != null);
             $tree=$e.tree;
-            setLocation($tree,$primary_expr.start);
+            setLocation($tree,$e.start);
         }
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
-            assert($i.tree != null);           
+            assert($i.tree != null); 
+            
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -440,12 +442,12 @@ primary_expr returns[AbstractExpr tree]
             assert($args.tree != null);
             assert($m.tree != null);
             setLocation($tree,$m.start);
-            setLocation($tree,$args.start);
         }
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
             $tree = $expr.tree;
-            setLocation($tree,$expr.start);
+            setLocation($tree,$OPARENT);
+            
         }
     | READINT OPARENT CPARENT {
             $tree = new ReadInt();
