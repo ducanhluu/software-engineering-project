@@ -4,12 +4,14 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.REM;
 
 /**
  *
@@ -41,6 +43,21 @@ public class Modulo extends AbstractOpArith {
     @Override
     protected String getOperatorName() {
         return "%";
+    }
+    
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        super.codeGenInst(compiler);
+        
+        if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
+            compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
+            GPRegister reg2 = getLastUsedRegisterToStore();
+            compiler.addInstruction(new REM(reg, reg2));
+            setLastUsedRegister(reg2.getNumber());
+        } else {
+            compiler.addInstruction(new REM(val, reg));
+            setLastUsedRegister(reg.getNumber());
+        }
     }
     
 }

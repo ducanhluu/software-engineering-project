@@ -80,30 +80,32 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         
-        if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier ) {
-            val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
+        if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
+            val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
             compiler.addInstruction(
-                    new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(),
+                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
                             getAvailableRegister(compiler)));
             reg = getLastUsedRegisterToStore();
-            
+
         } else if (getRightOperand() instanceof Identifier) {
             val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
             getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
-            
-        } else if (getLeftOperand() instanceof Identifier) {  
-            val = ((Identifier) getLeftOperand()).getVariableDefinition().getOperand();
-            getRightOperand().codeGenInst(compiler);
+
+        } else if (getLeftOperand() instanceof Identifier) {
+            compiler.addInstruction(
+                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
             reg = getLastUsedRegisterToStore();
-        }
-        else {
+            getRightOperand().codeGenInst(compiler);
+            val = getLastUsedRegisterToStore();
+        } else {
             getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
             getRightOperand().codeGenInst(compiler);
             val = getLastUsedRegisterToStore();
         }
-        
+
         if (val instanceof GPRegister && reg == val) {
             compiler.addInstruction(new LOAD(reg, getR(0)));
             compiler.addInstruction(new POP((GPRegister) reg), "restauration");

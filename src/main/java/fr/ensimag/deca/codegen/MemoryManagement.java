@@ -42,6 +42,7 @@ public class MemoryManagement {
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
     private static boolean ioUsed = false;
+    private static Label label ;
 
     public static int getNumberGlobalVariables() {
         return ++numberGlobalVariables;
@@ -136,5 +137,13 @@ public class MemoryManagement {
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
+    }
+    
+     public static void setLabel(Label lab){
+        label = lab;
+    }
+    
+    public static Label getLabel(){
+        return label;
     }
 }

@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.tree.While.getLabelDebut;
 
 /**
  *
@@ -17,5 +19,11 @@ public class And extends AbstractOpBool {
         return "&&";
     }
 
+    /* @Override
+    protected void codeGenInst(DecacCompiler compiler) {   
+        getLeftOperand().codeGenInst(compiler);
+        getRightOperand().codeGenInst(compiler);
+    }
+    */
 
 }
