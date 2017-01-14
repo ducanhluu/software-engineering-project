@@ -2,6 +2,7 @@
 // 	test de declaration d'un type qui n'existe pas 
 //Resultat:
 //      Erreur Contextuelle :integer n'est pas un type 
+//      Ligne 7 :/src/test/deca/etapeB/invalid/type_decl_invalid.deca:7:0: type not defined
 {
 integer x;
 }

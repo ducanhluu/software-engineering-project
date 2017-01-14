@@ -5,5 +5,5 @@
 //      Ligne 8 : /src/test/deca/etapeB/invalid/assign_diff_types.deca:8:2: type not expected 
 {
 int x;
-x=3.2;
+x=true;
 }

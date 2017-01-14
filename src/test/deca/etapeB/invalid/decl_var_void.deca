@@ -1,7 +1,8 @@
 // Description : 
-// 	test de declaration d'un void 
+// 	test de declaration par un void 
 //Resultat:
 //      Erreur Contextuelle :on peut pas declarer un type void;
+//      Ligne 7 : src/test/deca/etapeB/invalid/decl_var_void.deca:7:5: type shouldn't be void in declaration
 {
 void x;
 }
