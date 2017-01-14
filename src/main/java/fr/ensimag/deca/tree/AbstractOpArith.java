@@ -43,6 +43,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         }else{
             t=type1;
         }
+        this.setType(t);
         return t;
     }
 }
