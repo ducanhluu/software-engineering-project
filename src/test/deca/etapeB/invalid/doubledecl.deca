@@ -1,3 +1,8 @@
+// Description : 
+// 	test pour une double définition d'une variable 
+//Resultat:
+//      Erreur Contextuelle :declarer deux variable par le même nom n'est pas permis;
+//      Ligne 8 : /src/test/deca/etapeB/invalid/doubledecl.deca:8:4: this variable is already declared
 {
 int x;
 int x;
