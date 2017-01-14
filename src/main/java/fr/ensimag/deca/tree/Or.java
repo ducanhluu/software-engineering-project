@@ -24,5 +24,6 @@ public class Or extends AbstractOpBool {
         getLeftOperand().codeGenInst(compiler);
         getRightOperand().codeGenInst(compiler);
     }
+    
 
 }

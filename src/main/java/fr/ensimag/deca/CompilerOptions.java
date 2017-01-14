@@ -74,7 +74,7 @@ public class CompilerOptions {
 	for (String s:args){
             switch (s){
                 case  "-b":
-                    System.out.println("Equipegl17");
+                   this.printBanner=true;
                 case "-p":
                     this.parse=true;
                     break; 

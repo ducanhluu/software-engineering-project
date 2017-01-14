@@ -1,8 +1,12 @@
 package fr.ensimag.deca;
 
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractProgram;
 import java.io.File;
+import java.io.PrintStream;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -28,18 +32,18 @@ public class DecacMain {
             System.exit(1);
         }
         if (options.getPrintBanner()) {
-            throw new UnsupportedOperationException("decac -b not yet implemented");
+          System.out.println("equipegl17");
         }
-        if (options.getSourceFiles().isEmpty()) {
+        else if (options.getSourceFiles().isEmpty()) {
            throw new UnsupportedOperationException("decac without argument not yet implemented");
         }
-        if (options.getParallel()) {
+        else if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
             // compiler, et lancer l'exécution des méthodes compile() de chaque
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
             throw new UnsupportedOperationException("Parallel build not yet implemented");
-        } else {
+        }else {
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);
                 /*  if (compiler.getCompilerOptions().getParallel()){
@@ -48,7 +52,25 @@ public class DecacMain {
                     prog.decompile()
                 }*/
                 // a completer pour decac -p 
-                if (compiler.compile()) {
+                if( options.getParse()){
+                    PrintStream err=System.err;
+                    try {
+                        AbstractProgram prog=compiler.doLexingAndParsing(source.toString(), err);
+                        //IndentPrintStream s=new IndentPrintStream(err);
+                        if (prog == null) {
+                            LOG.info("Parsing failed");
+                            error=true;
+                        }else{
+                            String s=prog.decompile();
+                            System.out.println(s);
+                        }
+                    } catch (DecacFatalError ex) {
+                        java.util.logging.Logger.getLogger(DecacMain.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (DecacInternalError ex) {
+                        java.util.logging.Logger.getLogger(DecacMain.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }else if (compiler.compile()) {
                     error = true;
                 }
             }

@@ -48,12 +48,15 @@ public class Main extends AbstractMain {
     
     @Override
     public void decompile(IndentPrintStream s) {
-        s.println("{");
+        s.print("{");
+        s.println();
         s.indent();
         declVariables.decompile(s);
+        s.println();
         insts.decompile(s);
         s.unindent();
-        s.println("}");
+        s.println();
+        s.print("}");
     }
 
     @Override
