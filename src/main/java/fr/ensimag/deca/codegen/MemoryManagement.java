@@ -41,7 +41,9 @@ public class MemoryManagement {
         true, true, true, true};
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
-    private static boolean ioUsed = false;
+    private static boolean ioIsUsed = false;
+    public static boolean overflowNeeded = false;
+    public static boolean divisionIsUsed = false;
     private static Label label ;
 
     public static int getNumberGlobalVariables() {
@@ -116,24 +118,26 @@ public class MemoryManagement {
             compiler.addInstruction(new ERROR());
         }
         addTestIO(compiler);
+        addTestOverflowOP(compiler);
+        addTestDivideBy0(compiler);
     }
 
     public static void codeGenReadFloat(DecacCompiler compiler) {
-        ioUsed = true;
+        ioIsUsed = true;
         compiler.addInstruction(new RFLOAT());
         compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
     public static void codeGenReadInt(DecacCompiler compiler) {
-        ioUsed = true;
+        ioIsUsed = true;
         compiler.addInstruction(new RINT());
         compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
     public static void addTestIO(DecacCompiler compiler) {
-        if (ioUsed) {
+        if (ioIsUsed) {
             compiler.addLabel(new Label("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
             compiler.addInstruction(new WNL());
@@ -141,7 +145,25 @@ public class MemoryManagement {
         }
     }
     
-     public static void setLabel(Label lab){
+    public static void addTestOverflowOP(DecacCompiler compiler) {
+        if (overflowNeeded) {
+            compiler.addLabel(new Label("overflow_error"));
+            compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+    }
+    
+    public static void addTestDivideBy0(DecacCompiler compiler) {  
+        if (divisionIsUsed) {
+            compiler.addLabel(new Label("division_by_zero_error"));
+            compiler.addInstruction(new WSTR("Error: division by zero"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+    }
+    
+    public static void setLabel(Label lab){
         label = lab;
     }
     

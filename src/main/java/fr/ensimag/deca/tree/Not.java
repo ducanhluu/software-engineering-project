@@ -46,6 +46,5 @@ public class Not extends AbstractUnaryExpr {
         compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
         compiler.addInstruction(new SUB(getLastUsedRegisterToStore(), reg));
         setLastUsedRegister(reg.getNumber());
-
     }
 }
