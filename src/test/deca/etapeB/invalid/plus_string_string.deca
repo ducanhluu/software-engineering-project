@@ -1,0 +1,8 @@
+// Description : test de plus sur deux string
+// 	 
+//Resultat:
+//      Erreur Contextuelle : addition de deux string
+//      Ligne 8 : ./src/test/deca/etapeB/invalid/plus_string_string.deca:2:8: type not expected
+{
+   "hello"+"hello";
+}

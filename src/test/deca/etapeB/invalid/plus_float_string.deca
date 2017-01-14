@@ -1,0 +1,8 @@
+// Description : test de plus d'un float et string
+// 	 
+//Resultat:
+//      Erreur Contextuelle : addition d'un float et string
+//      Ligne 8 : ./src/test/deca/etapeB/invalid/plus_float_string.deca:2:8: type not expected
+{
+   3.3+"hello";
+}

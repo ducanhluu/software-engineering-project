@@ -1,0 +1,8 @@
+// Description : test de mult sur un entier et un string
+// 	 
+//Resultat:
+//      Erreur Contextuelle : multiplication d'un entier et un string
+//      Ligne 8 : ./src/test/deca/etapeB/invalid/mult_int_string.deca:2:8: type not expected
+{
+   3*"hello";
+}

@@ -2,7 +2,7 @@
 // 	 
 //Resultat:
 //      Erreur Contextuelle : modulo est appliqué sur un type non entier
-//      Ligne 8 :./src/test/deca/etapeB/invalid/modulo_float.deca:3:4: you can apply % only on integers.
+//      Ligne 8 :./src/test/deca/etapeB/invalid/modulo_string.deca:3:4: you can apply % only on integers.
 {
 int f =2;
 f = f%"hello";
