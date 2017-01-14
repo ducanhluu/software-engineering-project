@@ -1,7 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.tree.While.getLabelDebut;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLabel;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
 
 
@@ -25,7 +25,7 @@ public class NotEquals extends AbstractOpExactCmp {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        compiler.addInstruction(new BNE(getLabelDebut()));
+        compiler.addInstruction(new BNE(getLabel()));
     }
 
 }

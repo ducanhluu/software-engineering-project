@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLabel;
 import static fr.ensimag.deca.tree.While.getLabelDebut;
 import fr.ensimag.ima.pseudocode.instructions.BLT;
 
@@ -25,7 +26,7 @@ public class Greater extends AbstractOpIneq {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        compiler.addInstruction(new BLT(getLabelDebut()));
+        compiler.addInstruction(new BLT(getLabel()));
     }
     
 }
