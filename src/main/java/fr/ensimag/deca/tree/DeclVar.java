@@ -56,7 +56,7 @@ public class DeclVar extends AbstractDeclVar {
             try {
                 localEnv.declare(this.varName.getName(), vardef);
             } catch (EnvironmentExp.DoubleDefException ex) {
-                throw new ContextualError("La variable est déjà définie",this.varName.getLocation());
+                throw new ContextualError("this variable is already declared",this.varName.getLocation());
                 //Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.varName.verifyExpr(compiler, localEnv, currentClass);
@@ -65,7 +65,11 @@ public class DeclVar extends AbstractDeclVar {
     
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.type.decompile(s);
+        s.print(" ");
+        this.varName.decompile(s);
+        s.print(" ");
+        this.initialization.decompile(s);
     }
 
     @Override

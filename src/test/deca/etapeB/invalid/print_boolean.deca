@@ -1,7 +1,8 @@
 // Description : 
 // 	test de print d'un boolean 
 //Resultat:
-//      Erreur Contextuelle : print ne peut etre appelé que sur int,string,float
+//      Erreur Contextuelle : print ne peut etre appelé que sur int,string,floa
+//      ligne 7 :/src/test/deca/etapeB/invalid/print_boolean.deca:7:0: invalid argument for print
 {
 print(true);
 }

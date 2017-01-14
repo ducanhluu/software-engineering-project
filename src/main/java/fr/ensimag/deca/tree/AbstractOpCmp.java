@@ -27,9 +27,20 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);
-        if (this.getOperatorName() == "=="){
+        if (this.getOperatorName() == "==" || this.getOperatorName() == "<" || this.getOperatorName() == ">"  ){
             if (!type1.sameType(type2)){
-                throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());
+                if(type1.isInt() && type2.isFloat()){
+                    ConvFloat cf=new ConvFloat(this.getLeftOperand());
+                    this.setLeftOperand(cf);
+
+                }else if (type2.isInt() && type1.isFloat()){
+                    ConvFloat cf=new ConvFloat(this.getLeftOperand());
+                    this.setRightOperand(cf);
+
+                }else{
+                    throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());
+                }
+                    /*throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());*/
             }
         }
         //plusieurs a lever selon les cas possibles 

@@ -1,7 +1,8 @@
 // Description : 
 // 	test de condition non boolean dans if   
 //Resultat:
-//      Erreur Contextuelle :la condition doit etre boolean 
+//      Erreur Contextuelle :la condition doit etre boolean
+//      Ligne 7 : /src/test/deca/etapeB/invalid/if_then_else_not_boolean.deca:6:4: Contextual error: condition is not boolean
 {
 if (1){
    println();

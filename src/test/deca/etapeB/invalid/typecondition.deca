@@ -1,3 +1,8 @@
+// Description : 
+// 	test d'une condition non boolean
+//Resultat:
+//      Erreur Contextuelle : les conditions doivent être booléen.
+//      Ligne 7 : /src/test/deca/etapeB/invalid/typecondition.deca:7:5: Contextual error: condition is not boolean
 {
 	if (5){
 	   println("hello_everyone");

@@ -1,0 +1,8 @@
+// Description : test de mult sur deux string
+// 	 
+//Resultat:
+//      Erreur Contextuelle : multiplication de deux string
+//      Ligne 8 : ./src/test/deca/etapeB/invalid/mult_string_string.deca:2:8: type not expected
+{
+   "hello"*"hello";
+}

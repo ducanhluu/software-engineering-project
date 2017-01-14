@@ -1,0 +1,9 @@
+// Description : test de modulo sur des types non entiers
+// 	 
+//Resultat:
+//      Erreur Contextuelle : modulo est appliqué sur un type non entier
+//      Ligne 8 :./src/test/deca/etapeB/invalid/modulo_string.deca:3:4: you can apply % only on integers.
+{
+int f =2;
+f = f%"hello";
+}

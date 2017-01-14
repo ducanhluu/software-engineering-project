@@ -1,7 +1,8 @@
 // Description : 
 // 	test de condition non boolean dans while   
 //Resultat:
-//      Erreur Contextuelle :la condition doit etre boolean 
+//      Erreur Contextuelle :la condition doit etre boolean
+//      Ligne 7 : /src/test/deca/etapeB/invalid/while_not_boolean.deca:7:4: Contextual error: condition is not boolean
 {
 if (1){
    println();

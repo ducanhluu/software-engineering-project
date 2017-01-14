@@ -2,6 +2,7 @@
 // 	test d'affichage d'un boolean  
 //Resultat:
 //      Erreur Contextuelle :type non supporté,println supporte int,float,string
+//      Ligne 7 : /src/test/deca/etapeB/invalid/println_bool.deca:7:3: invalid argument for print
 {
    println(true);
 }

@@ -1,7 +1,8 @@
 // Description : 
-// 	test d'affecter deux variables de types diffenrents
+// 	test d'affecter deux variables de types différents
 //Resultat:
-//      Erreur Contextuelle :pour une affectation les variables doivent etre de //meme type. 
+//      Erreur Contextuelle :pour une affectation les variables doivent etre de meme type.
+//      Ligne 8 : /src/test/deca/etapeB/invalid/assign_diff_types.deca:8:2: type not expected 
 {
 int x;
 x=3.2;
