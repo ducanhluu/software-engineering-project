@@ -51,7 +51,6 @@ public class Assign extends AbstractBinaryExpr {
     protected String getOperatorName() {
         return "=";
     }
-
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         AbstractExpr lvalue = getLeftOperand();
