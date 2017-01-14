@@ -27,7 +27,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     public AbstractExpr getRightOperand() {
         return rightOperand;
     }
-
+    
     protected void setLeftOperand(AbstractExpr leftOperand) {
         Validate.notNull(leftOperand);
         this.leftOperand = leftOperand;
@@ -61,7 +61,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     }
 
     abstract protected String getOperatorName();
-
+    
     @Override
     protected void iterChildren(TreeFunction f) {
         leftOperand.iter(f);

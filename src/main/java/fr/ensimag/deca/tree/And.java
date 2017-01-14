@@ -18,7 +18,6 @@ public class And extends AbstractOpBool {
     protected String getOperatorName() {
         return "&&";
     }
-
     /* @Override
     protected void codeGenInst(DecacCompiler compiler) {   
         getLeftOperand().codeGenInst(compiler);
