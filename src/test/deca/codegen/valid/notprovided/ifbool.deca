@@ -1,0 +1,11 @@
+// Description:
+// Test if pour une condition booleenne
+
+{
+if(true){
+println("ok");
+}
+else {
+println("not ok");
+}
+}
