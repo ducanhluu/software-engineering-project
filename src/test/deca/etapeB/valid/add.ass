@@ -25,7 +25,7 @@
 	HALT
 ; end main program
 stack_overflow_error:
-	WSTR "Error: Overflow during arithmetic operation"
+	WSTR "Error: Stack Overflow"
 	WNL
 	ERROR
 ; end main program

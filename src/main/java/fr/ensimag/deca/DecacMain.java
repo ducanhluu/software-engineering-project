@@ -45,32 +45,9 @@ public class DecacMain {
             throw new UnsupportedOperationException("Parallel build not yet implemented");
         }else {
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source);
-                /*  if (compiler.getCompilerOptions().getParallel()){
-                    PrintStream err=""; // a verifier
-                    AbstractProgram prog=compiler.doLexingAndParsing(source,err);
-                    prog.decompile()
-                }*/
-                // a completer pour decac -p 
-                if( options.getParse()){
-                    PrintStream err=System.err;
-                    try {
-                        AbstractProgram prog=compiler.doLexingAndParsing(source.toString(), err);
-                        //IndentPrintStream s=new IndentPrintStream(err);
-                        if (prog == null) {
-                            LOG.info("Parsing failed");
-                            error=true;
-                        }else{
-                            String s=prog.decompile();
-                            System.out.println(s);
-                        }
-                    } catch (DecacFatalError ex) {
-                        java.util.logging.Logger.getLogger(DecacMain.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (DecacInternalError ex) {
-                        java.util.logging.Logger.getLogger(DecacMain.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                }else if (compiler.compile()) {
+                DecacCompiler compiler = new DecacCompiler(options, source);    
+                if (compiler.compile()) {
+                    System.out.println("hello");
                     error = true;
                 }
             }

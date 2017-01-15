@@ -91,15 +91,24 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-      /*  s.print("if(");
+        s.print("if(");
         condition.decompile(s);
         s.println(" ){");
         thenBranch.decompile(s);
         s.print("}");
-        if (elseBranch instanceof IfThenElse){
-        s.print("else ");
-        elseBranch.decompile(s);
-        s.print("}");*/
+        if (elseBranch.size() > 0){
+            if (elseBranch.getList().get(0) instanceof IfThenElse){
+              s.print("else ");
+              s.println();
+              elseBranch.decompile(s);
+            }else{
+              s.print("else {");
+              s.println();
+              elseBranch.decompile(s);
+              s.print("}");
+            }
+          
+        }
     }
 
     @Override

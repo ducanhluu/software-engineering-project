@@ -204,17 +204,24 @@ public class DecacCompiler {
             PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
-
         if (prog == null) {
             LOG.info("Parsing failed");
             return true;
         }
+        if (this.compilerOptions.getParse()){
+            prog.decompile(err);
+            
+            return false;
+        }
+        if (this.compilerOptions.getVerif()){
+            prog.verifyProgram(this);
+            return false;
+        }
+       
+        
         assert (prog.checkAllLocations());
-
-
         prog.verifyProgram(this);
         assert (prog.checkAllDecorations());
-
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");

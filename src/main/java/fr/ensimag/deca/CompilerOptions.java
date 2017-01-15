@@ -40,12 +40,15 @@ public class CompilerOptions {
     public boolean getParse() {
         return parse;
     }
-    
+    private boolean verif=false;
+    public boolean getVerif(){
+        return verif;
+    }
     private int debug = 0;
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-
+    
     
     public void parseArgs(String[] args) throws CLIException {
         // A FAIRE : parcourir args pour positionner les options correctement.
@@ -76,9 +79,16 @@ public class CompilerOptions {
                 case  "-b":
                    this.printBanner=true;
                 case "-p":
+                    if ( this.verif){
+                        throw new IllegalArgumentException("you can't use -p and -v at the same time");
+                    }
                     this.parse=true;
                     break; 
                 case "-v":
+                     if (this.parse){
+                        throw new IllegalArgumentException("you can't use -p and -v at the same time");
+                    }
+                    this.verif=true;
                   break;
                 case "-n":
                   break;

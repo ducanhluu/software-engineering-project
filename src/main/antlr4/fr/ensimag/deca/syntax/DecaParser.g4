@@ -161,8 +161,7 @@ inst returns[AbstractInst tree]
             assert($condition.tree != null);
             assert($body.tree != null);
             $tree = new While($condition.tree,$body.tree);
-            setLocation($tree,$condition.start);
-            setLocation($tree,$body.start);
+            setLocation($tree,$WHILE);
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
@@ -188,6 +187,8 @@ if_then_else returns[IfThenElse tree]
             assert($elsif_li.tree != null);
             cour=new ListInst();
             myList.getLast().add(new IfThenElse($elsif_cond.tree,$elsif_li.tree,cour));
+            setLocation(myList.getLast(),$elsif);
+            setLocation(myList.getLast().getList().get(0),$elsif);
             myList.add(cour);
     }
       )*

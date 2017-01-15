@@ -38,7 +38,8 @@ public abstract class Tree {
     /**
      * Display the tree as a (compilable) source program
      *
-     * @param s Buffer to which the result will be written.
+
+* @param s Buffer to which the result will be written.
      */
     public abstract void decompile(IndentPrintStream s);
 
