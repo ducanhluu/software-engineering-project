@@ -1,0 +1,11 @@
+// Description :
+//   test de division d'un float pour un float
+
+// Résultats :
+//   Ok
+{
+	float x = 1.0;
+	float y = 2.0;
+	float z = y/x;
+	print(z);
+}

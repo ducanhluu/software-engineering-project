@@ -1,0 +1,10 @@
+// Description :
+//   test de NoOperation
+
+// Résultats :
+//   2
+//   
+{
+	;
+	print(2);
+}

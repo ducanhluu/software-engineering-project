@@ -1,0 +1,11 @@
+// Description :
+//   test de lire un floatant depuis console
+
+// Résultats :
+//   ok
+//   
+{
+	float x;
+	x = readfloat();
+	print(x);
+}

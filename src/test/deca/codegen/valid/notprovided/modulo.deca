@@ -1,8 +1,0 @@
-{
-	float x = 8.0;
-	float y = 3.0;
-	float z;
-	
-	z = x%y;
-	println(z);
-}

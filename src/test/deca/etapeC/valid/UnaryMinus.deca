@@ -1,0 +1,10 @@
+// Description :
+//   test d'opposition d'un entier
+
+// Résultats :
+//      -1
+{
+	int x = 1;
+	x = - x;
+	print(x);
+}

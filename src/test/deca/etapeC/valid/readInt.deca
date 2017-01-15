@@ -1,0 +1,11 @@
+// Description :
+//   test de lire un entier depuis console
+
+// Résultats :
+//   ok
+//   
+{
+	int x;
+	x = readint();
+	print(x);
+}

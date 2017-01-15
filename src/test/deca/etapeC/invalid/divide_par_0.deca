@@ -1,0 +1,11 @@
+// Description :
+//   test diviser par 0
+
+// Résultats :
+//   Error: division by zero
+{
+	int x = 1;
+	int y = 0;
+	int z = x/y;
+	print(z);
+}

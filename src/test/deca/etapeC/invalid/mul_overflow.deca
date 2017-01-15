@@ -1,3 +1,10 @@
+// Description :
+//   test diviser par 0
+
+// Résultats :
+//   Error: Overflow during arithmetic operation
+
+
 {
 	float x = 9999999999999999999999999999999999999.0;
 	float y = 99999999999999999999999999.0;

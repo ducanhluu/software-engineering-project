@@ -1,0 +1,14 @@
+// Description :
+//      or expression
+
+// Résultats :
+//     10 
+
+{
+int x = 1;
+while (false || x == 1) {
+      print(x);     
+      x = 0;      
+}
+print(x);
+}

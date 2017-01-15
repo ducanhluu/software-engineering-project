@@ -1,0 +1,14 @@
+// Description :
+//   test de modulo sur 2 entiers
+
+// Résultats :
+//   2
+//   
+{
+	int x = 8.0;
+	int y = 3.0;
+	int z;
+	
+	z = x%y;
+	println(z);
+}

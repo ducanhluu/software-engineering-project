@@ -1,0 +1,12 @@
+// Description :
+//   Convation d'un entier
+
+// Résultats :
+//   Ok
+
+{
+	int x = 2;
+	float y;
+	y = x + 2.0;
+	println(y);
+}

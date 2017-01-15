@@ -1,3 +1,9 @@
+// Description :
+//   test d'implementation du NOT
+
+// Résultats :
+//   NOT est bien implemente
+//   
 {
 	boolean x = true;
 	while (!x) {

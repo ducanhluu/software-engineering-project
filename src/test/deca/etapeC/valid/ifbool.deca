@@ -1,6 +1,9 @@
 // Description:
 // Test if pour une condition booleenne
 
+// Résultats :
+//   ok
+//   
 {
 if(true){
 println("ok");

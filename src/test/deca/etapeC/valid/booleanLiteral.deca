@@ -1,0 +1,13 @@
+// Description :
+//   test d'implementation d'une valeur booleenne literal
+
+// Résultats :
+//   Ok
+
+{
+	int x = 0;
+	while (true) {
+	      x = x + 1;;
+	}
+	print(x);
+}

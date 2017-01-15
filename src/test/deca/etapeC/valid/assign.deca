@@ -1,0 +1,9 @@
+// Description :
+//   assign une expression pour un identifier
+
+// Résultats :
+//   Ok
+{
+	int x, y;
+	x = y;
+}

@@ -1,0 +1,19 @@
+// Description :
+//   Test while implementation with expr comparison 
+
+// Résultats :
+//   13
+//   23
+//   33
+//   43
+//   53
+{
+	int x = 0;
+	int y = 3;
+while(x < 5 ||2 > y){
+	x = x + 1;
+print(x);
+print(y);
+println();
+}
+}
