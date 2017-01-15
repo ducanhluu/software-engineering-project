@@ -38,7 +38,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                     this.setRightOperand(cf);
 
                 }else{
-                    throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());
+                    throw new ContextualError("cannot use operator"+this.getOperatorName()+" on two different type",this.getLocation());
                 }
                     /*throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());*/
             }
