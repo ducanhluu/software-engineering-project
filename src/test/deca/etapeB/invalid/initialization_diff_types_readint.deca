@@ -3,5 +3,5 @@
 //Resultat:
 //      Erreur Contextuelle :impossible d'initialiser une variable avec une autr//e d'un type different 
 {
-float x=readint();
+float x=readInt();
 }

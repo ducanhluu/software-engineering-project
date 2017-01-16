@@ -6,6 +6,6 @@
 //   
 {
 	float x;
-	x = readfloat();
+	x = readFloat();
 	print(x);
 }

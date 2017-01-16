@@ -6,6 +6,6 @@
 //   
 {
 	int x;
-	x = readint();
+	x = readInt();
 	print(x);
 }
