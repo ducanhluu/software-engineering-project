@@ -2,7 +2,9 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
+import static fr.ensimag.deca.codegen.CodeGenInst.setLabelFin;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -59,29 +61,27 @@ public class IfThenElse extends AbstractInst {
         if (condition instanceof BooleanLiteral) {
             if (((BooleanLiteral) condition).getValue()) {
                 setLabelInit();
+                setLabelFin(getLabelFinIf());
                 setLabelSinon();
                 thenBranch.codeGenListInst(compiler);
-                if (!elseBranch.isEmpty()) {
-                    compiler.addInstruction(new BRA(getLabelFin()));
-                    compiler.addLabel(getLabelSinon());
-                    elseBranch.codeGenListInst(compiler);
-                } 
-                if (elseBranch.size() <= 1 ){
+                compiler.addInstruction(new BRA(getLabelFin()));
+                compiler.addLabel(getLabelSinon());
+                elseBranch.codeGenListInst(compiler);
+                if (elseBranch.size() <= 1) {
                     labelReset();
                     compiler.addLabel(getLabelFin());
                 }
             }
         } else {
             setLabelInit();
+            setLabelFin(getLabelFinIf());
             setLabelSinon();
             setLabel(getLabelSinon());
             condition.codeGenInst(compiler);
             thenBranch.codeGenListInst(compiler);
-            if (!elseBranch.isEmpty()) {
-                compiler.addInstruction(new BRA(getLabelFin()));
-                compiler.addLabel(getLabelSinon());
-                elseBranch.codeGenListInst(compiler);
-            }
+            compiler.addInstruction(new BRA(getLabelFin()));
+            compiler.addLabel(getLabelSinon());
+            elseBranch.codeGenListInst(compiler);
             if (elseBranch.size() <= 1) {
                 labelReset();
                 compiler.addLabel(getLabelFin());
@@ -96,18 +96,18 @@ public class IfThenElse extends AbstractInst {
         s.println(" ){");
         thenBranch.decompile(s);
         s.print("}");
-        if (elseBranch.size() > 0){
-            if (elseBranch.getList().get(0) instanceof IfThenElse){
-              s.print("else ");
-              s.println();
-              elseBranch.decompile(s);
-            }else{
-              s.print("else {");
-              s.println();
-              elseBranch.decompile(s);
-              s.print("}");
+        if (elseBranch.size() > 0) {
+            if (elseBranch.getList().get(0) instanceof IfThenElse) {
+                s.print("else ");
+                s.println();
+                elseBranch.decompile(s);
+            } else {
+                s.print("else {");
+                s.println();
+                elseBranch.decompile(s);
+                s.print("}");
             }
-          
+
         }
     }
 
@@ -129,10 +129,10 @@ public class IfThenElse extends AbstractInst {
     private static int nbLabel = 0;
     private static int nbCond = 0;
     protected static Label labelSinon;
-    protected static Label labelFin;
+    protected static Label labelFinIf;
 
     private void setLabelInit() {
-        labelFin = new Label("E_Fin." + nbLabel);
+        labelFinIf = new Label("E_Fin." + nbLabel);
     }
 
     private void setLabelSinon() {
@@ -149,8 +149,8 @@ public class IfThenElse extends AbstractInst {
         return labelSinon;
     }
 
-    public static Label getLabelFin() {
-        return labelFin;
+    public static Label getLabelFinIf() {
+        return labelFinIf;
     }
 
 }
