@@ -58,35 +58,25 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        setLabelInit();
+        setLabelFin(getLabelFinIf());
+        setLabelSinon();
         if (condition instanceof BooleanLiteral) {
             if (((BooleanLiteral) condition).getValue()) {
-                setLabelInit();
-                setLabelFin(getLabelFinIf());
-                setLabelSinon();
-                thenBranch.codeGenListInst(compiler);
-                compiler.addInstruction(new BRA(getLabelFin()));
-                compiler.addLabel(getLabelSinon());
-                elseBranch.codeGenListInst(compiler);
-                if (elseBranch.size() <= 1) {
-                    labelReset();
-                    compiler.addLabel(getLabelFin());
-                }
             }
         } else {
-            setLabelInit();
-            setLabelFin(getLabelFinIf());
-            setLabelSinon();
             setLabel(getLabelSinon());
             condition.codeGenInst(compiler);
-            thenBranch.codeGenListInst(compiler);
-            compiler.addInstruction(new BRA(getLabelFin()));
-            compiler.addLabel(getLabelSinon());
-            elseBranch.codeGenListInst(compiler);
-            if (elseBranch.size() <= 1) {
-                labelReset();
-                compiler.addLabel(getLabelFin());
-            }
         }
+        thenBranch.codeGenListInst(compiler);
+        compiler.addInstruction(new BRA(getLabelFin()));
+        compiler.addLabel(getLabelSinon());
+        elseBranch.codeGenListInst(compiler);
+        if (elseBranch.size() <= 1) {
+            labelReset();
+            compiler.addLabel(getLabelFin());
+        }
+
     }
 
     @Override
