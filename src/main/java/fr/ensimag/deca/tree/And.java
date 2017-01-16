@@ -2,9 +2,10 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import fr.ensimag.ima.pseudocode.Label;
-
+import fr.ensimag.ima.pseudocode.instructions.BRA;
 
 /**
  *
@@ -22,21 +23,21 @@ public class And extends AbstractOpBool {
         return "&&";
     }
 
-
     protected static Label labelAnd;
     protected static Label labelTmp;
     private static int nbLabel = 0;
-    
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        labelTmp=getLabel();
+        labelTmp = getLabel();
         setLabelAnd();
         setLabel(getlabelAnd());
         getLeftOperand().codeGenInst(compiler);
+        compiler.addInstruction(new BRA(getLabelFin()));
         compiler.addLabel(labelAnd);
         setLabel(labelTmp);
         getRightOperand().codeGenInst(compiler);
-        
+
     }
 
     private void setLabelAnd() {
@@ -47,8 +48,5 @@ public class And extends AbstractOpBool {
     private Label getlabelAnd() {
         return labelAnd;
     }
-    
-    
-    
 
 }

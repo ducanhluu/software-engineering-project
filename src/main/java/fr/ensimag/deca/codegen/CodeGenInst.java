@@ -37,6 +37,7 @@ import fr.ensimag.ima.pseudocode.instructions.WSTR;
  */
 public class CodeGenInst {
     private static Label label;
+    private static Label labelFin;
     private static boolean ioIsUsed = false;
     
     public static void codeGenPrintInteger(DecacCompiler compiler, int value) {
@@ -129,8 +130,17 @@ public class CodeGenInst {
     public static void setLabel(Label lab) {
         label = lab;
     }
+    
+    public static void setLabelFin(Label lab) {
+        labelFin = lab;
+    }
+
 
     public static Label getLabel() {
         return label;
+    }
+    
+    public static Label getLabelFin(){
+        return labelFin;
     }
 }

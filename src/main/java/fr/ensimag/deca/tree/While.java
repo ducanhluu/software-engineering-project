@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -46,6 +47,7 @@ public class While extends AbstractInst {
                 compiler.addLabel(getLabelDebut());
                 body.codeGenListInst(compiler);
                 compiler.addInstruction(new BRA(getLabelDebut()));
+                compiler.addLabel(getLabelFinWhile());
             }
         } else {
             setLabelWhile();
@@ -55,6 +57,7 @@ public class While extends AbstractInst {
             compiler.addLabel(getLabelCond());
             setLabel(getLabelDebut());
             condition.codeGenInst(compiler);
+            compiler.addLabel(getLabelFinWhile());
         }
     }
 
@@ -64,6 +67,7 @@ public class While extends AbstractInst {
             throws ContextualError {
         this.condition.verifyCondition(compiler, localEnv, currentClass);
         this.body.verifyListInst(compiler, localEnv, currentClass, returnType);
+        
     }
 
     @Override
@@ -92,19 +96,25 @@ public class While extends AbstractInst {
     private static int nbLabel = 0;
     protected static Label labelCond;
     protected static Label labelDebut;
+    protected static Label labelFinWhile;
 
     private void setLabelWhile() {
         nbLabel++;
         labelCond = new Label("E_Cond." + nbLabel);
-        labelDebut = new Label ("E_Debut." + nbLabel);
+        labelDebut = new Label("E_Debut." + nbLabel);
+        labelFinWhile = new Label("E_Fin_While." + nbLabel);
     }
 
     public static Label getLabelCond() {
         return labelCond;
     }
-    
+
     public static Label getLabelDebut() {
         return labelDebut;
+    }
+
+    public static Label getLabelFinWhile() {
+        return labelFinWhile;
     }
 
 }
