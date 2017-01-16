@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
+import static fr.ensimag.deca.codegen.CodeGenInst.setLabelFin;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -56,6 +57,7 @@ public class While extends AbstractInst {
             body.codeGenListInst(compiler);
             compiler.addLabel(getLabelCond());
             setLabel(getLabelDebut());
+            setLabelFin(getLabelFinWhile());
             condition.codeGenInst(compiler);
             compiler.addLabel(getLabelFinWhile());
         }
