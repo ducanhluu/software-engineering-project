@@ -21,7 +21,7 @@ neutre='\e[0;m'
 
 PATH=~/src/test/script/launchers/:"$PATH"
 
-for i in ./src/test/deca/etapeB/valid/*.deca
+for i in ./src/test/deca/context/valid/*.deca
 do
     if  test_context "$i" 2>&1 | grep -q -e './src/test/deca'
     then
