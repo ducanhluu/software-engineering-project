@@ -2,9 +2,9 @@
 //   test d'opposition d'un entier
 
 // Résultats :
-//      -1
+//      -1.0
 {
-	int x = 1;
+	float x = 1.0;
 	x = - x;
 	print(x);
 }

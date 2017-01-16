@@ -5,8 +5,8 @@
 //   2
 //   
 {
-	int x = 8.0;
-	int y = 3.0;
+	int x = 8;
+	int y = 3;
 	int z;
 	
 	z = x%y;
