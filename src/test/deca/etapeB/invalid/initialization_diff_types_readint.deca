@@ -1,7 +1,0 @@
-// Description : 
-// 	test d'initialization d'une variable de type1 avec une variable de type //different
-//Resultat:
-//      Erreur Contextuelle :impossible d'initialiser une variable avec une autr//e d'un type different 
-{
-float x=readInt();
-}
