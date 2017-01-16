@@ -1,0 +1,10 @@
+// Description :
+//   test d'impritation d'une unary minus
+
+// Résultats :
+//   -1
+//   
+{
+	int x = 1;
+	print(-x);
+}

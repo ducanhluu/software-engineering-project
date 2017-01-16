@@ -1,0 +1,11 @@
+// Description :
+//   test d'impritation d'une unary minus
+
+// Résultats :
+//   -1.0
+//   
+
+{
+	float x = 1.0;
+	print(-x);
+}

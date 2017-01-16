@@ -1,0 +1,10 @@
+// Description :
+//   test d'impritation d'une expression
+
+// Résultats :
+//   4.0
+//   
+{
+	float x = 1.0;
+	print(x + 3.0);
+}
