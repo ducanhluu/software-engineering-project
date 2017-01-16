@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.addTestOverflowOP;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.ima.pseudocode.Label;

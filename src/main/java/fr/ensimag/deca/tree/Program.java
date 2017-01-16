@@ -1,7 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.addTestOverflow;
+import static fr.ensimag.deca.codegen.CodeGenInst.addTestOverall;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -48,7 +48,7 @@ public class Program extends AbstractProgram {
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
         compiler.addComment("end main program");
-        addTestOverflow(compiler);
+        addTestOverall(compiler);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.getLabel;
-import static fr.ensimag.deca.codegen.MemoryManagement.setLabel;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
+import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import fr.ensimag.ima.pseudocode.Label;
 
 
