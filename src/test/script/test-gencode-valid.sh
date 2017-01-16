@@ -18,16 +18,21 @@ grisclair='\e[0;37m'
 blanc='\e[1;37m'
 
 neutre='\e[0;m'
-PATH=./src/test/script/launchers/:./src/main/bin:"$PATH"
-rm -f ./src/test/deca/etapeC/valid/*.ass 2>/dev/null
-for i in ./src/test/deca/etapeC/valid/*.deca
+PATH=./src/test/script/launchers/:./src/main/bin:./"$PATH"
+rm -f ./src/test/deca/codegen/valid/*.ass 2>/dev/null
+for i in ./src/test/deca/codegen/valid/*.deca
 do
-    decac "$i"
-    if  [ ! -f "${i%.deca}".ass ];then 
-	echo -e "${rougefonce}Fail${neutre}" "Fichier ""${i%.deca}"".ass" "non généré"
+    decac "$i"|| exit 1
+    if [ ! -f  "${i%.deca}".ass ];
+    then
+	
+	echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*valid/}"".ass" "non généré."
 	exit 1
     else
-	echo -e "${vertclair}Pass${neutre}" "Fichier ""${i%.deca}"".ass" "généré"
+	x="${i#*valid/}"
+	echo -e "${vertclair}Pass${neutre}" "Fichier" "${x%.deca}"".ass" "est généré."
+	ima "${i%.deca}".ass > "${i%.deca}".res
+
     fi
     
     

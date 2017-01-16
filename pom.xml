@@ -185,15 +185,17 @@
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
           </execution>
+
 	  <execution>
-            <id>test-syntax-invalid</id>
+            <id>test-gencode-valid</id>
 	    
             <configuration>
-              <executable>./src/test/script/test-syntax-invalid.sh</executable>	            
+              <executable>./src/test/script/test-gencode-valid.sh</executable>	            
             </configuration>
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
           </execution>
+
 
 
           <!--<execution>-->
