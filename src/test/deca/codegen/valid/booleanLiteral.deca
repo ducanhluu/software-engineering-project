@@ -2,11 +2,11 @@
 //   test d'implementation d'une valeur booleenne literal
 
 // Résultats :
-//   Ok
+//   0
 
 {
 	int x = 0;
-	while (true) {
+	while (false) {
 	      x = x + 1;;
 	}
 	print(x);
