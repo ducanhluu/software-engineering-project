@@ -28,8 +28,10 @@ import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
+ * Management of registers
  *
- * @author macintosh
+ * @author gl17
+ * @date 13/01/2017
  */
 public class MemoryManagement {
 
@@ -41,10 +43,8 @@ public class MemoryManagement {
         true, true, true, true};
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
-    private static boolean ioIsUsed = false;
     public static boolean overflowNeeded = false;
     public static boolean divisionIsUsed = false;
-    private static Label label ;
 
     public static int getNumberGlobalVariables() {
         return ++numberGlobalVariables;
@@ -76,98 +76,15 @@ public class MemoryManagement {
         return getR(lastReg);
     }
 
-    public static void codeGenPrintInteger(DecacCompiler compiler, int value) {
-        compiler.addInstruction(new LOAD(value, getR(1)));
-        compiler.addInstruction(new WINT());
-    }
-
-    public static void codeGenPrintInteger(DecacCompiler compiler, DAddr val) {
-        compiler.addInstruction(new LOAD(val, getR(1)));
-        compiler.addInstruction(new WINT());
-    }
-
-    public static void codeGenPrintFloat(DecacCompiler compiler, float val) {
-        compiler.addInstruction(new LOAD(val, getR(1)));
-        compiler.addInstruction(new WFLOAT());
-    }
-
-    public static void codeGenPrintFloat(DecacCompiler compiler, DAddr val) {
-        compiler.addInstruction(new LOAD(val, getR(1)));
-        compiler.addInstruction(new WFLOAT());
-    }
-    
-    public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
-        avaRegs[lastReg] = true;
-        compiler.addInstruction(new STORE(getR(lastReg), val));
-    }
-
     public static void setLastUsedRegister(int val) {
         lastReg = val;
     }
 
-    public static void addTestOverflow(DecacCompiler compiler) {
-        int i = numberSavedRegisters + numberGlobalVariables;
-        if (i > 0) {
-            compiler.addFirst(new ADDSP(i));
-            compiler.addFirst(new BOV(new Label("stack_overflow_error")));
-            compiler.addFirst(new TSTO(i), "test de debordement de pile");
-            compiler.addFirstComment("start main program");
-            compiler.addLabel(new Label("stack_overflow_error"));
-            compiler.addInstruction(new WSTR("Error: Stack Overflow"));
-            compiler.addInstruction(new WNL());
-            compiler.addInstruction(new ERROR());
-        }
-        addTestIO(compiler);
-        addTestOverflowOP(compiler);
-        addTestDivideBy0(compiler);
+    public static void freeLastUsedRegister() {
+        avaRegs[lastReg] = true;
     }
 
-    public static void codeGenReadFloat(DecacCompiler compiler) {
-        ioIsUsed = true;
-        compiler.addInstruction(new RFLOAT());
-        compiler.addInstruction(new BOV(new Label("io_error")));
-        compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
-    }
-
-    public static void codeGenReadInt(DecacCompiler compiler) {
-        ioIsUsed = true;
-        compiler.addInstruction(new RINT());
-        compiler.addInstruction(new BOV(new Label("io_error")));
-        compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
-    }
-
-    public static void addTestIO(DecacCompiler compiler) {
-        if (ioIsUsed) {
-            compiler.addLabel(new Label("io_error"));
-            compiler.addInstruction(new WSTR("Error: Input/Output error"));
-            compiler.addInstruction(new WNL());
-            compiler.addInstruction(new ERROR());
-        }
-    }
-    
-    public static void addTestOverflowOP(DecacCompiler compiler) {
-        if (overflowNeeded) {
-            compiler.addLabel(new Label("overflow_error"));
-            compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
-            compiler.addInstruction(new WNL());
-            compiler.addInstruction(new ERROR());
-        }
-    }
-    
-    public static void addTestDivideBy0(DecacCompiler compiler) {  
-        if (divisionIsUsed) {
-            compiler.addLabel(new Label("division_by_zero_error"));
-            compiler.addInstruction(new WSTR("Error: division by zero"));
-            compiler.addInstruction(new WNL());
-            compiler.addInstruction(new ERROR());
-        }
-    }
-    
-    public static void setLabel(Label lab){
-        label = lab;
-    }
-    
-    public static Label getLabel(){
-        return label;
+    public static int getNumberSavedRegisters() {
+        return numberSavedRegisters;
     }
 }

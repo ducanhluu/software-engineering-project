@@ -1,0 +1,10 @@
+{
+int x = 3;
+if (x > 0 && x < 5) {
+println(" x appartient a [0,5]");
+} 
+else
+{
+println("x n' appartient pas a [0,5]");
+}
+}
