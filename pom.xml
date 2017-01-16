@@ -157,10 +157,30 @@
             <goals><goal>exec</goal></goals>
           </execution>-->
 	  <execution>
+            <id>test-syntax-valid</id>
+	    
+            <configuration>
+              <executable>./src/test/script/test-syntax-valid.sh</executable>	            
+            </configuration>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+          </execution>
+
+	  <execution>
+            <id>test-syntax-invalid</id>
+	    
+            <configuration>
+              <executable>./src/test/script/test-syntax-invalid.sh</executable>	            
+            </configuration>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+          </execution>
+
+	  <execution>
             <id>test-contex-valid</id>
 	    
             <configuration>
-              <executable>./src/test/script/test-context-valid.sh</executable>	            
+              <executable>./src/test/script/test-context-invalid.sh</executable>	            
             </configuration>
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
@@ -177,16 +197,6 @@
           </execution>	    
 
 	  <execution>
-            <id>test-syntax-valid</id>
-	    
-            <configuration>
-              <executable>./src/test/script/test-syntax-valid.sh</executable>	            
-            </configuration>
-            <phase>test</phase>
-            <goals><goal>exec</goal></goals>
-          </execution>
-
-	  <execution>
             <id>test-gencode-valid</id>
 	    
             <configuration>
@@ -198,19 +208,19 @@
 
 
 
-          <!--<execution>-->
+          <execution>
             <!-- run a unit test by defining our own class with a main
                  function -->
             <!-- warning: java assertions are not enabled -->
-            <!--<id>unit-test-symbol</id>
+            <id>unit-test-symbol</id>
             <configuration>
               <mainClass>fr.ensimag.deca.tools.ManualTestSymbol</mainClass>
               <classpathScope>test</classpathScope>
             </configuration>
             <phase>test</phase>
             <goals><goal>java</goal></goals>
-          </execution>-->
-         <!-- <execution>
+          </execution>
+          <execution>
             <id>basic-context</id>
             <configuration><executable>./src/test/script/basic-context.sh</executable></configuration>
             <phase>test</phase>
@@ -234,7 +244,7 @@
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
           </execution>
-	  -->
+	  
         </executions>
       </plugin>
 

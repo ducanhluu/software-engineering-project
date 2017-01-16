@@ -22,7 +22,7 @@ neutre='\e[0;m'
 
 PATH=~/src/test/script/launchers/:"$PATH"
 
-for i in ./src/test/deca/etapeA/invalid/*.deca
+for i in ./src/test/deca/syntax/invalid/*.deca
 do
     if  test_synt "$i" 2>&1 | grep -q -e './src/test/deca'
     then
