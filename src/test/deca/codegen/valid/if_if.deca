@@ -1,0 +1,13 @@
+// Description :
+// Test les if imbriqués
+
+// Resultat:
+//ok
+
+{
+if ( 2 < 4 ) {
+   if ( 3 > 2 ) {
+      print("Ok") ;
+      }     
+   }	    
+}    

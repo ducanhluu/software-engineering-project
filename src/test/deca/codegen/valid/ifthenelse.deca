@@ -5,18 +5,18 @@
 // ok
 
 {
-int x = -3;
+    int x = -3;
 
-if(x > 0){
-println("x positif");
-}
-else if ( x == 0){
-println("x nul");
-}else{
-println("x negatif");
-} 
+    if(x > 0){
+        println("x positif");
+    }
+    else if ( x == 0){
+        println("x nul");
+    }else{
+        println("x negatif");
+    } 
 
-if (x != 0){
-println("ok");
-}
+    if (x != 0){
+        println("ok");
+    }
 }
