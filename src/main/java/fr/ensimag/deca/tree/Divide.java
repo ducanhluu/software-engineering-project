@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.divisionIsUsed;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
@@ -33,17 +34,19 @@ public class Divide extends AbstractOpArith {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        divisionIsUsed = true;
+        
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
             compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
             GPRegister reg2 = getLastUsedRegisterToStore();
             if (getRightOperand().getType().isInt()) {
+                divisionIsUsed = true;
                 compiler.addInstruction(new CMP(0, reg));
+                compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
             } else {
                 compiler.addInstruction(new LOAD((float) 0.0, getAvailableRegister(compiler)));
                 compiler.addInstruction(new CMP(getLastUsedRegisterToStore(), reg));
+                compiler.addInstruction(new BEQ(new Label("overflow_error")));
             }
-            compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
             if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
                 compiler.addInstruction(new QUO(reg, reg2));
                 setLastUsedRegister(reg2.getNumber());
@@ -53,16 +56,20 @@ public class Divide extends AbstractOpArith {
             }
         } else {
             if (getRightOperand().getType().isInt()) {
+                divisionIsUsed = true;
                 compiler.addInstruction(new LOAD(val, getAvailableRegister(compiler)));
                 compiler.addInstruction(new CMP(0, getLastUsedRegisterToStore()));
+                
             } else {
+                overflowNeeded = true;
                 compiler.addInstruction(new LOAD((float) 0.0, getAvailableRegister(compiler)));
                 GPRegister regTemps = getLastUsedRegisterToStore();
                 compiler.addInstruction(new LOAD(val, getAvailableRegister(compiler)));
                 compiler.addInstruction(new CMP(regTemps, getLastUsedRegisterToStore()));
+                compiler.addInstruction(new BEQ(new Label("overflow_error")));
             }
             
-            compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
+            
             if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
                 compiler.addInstruction(new QUO(val, reg));
                 setLastUsedRegister(reg.getNumber());

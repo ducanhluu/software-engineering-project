@@ -1,3 +1,10 @@
+// Description :
+//   test d'impritation d'une expression
+
+// Résultats :
+//   2
+//   
+
 {
 	int x = 1;
 	print(x + 1);

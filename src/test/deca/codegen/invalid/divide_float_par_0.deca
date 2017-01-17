@@ -1,0 +1,11 @@
+// Description :
+//   test diviser float par 0
+
+// Résultats :
+//   Error: Overflow during arithmetic operation
+{
+	float x = 1.0;
+	float y = 0.0;
+	float z = x/y;
+	print(z);
+}
