@@ -75,7 +75,7 @@ public class IfThenElse extends AbstractInst {
         compiler.addInstruction(new BRA(getLabelFin()));
         compiler.addLabel(getLabelSinon());
         elseBranch.codeGenListInst(compiler);
-        if (elseBranch.size() <= 1) {
+        if (elseBranch.size() <= 1 && nbCond!=0) {
             labelReset();
             compiler.addLabel(getLabelFin());
         }
