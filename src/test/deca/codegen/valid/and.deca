@@ -9,6 +9,7 @@
 {
 int x = 3;
 while (x > 0 && x < 5) {
+x=6;
 println(" x appartient a [0,5]");
 }
 }
