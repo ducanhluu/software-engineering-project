@@ -25,6 +25,7 @@ public class IfThenElse extends AbstractInst {
     private final AbstractExpr condition;
     private final ListInst thenBranch;
     private ListInst elseBranch;
+    protected static int Opp = 0;
 
     public IfThenElse(AbstractExpr condition, ListInst thenBranch, ListInst elseBranch) {
         Validate.notNull(condition);
@@ -66,7 +67,9 @@ public class IfThenElse extends AbstractInst {
             }
         } else {
             setLabel(getLabelSinon());
+            Opp = 1;
             condition.codeGenInst(compiler);
+            Opp = 0;
         }
         thenBranch.codeGenListInst(compiler);
         compiler.addInstruction(new BRA(getLabelFin()));
