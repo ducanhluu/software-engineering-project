@@ -96,9 +96,9 @@ public class While extends AbstractInst {
     }
 
     private static int nbLabel = 0;
-    protected static Label labelCond;
+    private Label labelCond;
     protected static Label labelDebut;
-    protected static Label labelFinWhile;
+    protected Label labelFinWhile;
 
     private void setLabelWhile() {
         nbLabel++;
@@ -107,7 +107,7 @@ public class While extends AbstractInst {
         labelFinWhile = new Label("E_Fin_While." + nbLabel);
     }
 
-    public static Label getLabelCond() {
+    public Label getLabelCond() {
         return labelCond;
     }
 
@@ -115,7 +115,7 @@ public class While extends AbstractInst {
         return labelDebut;
     }
 
-    public static Label getLabelFinWhile() {
+    public Label getLabelFinWhile() {
         return labelFinWhile;
     }
 
