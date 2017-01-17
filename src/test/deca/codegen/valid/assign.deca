@@ -2,8 +2,10 @@
 //   assign une expression pour un identifier
 
 // Résultats :
-//   Ok
+//   2
 {
 	int x, y;
-	x = y;
+        x = 2;
+	y = x;
+        println(y);
 }

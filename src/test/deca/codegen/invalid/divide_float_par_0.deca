@@ -1,5 +1,5 @@
 // Description :
-//   test diviser float par 0
+//   test diviser float par 0.0
 
 // Résultats :
 //   Error: Overflow during arithmetic operation
