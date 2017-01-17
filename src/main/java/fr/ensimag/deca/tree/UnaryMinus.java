@@ -32,9 +32,8 @@ public class UnaryMinus extends AbstractUnaryExpr {
         }
         else 
         {
-           TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("float"));
-           this.setType(typeDef.getType());
-           return typeDef.getType();
+           this.setType(type);
+           return type;
         }
     }
 
