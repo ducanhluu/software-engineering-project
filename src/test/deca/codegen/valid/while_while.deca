@@ -1,0 +1,16 @@
+// Description :
+// Test les whiles imbriqués
+
+// Resultat:
+//6
+
+{
+int x = 0;
+while ( x < 4 ) {
+      x = x + 1;
+   while ( 6 > x) {
+   	 x = x + 1;
+      }     
+      print(x);
+   }	    
+}    
