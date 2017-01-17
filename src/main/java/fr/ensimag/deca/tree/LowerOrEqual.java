@@ -2,8 +2,9 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
+import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.instructions.BGE;
-
+import fr.ensimag.ima.pseudocode.instructions.BLE;
 
 /**
  *
@@ -11,20 +12,24 @@ import fr.ensimag.ima.pseudocode.instructions.BGE;
  * @date 01/01/2017
  */
 public class LowerOrEqual extends AbstractOpIneq {
+
     public LowerOrEqual(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
-
 
     @Override
     protected String getOperatorName() {
         return "<=";
     }
-    
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        compiler.addInstruction(new BGE(getLabel()));
-    }
+        if (Opp == 0) {
+            compiler.addInstruction(new BLE(getLabel()));
+        } else {
+            compiler.addInstruction(new BGE(getLabel()));
+        }
 
+    }
 }

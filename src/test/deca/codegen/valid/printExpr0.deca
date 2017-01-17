@@ -1,0 +1,11 @@
+// Description : 
+// Test impression d'une opération
+
+// Resultat :
+//
+
+
+{
+	int x = 1;
+	print(x + 1);
+}

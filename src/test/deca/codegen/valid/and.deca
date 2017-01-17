@@ -1,15 +1,13 @@
 // Description :
-//  Test and avec if
+//  Test and avec while
 
 // Résultats :
-//   println(" x appartient a [0,5]");
-//
-// Problème : bonne l'inverse pour le moment
+//   4
 
 {
 int x = 3;
-while (x > 0 && x < 5) {
-x=6;
-println(" x appartient a [0,5]");
-}
+if (x > 0 && x < 5) {
+x = x + 1;
+println(x);
+} else {;}
 }

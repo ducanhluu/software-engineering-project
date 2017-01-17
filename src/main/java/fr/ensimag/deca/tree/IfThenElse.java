@@ -25,6 +25,7 @@ public class IfThenElse extends AbstractInst {
     private final AbstractExpr condition;
     private final ListInst thenBranch;
     private ListInst elseBranch;
+    protected static int Opp = 0;
 
     public IfThenElse(AbstractExpr condition, ListInst thenBranch, ListInst elseBranch) {
         Validate.notNull(condition);
@@ -58,35 +59,27 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        setLabelInit();
+        setLabelFin(getLabelFinIf());
+        setLabelSinon();
         if (condition instanceof BooleanLiteral) {
             if (((BooleanLiteral) condition).getValue()) {
-                setLabelInit();
-                setLabelFin(getLabelFinIf());
-                setLabelSinon();
-                thenBranch.codeGenListInst(compiler);
-                compiler.addInstruction(new BRA(getLabelFin()));
-                compiler.addLabel(getLabelSinon());
-                elseBranch.codeGenListInst(compiler);
-                if (elseBranch.size() <= 1) {
-                    labelReset();
-                    compiler.addLabel(getLabelFin());
-                }
             }
         } else {
-            setLabelInit();
-            setLabelFin(getLabelFinIf());
-            setLabelSinon();
             setLabel(getLabelSinon());
+            Opp = 1;
             condition.codeGenInst(compiler);
-            thenBranch.codeGenListInst(compiler);
-            compiler.addInstruction(new BRA(getLabelFin()));
-            compiler.addLabel(getLabelSinon());
-            elseBranch.codeGenListInst(compiler);
-            if (elseBranch.size() <= 1) {
-                labelReset();
-                compiler.addLabel(getLabelFin());
-            }
+            Opp = 0;
         }
+        thenBranch.codeGenListInst(compiler);
+        compiler.addInstruction(new BRA(getLabelFin()));
+        compiler.addLabel(getLabelSinon());
+        elseBranch.codeGenListInst(compiler);
+        if (elseBranch.size() <= 1 && nbCond!=0) {
+            labelReset();
+            compiler.addLabel(getLabelFin());
+        }
+
     }
 
     @Override

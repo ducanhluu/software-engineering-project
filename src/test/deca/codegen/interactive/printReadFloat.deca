@@ -1,0 +1,9 @@
+// Description :
+//   test d'impritation d'une read instruction
+
+// Résultats :
+//   ok
+//   
+{
+	print(readFloat());
+}
