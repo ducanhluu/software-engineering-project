@@ -1,0 +1,12 @@
+// Description: 
+//Test du push
+
+// Resultat :
+// 20
+
+
+{
+int x;
+x = 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1;
+print(x);
+}

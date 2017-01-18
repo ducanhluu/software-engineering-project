@@ -61,7 +61,6 @@ public class IfThenElse extends AbstractInst {
     protected void codeGenInst(DecacCompiler compiler) {
         setLabelInit();
         setLabelFin(getLabelFinIf());
-        setLabelSinon();
         if (condition instanceof BooleanLiteral) {
             if (((BooleanLiteral) condition).getValue()) {
             }
@@ -75,11 +74,7 @@ public class IfThenElse extends AbstractInst {
         compiler.addInstruction(new BRA(labelFinIf));
         compiler.addLabel(getLabelSinon());
         elseBranch.codeGenListInst(compiler);
-        if (elseBranch.size() <= 1 && nbCond != 0) {
-            nbCond = 0;
-            compiler.addLabel(labelFinIf);
-        }
-
+        compiler.addLabel(labelFinIf);
     }
 
     @Override
@@ -119,19 +114,14 @@ public class IfThenElse extends AbstractInst {
         elseBranch.prettyPrint(s, prefix, true);
     }
 
-    private static int nbLabel = 0;
-    private int nbCond = 0;
-    private Label labelSinon;
+    protected static int nbLabel = 0;
+    protected Label labelSinon;
     private Label labelFinIf;
 
     private void setLabelInit() {
         nbLabel++;
         labelFinIf = new Label("E_Fin." + nbLabel);
-    }
-
-    private void setLabelSinon() {
-        nbCond++;
-        labelSinon = new Label("E_Sinon." + nbLabel + nbCond);
+        labelSinon = new Label("E_Sinon." + nbLabel);
     }
 
 
