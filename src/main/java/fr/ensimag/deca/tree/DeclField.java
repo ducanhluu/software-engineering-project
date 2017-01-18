@@ -18,14 +18,17 @@ import org.apache.commons.lang.Validate;
  * @author chakirs
  */
 public class DeclField extends AbstractDeclField {
+    final private Visibility v;
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
 
-    public DeclField(AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {
+    public DeclField(Visibility v, AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {
+        Validate.notNull(v);
         Validate.notNull(type);
         Validate.notNull(varName);
         Validate.notNull(initialization);
+        this.v=v;
         this.type = type;
         this.varName = varName;
         this.initialization = initialization;
@@ -57,7 +60,11 @@ public class DeclField extends AbstractDeclField {
         s.print(" ");
         this.initialization.decompile(s);
     }
-
+    @Override
+    public String prettyPrintNode() {
+        // a revoir 
+        return "[visibility="+this.v.toString()+"] "+this.getClass().getSimpleName();
+    }
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);    

@@ -1,9 +1,0 @@
-// Description : initialisation d'un entien par un float
-// 	 
-//Resultat:
-//      Erreur Contextuelle : initialisation d'un entien par un float
-//      Ligne 8 : ./src/test/deca/etapeB/invalid/decl_int_negatif.deca:2:8: type not expected
-
-{
-int x=-1;
-}
