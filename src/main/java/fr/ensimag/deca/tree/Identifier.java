@@ -240,7 +240,7 @@ public class Identifier extends AbstractIdentifier {
             codeGenPrintInteger(compiler, getVariableDefinition().getOperand());
         }
         else if (definition.getType().isFloat()){
-            codeGenPrintFloat(compiler,getVariableDefinition().getOperand());
+            codeGenPrintFloat(compiler, getVariableDefinition().getOperand());
         }
     }
     

@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
+import static fr.ensimag.deca.tree.IfThenElse.Opp;
+import fr.ensimag.ima.pseudocode.instructions.BGE;
 import fr.ensimag.ima.pseudocode.instructions.BLE;
 
 
@@ -26,7 +28,11 @@ public class GreaterOrEqual extends AbstractOpIneq {
    @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        compiler.addInstruction(new BLE(getLabel()));
+        if (Opp == 0) {
+           compiler.addInstruction(new BGE(getLabel()));
+       }else{
+            compiler.addInstruction(new BLE(getLabel()));
+        }
     }
     
 }

@@ -25,6 +25,7 @@ public class IfThenElse extends AbstractInst {
     private final AbstractExpr condition;
     private final ListInst thenBranch;
     private ListInst elseBranch;
+    protected static int Opp = 0;
 
     public IfThenElse(AbstractExpr condition, ListInst thenBranch, ListInst elseBranch) {
         Validate.notNull(condition);
@@ -58,35 +59,27 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        setLabelInit();
+        setLabelFin(getLabelFinIf());
+        setLabelSinon();
         if (condition instanceof BooleanLiteral) {
             if (((BooleanLiteral) condition).getValue()) {
-                setLabelInit();
-                setLabelFin(getLabelFinIf());
-                setLabelSinon();
-                thenBranch.codeGenListInst(compiler);
-                compiler.addInstruction(new BRA(getLabelFin()));
-                compiler.addLabel(getLabelSinon());
-                elseBranch.codeGenListInst(compiler);
-                if (elseBranch.size() <= 1) {
-                    labelReset();
-                    compiler.addLabel(getLabelFin());
-                }
             }
         } else {
-            setLabelInit();
-            setLabelFin(getLabelFinIf());
-            setLabelSinon();
             setLabel(getLabelSinon());
+            Opp = 1;
             condition.codeGenInst(compiler);
-            thenBranch.codeGenListInst(compiler);
-            compiler.addInstruction(new BRA(getLabelFin()));
-            compiler.addLabel(getLabelSinon());
-            elseBranch.codeGenListInst(compiler);
-            if (elseBranch.size() <= 1) {
-                labelReset();
-                compiler.addLabel(getLabelFin());
-            }
+            Opp = 0;
         }
+        thenBranch.codeGenListInst(compiler);
+        compiler.addInstruction(new BRA(labelFinIf));
+        compiler.addLabel(getLabelSinon());
+        elseBranch.codeGenListInst(compiler);
+        if (elseBranch.size() <= 1 && nbCond != 0) {
+            nbCond = 0;
+            compiler.addLabel(labelFinIf);
+        }
+
     }
 
     @Override
@@ -127,11 +120,12 @@ public class IfThenElse extends AbstractInst {
     }
 
     private static int nbLabel = 0;
-    private static int nbCond = 0;
-    protected static Label labelSinon;
-    protected static Label labelFinIf;
+    private int nbCond = 0;
+    private Label labelSinon;
+    private Label labelFinIf;
 
     private void setLabelInit() {
+        nbLabel++;
         labelFinIf = new Label("E_Fin." + nbLabel);
     }
 
@@ -140,16 +134,12 @@ public class IfThenElse extends AbstractInst {
         labelSinon = new Label("E_Sinon." + nbLabel + nbCond);
     }
 
-    private void labelReset() {
-        nbLabel++;
-        nbCond = 0;
-    }
 
-    public static Label getLabelSinon() {
+    public Label getLabelSinon() {
         return labelSinon;
     }
 
-    public static Label getLabelFinIf() {
+    public Label getLabelFinIf() {
         return labelFinIf;
     }
 

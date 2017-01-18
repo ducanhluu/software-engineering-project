@@ -1,8 +1,8 @@
 // Description :
-//   test de division d'un float pour un float
+//   test de division d'un float par un float
 
 // Résultats :
-//   Ok
+//   2.0
 {
 	float x = 1.0;
 	float y = 2.0;

@@ -1,0 +1,22 @@
+//Description : 
+// test if avec if else et 2 if
+// Resultat : 
+// negatif
+// ok
+
+{
+    int x = -3;
+
+    if(x > 0){
+        println("x positif");
+    }
+    else if ( x == 0){
+        println("x nul");
+    }else{
+        println("x negatif");
+    } 
+
+    if (x != 0){
+        println("ok");
+    }
+}

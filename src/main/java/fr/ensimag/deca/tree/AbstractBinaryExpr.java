@@ -9,6 +9,8 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -76,7 +78,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
 
     protected GPRegister reg;
     protected DVal val;
-
+    
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         
