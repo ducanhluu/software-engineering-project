@@ -1,0 +1,14 @@
+// Description:
+// Test or avec un if
+
+// Resultat :
+//ok
+// problème if + or
+
+{
+if ( 3 < 5 || 2 > 3){
+println("ok");
+}else{
+println("not ok");
+}
+}
