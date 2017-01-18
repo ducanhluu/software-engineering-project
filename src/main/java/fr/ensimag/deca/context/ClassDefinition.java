@@ -76,5 +76,14 @@ public class ClassDefinition extends TypeDefinition {
         members = new EnvironmentExp(parent);
         this.superClass = superClass;
     }
-    
+    @Override
+    public String toString(){
+        String s;
+        if (this.superClass == null){
+            s="(class(0,members in environnementexp),type :"+this.getType().toString()+"))";
+        }else{
+            s="(class("+this.superClass.getType().getName().toString()+",members),type_class("+this.getType().getName().toString()+"))";
+        }
+        return s;
+    }
 }

@@ -3,7 +3,9 @@ package fr.ensimag.deca.context;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tools.SymbolTable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class EnvironmentType {
@@ -14,7 +16,7 @@ public class EnvironmentType {
     }
     public void initialize()  {
 		
-
+        //construction des type 
         VoidType voidT =  new VoidType(Dict.create("void"));
         StringType stringT =  new StringType(Dict.create("string"));
         FloatType floatT = new FloatType(Dict.create("float"));
@@ -30,7 +32,7 @@ public class EnvironmentType {
         declare(Dict.create("int"),new TypeDefinition(intT,null));
         declare(Dict.create("null"),new TypeDefinition(nullT,null));
         declare(Dict.create("Object"),new ClassDefinition(classObjT,null,null));
-
+        System.out.println(this.toString());
 
     }
     public SymbolTable getDict(){
@@ -65,7 +67,16 @@ public class EnvironmentType {
             map.put(name,def);
         }
     }
-        
-    
+    @Override
+    public String toString(){
+        String s="";
+        Set<Map.Entry<Symbol, TypeDefinition>> couples = map.entrySet();
+        Iterator<Map.Entry<Symbol, TypeDefinition>> itCouples = couples.iterator();
+    while (itCouples.hasNext()) {
+      Map.Entry<Symbol, TypeDefinition> couple = itCouples.next();
+      s=couple.getKey().toString()+" => "+ couple.getValue().toString()+"\n";
+    }
+        return s;
+    }
 
 }
