@@ -1,0 +1,9 @@
+// Description : code d'une classe avec un champ et une methode 
+// resultats: code valide syntaxiquement 
+class A {
+int x;
+int getX(){
+}
+int setX(int x){
+}
+}
