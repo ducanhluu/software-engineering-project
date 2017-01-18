@@ -1,0 +1,9 @@
+// Description :
+//   test d'acceder a une variable non initialise
+
+// Résultats :
+//   IMA leve une erreur
+{
+	int x;
+	print(x);
+}

@@ -1,0 +1,10 @@
+// Description :
+//   test d'imprimer plusieurs des exprs dans un print instruction
+
+// Résultats :
+//   hello2.00001
+{
+	int x = 1;
+	float y = 2.0;
+	print("hello", y, x);
+}
