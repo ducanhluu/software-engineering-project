@@ -38,7 +38,7 @@ options {
 }
 
 prog returns[AbstractProgram tree]
-    : list_classes main EOF {
+    :  list_classes main EOF {
             assert($list_classes.tree != null);
             assert($main.tree != null);
             $tree = new Program($list_classes.tree, $main.tree);
@@ -196,9 +196,13 @@ if_then_else returns[IfThenElse tree]
             assert($li_else.tree != null);
             Iterator<AbstractInst> it = $li_else.tree.iterator();
             if ( myList.size() > 1 ) {
+                while (it.hasNext()){
                 cour.add(it.next());
+                }
             } else {
-                inst.add(it.next());
+                while (it.hasNext()){
+                    inst.add(it.next());
+                }   
             }
         }
       )?

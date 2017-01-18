@@ -23,8 +23,5 @@ public class TypeDefinition extends Definition {
     public boolean isExpression() {
         return false;
     }
-    @Override
-    public String toString(){
-        return "("+this.getNature()+","+this.getType().getName().toString() +")\n";
-    }
+   
 }

@@ -64,7 +64,16 @@ public class ClassDefinition extends TypeDefinition {
     public EnvironmentExp getMembers() {
         return members;
     }
-
+    /*
+    @Override
+    public String toString(){
+     //cette fonction est utile pour le débogage, elle peut etre supprimé après
+        if (superClass!=null){
+            return "(class_"+this.getNature()+",superClass "+this.superClass.getType().toString() +")\n";
+        }else{
+            return "(class_"+this.getNature()+",superClass"+" 0)\n";
+        }
+    }*/
     public ClassDefinition(ClassType type, Location location, ClassDefinition superClass) {
         super(type, location);
         EnvironmentExp parent;
@@ -76,14 +85,5 @@ public class ClassDefinition extends TypeDefinition {
         members = new EnvironmentExp(parent);
         this.superClass = superClass;
     }
-    @Override
-    public String toString(){
-        String s;
-        if (this.superClass == null){
-            s="(class(0,members in environnementexp),type :"+this.getType().toString()+"))";
-        }else{
-            s="(class("+this.superClass.getType().getName().toString()+",members),type_class("+this.getType().getName().toString()+"))";
-        }
-        return s;
-    }
+    
 }
