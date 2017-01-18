@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -16,17 +18,18 @@ import org.apache.commons.lang.Validate;
 public class DeclClass extends AbstractDeclClass {
     private final AbstractIdentifier name;
     private final AbstractIdentifier extension;
-    private  ListDeclField field;
-    private ListDeclMethod method;
-    public DeclClass(AbstractIdentifier name,AbstractIdentifier extension, ListDeclField field, ListDeclMethod method){
+    private  ListDeclField fields;
+    private ListDeclMethod methods;
+    private List<String> vtable = new ArrayList<String>();
+    public DeclClass(AbstractIdentifier name,AbstractIdentifier extension, ListDeclField fields, ListDeclMethod methods){
             Validate.notNull(name);
             Validate.notNull(extension);
-            Validate.notNull(field);
-            Validate.notNull(method);
+            Validate.notNull(fields);
+            Validate.notNull(methods);
             this.name=name;
             this.extension=extension;
-            this.field=field;
-            this.method=method;
+            this.fields=fields;
+            this.methods=methods;
     }
     @Override
     public void decompile(IndentPrintStream s) {
@@ -54,13 +57,21 @@ public class DeclClass extends AbstractDeclClass {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         name.prettyPrint(s, prefix, false);
         extension.prettyPrint(s, prefix, false);
-        field.prettyPrint(s, prefix, false);
-        method.prettyPrint(s, prefix, true);
+        fields.prettyPrint(s, prefix, false);
+        methods.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not yet supported");
+    }
+
+    @Override
+    protected void buildTableOfLabels() {
+        vtable.add("code.Object.equals");
+        for (AbstractDeclMethod i : methods.getList()){
+            vtable.add("code." + name + "." + i.getName());
+        }
     }
 
 }

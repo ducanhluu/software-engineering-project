@@ -44,5 +44,14 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    /**
+     * Pass 1 of [Gencode]
+     */
+    public void buildTableOfLabels() {
+        for (AbstractDeclClass i : getList()) {
+            i.buildTableOfLabels();
+        }
+    }
+
 
 }
