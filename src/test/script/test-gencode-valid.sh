@@ -31,8 +31,9 @@ do
     else
 	x="${i#*valid/}"
 	echo -e "${vertclair}Pass${neutre}" "Fichier" "${x%.deca}"".ass" "est généré."
-	ima "${i%.deca}".ass > "${i%.deca}".res
-		if [ ! -f  "${i%.deca}".res ];
+	ima "${i%.deca}".ass >& "${i%.deca}".res
+		
+	if [ ! -f  "${i%.deca}".res ];
 	then
 	    echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*valid/}"".res" "non généré."
 	    exit 1

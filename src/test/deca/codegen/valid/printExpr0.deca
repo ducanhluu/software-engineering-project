@@ -1,10 +1,10 @@
+
 // Description : 
 // Test impression d'une opération
 
-// Resultat :
-//2
-
-
+// Résultats :
+//   2
+//   
 {
 	int x = 1;
 	print(x + 1);

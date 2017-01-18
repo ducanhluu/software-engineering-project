@@ -1,0 +1,11 @@
+// Description :
+//   test de division d'un entier pour un entier
+//
+// Résultats :
+//   2
+{
+	int x = 1;
+	int y = 2;
+	int z = y/x;
+	print(z);
+}
