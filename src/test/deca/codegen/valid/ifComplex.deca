@@ -1,0 +1,29 @@
+// Description:
+// Test ifthenelse avec plusieurs if et if embriqués
+
+//Résultat:
+//ok
+//ok
+
+{ 
+int x = 1;
+
+if (5 <= 2) {
+     println("no");
+}else if ( 5 == 2){
+     println("no");
+        if(x ==1){
+            println("no");
+        }
+}else {
+    print("ok");
+}
+
+if (5>2){
+println(ok);
+}
+
+}
+
+
+	

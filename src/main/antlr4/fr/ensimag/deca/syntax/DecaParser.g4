@@ -196,9 +196,13 @@ if_then_else returns[IfThenElse tree]
             assert($li_else.tree != null);
             Iterator<AbstractInst> it = $li_else.tree.iterator();
             if ( myList.size() > 1 ) {
-                cour.add(it.next());
+                while (it.hasNext()){
+                    cour.add(it.next());
+                }
             } else {
-                inst.add(it.next());
+                while(it.hasNext()){
+                    inst.add(it.next());
+                }   
             }
         }
       )?

@@ -20,7 +20,7 @@ this.y = b;
 }
 
 int getSomme(){
-return x + y;
+return this.x + this.y;
 }
 }
 
