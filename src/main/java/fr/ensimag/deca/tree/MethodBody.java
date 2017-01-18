@@ -44,7 +44,8 @@ public class MethodBody extends AbstractMethodBody{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         declVariables.prettyPrint(s, prefix, false);
+         insts.prettyPrint(s, prefix, true);
     }
 
     @Override

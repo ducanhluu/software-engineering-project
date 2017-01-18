@@ -50,7 +50,10 @@ public class DeclMethod extends AbstractDeclMethod{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeM.prettyPrint(s, prefix, false);
+        name.prettyPrint(s, prefix, false);
+        parametres.prettyPrint(s, prefix, false);
+        body.prettyPrint(s, prefix, true);
     }
 
     @Override
