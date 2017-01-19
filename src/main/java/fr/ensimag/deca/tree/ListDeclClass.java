@@ -26,28 +26,25 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 1 of [SyntaxeContextuelle]
      */
     void verifyListClass(DecacCompiler compiler) throws ContextualError {
-        LOG.debug("verify listClass: start");
+        
          Iterator it = this.iterator();
             while(it.hasNext()){
                 AbstractDeclClass cour= (AbstractDeclClass) it.next();
                 cour.verifyClass(compiler);
             }
-        LOG.debug("verify listClass: end");
+     
     }
 
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
     public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
-        LOG.debug("verify listClassMembers: start");
+       
         Iterator it = this.iterator();
             while(it.hasNext()){
                 AbstractDeclClass cour= (AbstractDeclClass) it.next();
                 cour.verifyClassMembers(compiler);
             }
-         LOG.debug("verify listClass: end");
-            
-         
     }
     
     /**
