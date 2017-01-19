@@ -66,6 +66,7 @@ public class Program extends AbstractProgram {
         classes.iter(f);
         main.iter(f);
     }
+    
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         classes.prettyPrint(s, prefix, false);

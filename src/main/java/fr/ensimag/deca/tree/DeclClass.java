@@ -6,7 +6,9 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -15,8 +17,8 @@ import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -30,7 +32,7 @@ public class DeclClass extends AbstractDeclClass {
     private final AbstractIdentifier extension;
     private  ListDeclField fields;
     private ListDeclMethod methods;
-    private List<String> vtable = new ArrayList<String>();
+
     public DeclClass(AbstractIdentifier name, AbstractIdentifier extension, ListDeclField fields, ListDeclMethod methods){
             Validate.notNull(name);
             Validate.notNull(extension);
@@ -96,10 +98,17 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void buildTableOfLabels() {
-        name.getClassDefinition().getMembers();
-        vtable.add("code.Object.equals");
-        for (AbstractDeclMethod i : methods.getList()){
-            vtable.add("code." + name + "." + i.getName());
+        Map<Integer, String> vtable = extension.getClassDefinition().getVTable();
+        ClassDefinition nameDefinition = name.getClassDefinition();
+        
+        nameDefinition.copyAllElements(vtable);
+        String s;
+        int index;
+        SymbolTable st = nameDefinition.getMembers().getSymTable();
+        for (AbstractDeclMethod i : methods.getList()) {
+            s = "code." + name + "." + i.getName();
+            index = ((MethodDefinition) nameDefinition.getMembers().get(st.create(i.getName()))).getIndex();
+            nameDefinition.addLabelToVTable(index, s);
         }
     }
 
@@ -108,13 +117,17 @@ public class DeclClass extends AbstractDeclClass {
         DAddr addrVTSP = extension.getClassDefinition().getAddressOfVTable();
         DAddr addrVT = new RegisterOffset(getSizeOfVTables() + 1, GB);
         name.getClassDefinition().setAddressOfVTable(addrVT);
-        
+        Map<Integer, String> vtable = name.getClassDefinition().getVTable();
+
         compiler.addInstruction(new LEA(addrVTSP, getR(0)));
         compiler.addInstruction(new STORE(getR(0), addrVT));
         
         int i = 1;
-        for (String s : vtable) {
+        String s;
+        Iterator<Integer> it = name.getClassDefinition().getIteratorLabel();
+        while (it.hasNext()) {
            i++;
+           s = vtable.get(it.next());
            compiler.addInstruction(new LOAD(s, getR(0)));
            compiler.addInstruction(new STORE(getR(0), new RegisterOffset(getSizeOfVTables() + i, GB))); 
         }
