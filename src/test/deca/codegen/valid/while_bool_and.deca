@@ -1,0 +1,20 @@
+//Description :
+//Test du while et bool
+
+//Resultat :
+//3
+
+// Ici problème
+
+{
+int x = 0;
+
+while ( true && x < 3){
+    while( x < 5 && true){
+        x = x + 1;
+    }
+}
+
+print(x);
+}
+
