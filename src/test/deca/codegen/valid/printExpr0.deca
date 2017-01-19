@@ -3,7 +3,7 @@
 // Test impression d'une opération
 
 // Résultats :
-//   2
+///2
 //   
 {
 	int x = 1;

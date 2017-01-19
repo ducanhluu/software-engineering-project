@@ -1,8 +1,9 @@
 //Description : 
 // test if avec if else et 2 if
 // Resultat : 
-// negatif
-// ok
+///x negatif
+///ok
+//
 
 {
     int x = -3;

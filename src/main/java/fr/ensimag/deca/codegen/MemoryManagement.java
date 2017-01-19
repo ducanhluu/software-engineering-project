@@ -19,6 +19,7 @@ import fr.ensimag.ima.pseudocode.instructions.PUSH;
 public class MemoryManagement {
 
     private static int numberGlobalVariables = 0;
+    private static int sizeOfVTables = 0;
     private static int RMAX = 15;
     private static boolean[] avaRegs = {true, true, true, true,
         true, true, true, true,
@@ -31,6 +32,14 @@ public class MemoryManagement {
 
     public static int getNumberGlobalVariables() {
         return ++numberGlobalVariables;
+    }
+    
+    public static int getSizeOfVTables() {
+        return sizeOfVTables;
+    }
+    
+    public static void increSizeOfVtables(int val) {
+        sizeOfVTables += val;
     }
 
     public static void setRMAX(int max) {

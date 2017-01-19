@@ -2,7 +2,8 @@
 //   Convation d'un entier
 
 // Résultats :
-//   4.00
+///4.00000e+00
+//
 
 {
 	int x = 2;

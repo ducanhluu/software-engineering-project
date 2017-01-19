@@ -2,7 +2,7 @@
 // Test if pour une condition booleenne
 
 // Résultats :
-//   ok
+///ok
 //   
 {
 if(true){
