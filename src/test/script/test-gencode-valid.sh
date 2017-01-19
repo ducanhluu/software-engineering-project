@@ -22,6 +22,7 @@ PATH=./src/test/script/launchers/:./src/main/bin:./"$PATH"
 rm -f ./src/test/deca/codegen/valid/*.ass 2>/dev/null
 for i in ./src/test/deca/codegen/valid/*.deca
 do
+    echo " "
     decac "$i"|| exit 1
     if [ ! -f  "${i%.deca}".ass ];
     then
@@ -39,9 +40,19 @@ do
 	    exit 1
 	else 
 	    echo -e "${vertclair}Pass${neutre}" "Fichier" "${x%.deca}"".res" "est généré."
+	    expectedresult=$(grep "///" "$i" | cut -c4-)
+	    #echo "expexted result:""$expectedresult"
+
+	    grep -i "$expectedresult" "${i%.deca}".res 1>2
+	    if [ "$?" = "0" ] && [ ! -z "$expectedresult" ];
+	    then
+		echo -e "${vertclair}Pass${neutre}" "tout va bien"
+	    else
+	        echo -e "${rougefonce}Fail${neutre}" "Résultat inattendu de ima"
+	    fi 
 	fi
 
     fi
-    
+    echo " "
     
 done

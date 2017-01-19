@@ -8,3 +8,6 @@ rm src/test/deca/syntax/invalid/*.res
 rm src/test/deca/context/invalid/*.res
 rm src/test/deca/codegen/valid/*.res
 rm src/test/deca/codegen/valid/*.ass
+rm src/test/deca/codegen/invalid/*.res
+rm src/test/deca/codegen/invalid/*.ass
+
