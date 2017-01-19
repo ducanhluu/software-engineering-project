@@ -27,11 +27,18 @@ public class MemoryManagement {
         true, true, true, true};
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
-    public static boolean overflowNeeded = false;
+    public static boolean overflowOPNeeded = false;
     public static boolean divisionIsUsed = false;
+    public static boolean overflowNeeded = false;
+    public static boolean heapOverflowNeeded = false;
 
+    
+    public static void increNumberGlobalVariables() {
+        numberGlobalVariables++;
+    }
+    
     public static int getNumberGlobalVariables() {
-        return ++numberGlobalVariables;
+        return numberGlobalVariables;
     }
     
     public static int getSizeOfVTables() {

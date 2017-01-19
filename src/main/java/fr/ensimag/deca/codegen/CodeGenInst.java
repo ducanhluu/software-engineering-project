@@ -13,7 +13,9 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStor
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberSavedRegisters;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
+import static fr.ensimag.deca.codegen.MemoryManagement.heapOverflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowOPNeeded;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -67,20 +69,25 @@ public class CodeGenInst {
     }
     
     public static void addTestOverall(DecacCompiler compiler) {
-        addTestOverflow(compiler);
-        addTestIO(compiler);
-        addTestOverflowOP(compiler);
-        addTestDivideBy0(compiler);
+        addEPOverflow(compiler);
+        addEPIO(compiler);
+        addEPOverflowOP(compiler);
+        addEPHeapOverflow(compiler);
+        addEPDivideBy0(compiler);
     }
     
-    public static void addTestOverflow(DecacCompiler compiler) {
+    public static void addEPOverflow(DecacCompiler compiler) {
         int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables();
         if (i > 0) {
-            compiler.addFirst(new ADDSP(i));
+            overflowNeeded = true;
+            compiler.addFirst(new ADDSP(getNumberGlobalVariables() + getSizeOfVTables()));
             compiler.addFirst(new BOV(new Label("stack_overflow_error")));
             compiler.addFirst(new TSTO(i), "test de debordement de pile");
             compiler.addFirstComment("start main program");
             compiler.addLabel(new Label("stack_overflow_error"));
+        }
+        
+        if (overflowNeeded) {
             compiler.addInstruction(new WSTR("Error: Stack Overflow"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
@@ -101,7 +108,7 @@ public class CodeGenInst {
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
-    public static void addTestIO(DecacCompiler compiler) {
+    public static void addEPIO(DecacCompiler compiler) {
         if (ioIsUsed) {
             compiler.addLabel(new Label("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
@@ -110,16 +117,25 @@ public class CodeGenInst {
         }
     }
 
-    public static void addTestOverflowOP(DecacCompiler compiler) {
-        if (overflowNeeded) {
+    public static void addEPOverflowOP(DecacCompiler compiler) {
+        if (overflowOPNeeded) {
             compiler.addLabel(new Label("overflow_error"));
             compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
     }
+    
+    public static void addEPHeapOverflow(DecacCompiler compiler) {
+        if (heapOverflowNeeded) {
+            compiler.addLabel(new Label("heap_overflow_error"));
+            compiler.addInstruction(new WSTR("Error: Impossible allocation, heap overflow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+    }
 
-    public static void addTestDivideBy0(DecacCompiler compiler) {
+    public static void addEPDivideBy0(DecacCompiler compiler) {
         if (divisionIsUsed) {
             compiler.addLabel(new Label("division_by_zero_error"));
             compiler.addInstruction(new WSTR("Error: division by zero"));

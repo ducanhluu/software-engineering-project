@@ -10,12 +10,15 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,7 +33,7 @@ import org.apache.commons.lang.Validate;
 public class DeclClass extends AbstractDeclClass {
     private final AbstractIdentifier name;
     private final AbstractIdentifier extension;
-    private  ListDeclField fields;
+    private ListDeclField fields;
     private ListDeclMethod methods;
 
     public DeclClass(AbstractIdentifier name, AbstractIdentifier extension, ListDeclField fields, ListDeclMethod methods){
@@ -104,7 +107,7 @@ public class DeclClass extends AbstractDeclClass {
         int index;
         SymbolTable st = nameDefinition.getMembers().getSymTable();
         for (AbstractDeclMethod i : methods.getList()) {
-            s = "code." + name + "." + i.getName();
+            s = "code." + name.getName().toString() + "." + i.getName().toString();
             index = ((MethodDefinition) nameDefinition.getMembers().get(st.create(i.getName()))).getIndex();
             nameDefinition.addLabelToVTable(index, s);
         }
@@ -122,7 +125,7 @@ public class DeclClass extends AbstractDeclClass {
         
         int i = 1;
         String s;
-        Iterator<Integer> it = name.getClassDefinition().getIteratorLabel();
+        Iterator<Integer> it = name.getClassDefinition().getIteratorIndex();
         while (it.hasNext()) {
            i++;
            s = vtable.get(it.next());
@@ -131,6 +134,20 @@ public class DeclClass extends AbstractDeclClass {
         }
         
         increSizeOfVtables(i);
+    }
+
+    @Override
+    protected void codeGenMethods(DecacCompiler compiler) {
+        IMAProgram subProg = new IMAProgram();
+        subProg.addLabel(new Label("init." + name.getName().toString()));
+        for (AbstractDeclField i : fields.getList()) {
+            i.codeGenInit(subProg);
+        }
+        subProg.addInstruction(new RTS());
+        for (AbstractDeclMethod i : methods.getList()) {
+            i.codeGenMethods(subProg);
+        }
+        compiler.append(subProg);
     }
 
 }

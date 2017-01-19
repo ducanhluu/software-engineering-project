@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Variable declaration
@@ -36,4 +37,6 @@ public abstract class AbstractDeclField extends Tree {
      * @param compiler
      */
     protected abstract void codeGenDeclField(DecacCompiler compiler);
+
+    protected abstract void codeGenInit(IMAProgram subProg);
 }

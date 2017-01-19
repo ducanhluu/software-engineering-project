@@ -4,11 +4,13 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.DAddr;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -49,7 +51,7 @@ public class ClassDefinition extends TypeDefinition {
     private int numberOfFields = 0;
     private int numberOfMethods = 0;
     private DAddr addrVT = new RegisterOffset(1, GB);
-    private Map<Integer, String> vtable = new HashMap<Integer, String>();
+    private Map<Integer, String> vtable = new TreeMap<Integer, String>();
 
     
     public DAddr getAddressOfVTable() {
@@ -72,7 +74,7 @@ public class ClassDefinition extends TypeDefinition {
         vtable.put(index, s);
     }
     
-    public Iterator getIteratorLabel() {
+    public Iterator getIteratorIndex() {
         return vtable.keySet().iterator();
     }
     @Override
