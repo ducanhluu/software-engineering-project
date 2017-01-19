@@ -27,6 +27,8 @@ public class Signature {
     public boolean sameSignature(Signature otherSign){
         if (this.size() != otherSign.size()){
             return false;
+        }else if ( this.size()==0){
+            return true;
         }else{
              Iterator it = this.args.iterator();
              Iterator it2=otherSign.args.iterator();

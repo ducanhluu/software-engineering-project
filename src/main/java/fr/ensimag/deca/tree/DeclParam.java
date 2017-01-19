@@ -36,19 +36,19 @@ public class DeclParam extends AbstractDeclParam{
     protected void verifyDeclParam(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type type1=this.type.verifyType(compiler);
         this.type.setType(type1);
-         if (this.type.getType().isVoid()){
+        if (this.type.getType().isVoid()){
                 throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
-            }
-            ParamDefinition param=new ParamDefinition(type1,this.name.getLocation());
-            this.name.setDefinition(param);
-            //a revoir cette implementation 
-            try {
+        }
+        ParamDefinition param=new ParamDefinition(type1,this.name.getLocation());
+        this.name.setDefinition(param);
+        //a revoir cette implementation 
+        try {
+                
                 localEnv.declare(this.name.getName(), param);
-            } catch (EnvironmentExp.DoubleDefException ex) {
+        } catch (EnvironmentExp.DoubleDefException ex) {
                 throw new ContextualError("this variable is already declared",this.name.getLocation());
                 //Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-          
+        }
         this.name.verifyExpr(compiler, localEnv, currentClass);
     }
 

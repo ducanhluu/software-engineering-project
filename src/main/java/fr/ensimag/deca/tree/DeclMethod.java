@@ -61,13 +61,13 @@ public class DeclMethod extends AbstractDeclMethod{
         }
         this.parametres.verifyListDeclParam(compiler, localEnv, currentClass);
         Type type=this.typeM.verifyType(compiler);
+        this.typeM.setType(type);
         Signature sign=new Signature();
         Iterator it = this.parametres.iterator();
         while(it.hasNext()){
             DeclParam cour2 = (DeclParam)it.next();
             sign.add(cour2.getType().getType());
         }
-        this.parametres.verifyListDeclParam(compiler, localEnv, currentClass);
         if (mem ==null){
             try {
                 localEnv.declare(this.name.getName(), new MethodDefinition(type,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
@@ -81,11 +81,11 @@ public class DeclMethod extends AbstractDeclMethod{
                     throw new ContextualError("this method does not have the same signature as the method in the superclass",this.getLocation());
                 }else if (!SuperMethod.getType().isClass()){
                     if  (!SuperMethod.getType().sameType(this.typeM.getType())){// ici on doit voir si il est un soustype 
-                        throw new ContextualError("this method is already exsist in a superClass with a different type",this.getLocation());
+                        throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
                     }
                 }else{
                      if ( !this.typeM.getType().isClass()){
-                         throw new ContextualError("this method is already exsist in a superClass with a different type",this.getLocation());
+                         throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
                      }else{
                          ClassType currentType= (ClassType) this.typeM.getType();
                          ClassType superType= (ClassType) SuperMethod.getType();
