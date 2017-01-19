@@ -12,6 +12,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberSavedRegisters;
+import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Label;
@@ -73,7 +74,7 @@ public class CodeGenInst {
     }
     
     public static void addTestOverflow(DecacCompiler compiler) {
-        int i = getNumberSavedRegisters() + getNumberGlobalVariables();
+        int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables();
         if (i > 0) {
             compiler.addFirst(new ADDSP(i));
             compiler.addFirst(new BOV(new Label("stack_overflow_error")));

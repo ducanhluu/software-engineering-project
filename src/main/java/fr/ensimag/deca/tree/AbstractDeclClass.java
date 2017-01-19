@@ -32,4 +32,11 @@ public abstract class AbstractDeclClass extends Tree {
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
 
+    /**
+     * Pass 1 of [Gencode]. Build table of labels of methods
+     */
+    protected abstract void buildTableOfLabels();
+
+    protected abstract void codeGenBuildVTable(DecacCompiler compiler);
+
 }

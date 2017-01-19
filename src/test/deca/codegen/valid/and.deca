@@ -2,7 +2,8 @@
 //  Test and avec while
 
 // Résultats :
-//   4
+///4
+//
 
 {
 int x = 3;

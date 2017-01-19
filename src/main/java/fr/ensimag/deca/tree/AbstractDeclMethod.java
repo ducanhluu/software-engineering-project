@@ -37,4 +37,6 @@ public abstract class AbstractDeclMethod extends Tree {
      * @param compiler
      */
     protected abstract void codeGenDeclMethod(DecacCompiler compiler);
+
+    protected abstract String getName();
 }

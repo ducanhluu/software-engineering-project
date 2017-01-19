@@ -1,12 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintFloat;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintInteger;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
-import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -20,11 +18,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 import fr.ensimag.deca.context.TypeDefinition;
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  * Deca Identifier

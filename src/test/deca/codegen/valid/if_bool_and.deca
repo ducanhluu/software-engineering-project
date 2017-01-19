@@ -1,0 +1,18 @@
+//Description:
+// Test if avec bool et and
+
+//Resultat:
+///ok
+
+{
+if ( 5 > 2 && false) {
+    print("not ok");
+}else{
+    if (false && 5 > 2 ){
+        print("not ok");
+    }else{
+        print("ok");
+        }
+}
+
+}

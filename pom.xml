@@ -206,7 +206,15 @@
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
           </execution>
-
+	  <execution>
+            <id>test-gencode-invalid</id>
+	    
+            <configuration>
+              <executable>./src/test/script/test-gencode-invalid.sh</executable>	            
+            </configuration>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+          </execution>
 
 
           <execution>

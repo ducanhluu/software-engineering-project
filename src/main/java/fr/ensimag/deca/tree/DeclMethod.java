@@ -125,5 +125,10 @@ public class DeclMethod extends AbstractDeclMethod{
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    protected String getName() {
+        return name.getName().getName();
+    }
+
 }

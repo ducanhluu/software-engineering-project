@@ -2,21 +2,17 @@
 //   Test while implementation with both exact comparison 
 
 // Résultats :
-//   1
-//   2
-//   3
-//   4
-//   5
-//   4 
+///123454
+//
 {
 	int x = 0;
 	int y = 5;
 	while ( x != y) {
 	x = x +1 ;
-	println(x);
+	print(x);
 	}
         while (y == x){
         x = x - 1;
-        println(x);
+        print(x);
     }   
 }

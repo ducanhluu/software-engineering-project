@@ -2,8 +2,9 @@
 // Test ifthenelse avec plusieurs if et if embriqués
 
 //Résultat:
-//ok
-//ok
+///ok
+///ok
+//
 
 { 
 int x = 1;
@@ -16,7 +17,7 @@ if (5 <= 2) {
             println("no");
         }
 }else {
-    print("ok");
+    println("ok");
 }
 
 if (5>2){

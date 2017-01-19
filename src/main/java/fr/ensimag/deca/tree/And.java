@@ -24,8 +24,8 @@ public class And extends AbstractOpBool {
         return "&&";
     }
 
-    protected static Label labelAnd;
-    protected static Label labelTmpAnd;
+    private Label labelAnd;
+    private Label labelTmpAnd;
     private static int nbLabel = 0;
 
     @Override
@@ -34,14 +34,36 @@ public class And extends AbstractOpBool {
             labelTmpAnd = getLabel();
             setLabelAnd();
             setLabel(getLabelAnd());
-            getLeftOperand().codeGenInst(compiler);
+            if (getLeftOperand() instanceof BooleanLiteral) {
+                if (((BooleanLiteral) getLeftOperand()).getValue()) {
+                    compiler.addInstruction(new BRA(getLabel()));
+                }
+            } else {
+                getLeftOperand().codeGenInst(compiler);
+            }
             compiler.addInstruction(new BRA(getLabelFin()));
             compiler.addLabel(getLabelAnd());
             setLabel(labelTmpAnd);
-            getRightOperand().codeGenInst(compiler);
+            if (getRightOperand() instanceof BooleanLiteral) {
+                if (((BooleanLiteral) getRightOperand()).getValue()) {
+                    compiler.addInstruction(new BRA(getLabel()));
+                }
+            } else {
+                getRightOperand().codeGenInst(compiler);
+            }
         } else {
-            getLeftOperand().codeGenInst(compiler);
-            getRightOperand().codeGenInst(compiler);
+            if (getLeftOperand() instanceof BooleanLiteral) {
+                if (!(((BooleanLiteral) getLeftOperand()).getValue())) {
+                    compiler.addInstruction(new BRA(getLabel()));
+                }
+            } else if (getRightOperand() instanceof BooleanLiteral) {
+                if (!(((BooleanLiteral) getRightOperand()).getValue())) {
+                    compiler.addInstruction(new BRA(getLabel()));
+                }
+            } else {
+                getLeftOperand().codeGenInst(compiler);
+                getRightOperand().codeGenInst(compiler);
+            }
         }
 
     }

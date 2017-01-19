@@ -2,7 +2,8 @@
 //      or expression
 
 // Résultats :
-//     10 
+///10 
+//
 
 {
 int x = 1;
