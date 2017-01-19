@@ -19,24 +19,24 @@ blanc='\e[1;37m'
 
 neutre='\e[0;m'
 PATH=./src/test/script/launchers/:./src/main/bin:./"$PATH"
-rm -f ./src/test/deca/codegen/valid/*.ass 2>/dev/null
-for i in ./src/test/deca/codegen/valid/*.deca
+rm -f ./src/test/deca/codegen/invalid/*.ass 2>/dev/null
+for i in ./src/test/deca/codegen/invalid/*.deca
 do
     echo " "
     decac "$i"|| exit 1
     if [ ! -f  "${i%.deca}".ass ];
     then
 	
-	echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*valid/}"".ass" "non généré."
+	echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*invalid/}"".ass" "non généré."
 	exit 1
     else
-	x="${i#*valid/}"
+	x="${i#*invalid/}"
 	echo -e "${vertclair}Pass${neutre}" "Fichier" "${x%.deca}"".ass" "est généré."
 	ima "${i%.deca}".ass >& "${i%.deca}".res
 		
 	if [ ! -f  "${i%.deca}".res ];
 	then
-	    echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*valid/}"".res" "non généré."
+	    echo -e "${rougefonce}Fail${neutre}" "Fichier" "${i#*invalid/}"".res" "non généré."
 	    exit 1
 	else 
 	    echo -e "${vertclair}Pass${neutre}" "Fichier" "${x%.deca}"".res" "est généré."
