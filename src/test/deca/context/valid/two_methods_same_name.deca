@@ -1,0 +1,9 @@
+class A{
+int methode(){
+int x = 2;
+return x;
+}
+int methode(int x){
+return x;
+}
+}

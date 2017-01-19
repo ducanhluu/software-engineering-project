@@ -34,7 +34,7 @@ public class Divide extends AbstractOpArith {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         super.codeGenInst(compiler);
-        
+
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
             compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
             GPRegister reg2 = getLastUsedRegisterToStore();
@@ -59,7 +59,8 @@ public class Divide extends AbstractOpArith {
                 divisionIsUsed = true;
                 compiler.addInstruction(new LOAD(val, getAvailableRegister(compiler)));
                 compiler.addInstruction(new CMP(0, getLastUsedRegisterToStore()));
-                
+                compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
+
             } else {
                 overflowNeeded = true;
                 compiler.addInstruction(new LOAD((float) 0.0, getAvailableRegister(compiler)));
@@ -68,8 +69,7 @@ public class Divide extends AbstractOpArith {
                 compiler.addInstruction(new CMP(regTemps, getLastUsedRegisterToStore()));
                 compiler.addInstruction(new BEQ(new Label("overflow_error")));
             }
-            
-            
+
             if (getRightOperand().getType().isInt() && getLeftOperand().getType().isInt()) {
                 compiler.addInstruction(new QUO(val, reg));
                 setLastUsedRegister(reg.getNumber());

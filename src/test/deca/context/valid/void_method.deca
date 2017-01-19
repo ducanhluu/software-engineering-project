@@ -1,0 +1,4 @@
+class A extends Objects{
+void method(){
+}
+}
