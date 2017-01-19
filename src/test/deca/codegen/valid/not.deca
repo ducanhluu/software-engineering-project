@@ -2,7 +2,7 @@
 //   test d'implementation du NOT
 
 // Résultats :
-//   NOT est bien implemente
+///NOT est bien implemente
 //   
 {
 	boolean x = true;

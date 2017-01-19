@@ -2,7 +2,9 @@
 //   test de division d'un entier pour un entier
 //
 // Résultats :
-//   2
+///2
+//
+
 {
 	int x = 1;
 	int y = 2;

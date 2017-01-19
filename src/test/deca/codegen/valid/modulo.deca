@@ -2,7 +2,7 @@
 //   test de modulo sur 2 entiers
 
 // Résultats :
-//   2
+///2
 //   
 {
 	int x = 8;

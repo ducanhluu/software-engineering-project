@@ -1,7 +1,8 @@
 // Description :
 // Test if pour égalité 
 // Resultat:
-// ok
+///x est positif
+//
 
 {
 int x=3;
@@ -9,6 +10,5 @@ if (x >= 0) {
 print("x est positif");
 } else {
 print("x est negatif");
-print("hello");
 }
 }

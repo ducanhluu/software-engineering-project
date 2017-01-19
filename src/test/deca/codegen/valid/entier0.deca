@@ -2,8 +2,9 @@
 //   test des operation simple sur un entier
 
 // Résultats :
-//   2
-//   1
+///2
+///1
+//
 {
 	int y ;
 	y = 2;

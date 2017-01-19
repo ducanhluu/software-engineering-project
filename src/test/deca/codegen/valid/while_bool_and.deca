@@ -2,9 +2,8 @@
 //Test du while et bool
 
 //Resultat :
-//3
-
-// Ici problème
+///5
+//
 
 {
 int x = 0;

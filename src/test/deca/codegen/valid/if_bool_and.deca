@@ -2,7 +2,7 @@
 // Test if avec bool et and
 
 //Resultat:
-//ok
+///ok
 
 {
 if ( 5 > 2 && false) {

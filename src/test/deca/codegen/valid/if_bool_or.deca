@@ -2,7 +2,8 @@
 //Test avec un if, un bool et un or
 
 //Resultat:
-//ok
+///ok
+//
 
 {
 if( 5 < 2 || false){

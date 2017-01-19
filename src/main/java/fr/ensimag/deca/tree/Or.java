@@ -4,9 +4,12 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  *
@@ -43,8 +46,23 @@ public class Or extends AbstractOpBool {
                     compiler.addInstruction(new BRA(getLabel()));
                 }
             } else {
-                getLeftOperand().codeGenInst(compiler);
-                getRightOperand().codeGenInst(compiler);
+                AbstractExpr lvalue = getLeftOperand();
+                AbstractExpr rvalue = getRightOperand();
+                if (lvalue instanceof Identifier) {
+                    compiler.addInstruction(new LOAD(((Identifier) lvalue).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
+                    compiler.addInstruction(new BNE(getLabel()));
+                } else {
+                    lvalue.codeGenInst(compiler);
+                }
+                
+                if (rvalue instanceof Identifier) {
+                    compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
+                            compiler.addInstruction(new BNE(getLabel()));
+                } else {
+                    rvalue.codeGenInst(compiler);
+                }
             }
         // si dans un if
         } else {

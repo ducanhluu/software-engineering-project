@@ -2,8 +2,8 @@
 // Test or avec un if
 
 // Resultat :
-//ok
-// problème if + or
+///ok
+//
 
 {
 if ( 3 < 5 || 2 > 3){

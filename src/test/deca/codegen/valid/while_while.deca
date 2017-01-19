@@ -2,7 +2,8 @@
 // Test les whiles imbriqués
 
 // Resultat:
-//6
+///6
+//
 
 {
 int x = 0;
