@@ -1,0 +1,6 @@
+class A {
+float y;
+int method(int x){
+return x;
+}
+}

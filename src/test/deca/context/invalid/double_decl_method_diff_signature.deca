@@ -1,0 +1,4 @@
+class A { 
+boolean equals(Object o, int a){
+}
+}
