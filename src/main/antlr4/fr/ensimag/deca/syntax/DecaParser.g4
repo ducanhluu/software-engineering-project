@@ -165,8 +165,8 @@ inst returns[AbstractInst tree]
     }
     | RETURN expr SEMI {
             assert($expr.tree != null);
-            $tree=$expr.tree;
-            setLocation($tree,$expr.start);
+            $tree=new Return($expr.tree);
+            setLocation($tree,$RETURN);
         }
     ;
 
@@ -415,6 +415,7 @@ select_expr returns[AbstractExpr tree]
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
             assert($i.tree != null); 
+            $tree=new Dot($e1.tree,$i.tree);
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -435,6 +436,7 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
+            $tree=$m.tree;
             setLocation($tree,$m.start);
         }
     | OPARENT expr CPARENT {

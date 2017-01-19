@@ -53,7 +53,7 @@ public class DeclMethod extends AbstractDeclMethod{
                     mem=cour;
                     cour=null;
                 }else {
-                 throw new ContextualError("name of the method is used as a field in a superClass",this.getLocation());
+                    throw new ContextualError("name of the method is used as a field in a superClass",this.getLocation());
                 }
             }else{
                 cour=cour.getSuperClass();
@@ -101,6 +101,7 @@ public class DeclMethod extends AbstractDeclMethod{
                 }
                 
         }
+        this.name.verifyExpr(compiler, localEnv, currentClass);
     }
 
     @Override

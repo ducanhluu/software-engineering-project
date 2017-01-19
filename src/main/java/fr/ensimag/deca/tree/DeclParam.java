@@ -46,7 +46,7 @@ public class DeclParam extends AbstractDeclParam{
                 
                 localEnv.declare(this.name.getName(), param);
         } catch (EnvironmentExp.DoubleDefException ex) {
-                throw new ContextualError("this variable is already declared",this.name.getLocation());
+                throw new ContextualError("this parametres is already declared",this.name.getLocation());
                 //Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.name.verifyExpr(compiler, localEnv, currentClass);

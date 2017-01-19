@@ -174,6 +174,7 @@ public class Identifier extends AbstractIdentifier {
             }
             //System.out.println("helo");
             this.setDefinition(localEnv.get(name));
+            System.out.println(this.definition.toString());
             return localEnv.get(name).getType();
     }
 
