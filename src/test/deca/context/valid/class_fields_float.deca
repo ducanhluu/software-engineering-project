@@ -1,0 +1,6 @@
+class A {
+float x;
+float y = 2.2;
+}
+{
+}

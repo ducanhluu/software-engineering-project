@@ -56,11 +56,7 @@ public class EnvironmentType {
     public TypeDefinition get(Symbol key) {
         return map.get(key);
     }
-    public class SymbolNotContainedInEnvType extends Exception{
-        public SymbolNotContainedInEnvType(){
-            System.out.println("envronnementType ne contient pas le symbole");
-        }
-    }
+
     /**
      * Add the definition def associated to the symbol name in the environment.
      * 

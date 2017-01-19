@@ -1,0 +1,11 @@
+class A {
+A a;
+}
+class B extends A{
+A b;
+}
+{
+A x;
+B y;
+x=y;
+}
