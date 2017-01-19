@@ -2,7 +2,9 @@
 //   assign une expression pour un identifier
 
 // Résultats :
-//   2
+///2
+//
+
 {
 	int x, y;
         x = 2;

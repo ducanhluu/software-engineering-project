@@ -2,7 +2,7 @@
 //   test d'impritation d'une expression
 
 // Résultats :
-//   4.0
+///4.00000e+00
 //   
 {
 	float x = 1.0;

@@ -2,7 +2,9 @@
 //   test de division d'un float pour un float
 //
 // Résultats :
-//   2.0
+///2.00000e+00
+//
+
 {
 	float x = 1.0;
 	float y = 2.0;

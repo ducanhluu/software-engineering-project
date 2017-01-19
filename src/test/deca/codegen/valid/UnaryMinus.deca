@@ -2,7 +2,9 @@
 //   test d'opposition d'un entier
 
 // Résultats :
-//      -1.0
+///-1.00000e+00
+//
+
 {
 	float x = 1.0;
 	x = - x;
