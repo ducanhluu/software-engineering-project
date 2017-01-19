@@ -1,0 +1,18 @@
+//Description :
+//Test du while avec bool et or
+
+//Resultat :
+///4
+
+{
+boolean bool = true;
+int x = 0;
+
+while( bool || 2 > 5){
+    x = x + 1;
+    if (x > 3) {
+            bool = false;
+        }
+    }
+print(x);
+}

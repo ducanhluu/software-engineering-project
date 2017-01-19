@@ -1,0 +1,12 @@
+//Description: 
+//Test or avec bool identifier
+
+//Resultat:
+///ok
+
+{
+boolean bool = true;
+if (true || 1>5){
+print("ok");
+}
+}
