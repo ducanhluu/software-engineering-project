@@ -7,6 +7,7 @@ import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
@@ -36,12 +37,14 @@ public class Or extends AbstractOpBool {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         // si dans un while
-        if (Opp == 0) { 
+        setLabelOr();
+        if (Opp == 0) {
             if (getLeftOperand() instanceof BooleanLiteral) {
                 if (((BooleanLiteral) getLeftOperand()).getValue()) {
                     compiler.addInstruction(new BRA(getLabel()));
                 }
-            } else if (getRightOperand() instanceof BooleanLiteral) {
+            }
+            if (getRightOperand() instanceof BooleanLiteral) {
                 if (((BooleanLiteral) getRightOperand()).getValue()) {
                     compiler.addInstruction(new BRA(getLabel()));
                 }
@@ -55,44 +58,60 @@ public class Or extends AbstractOpBool {
                 } else {
                     lvalue.codeGenInst(compiler);
                 }
-                
+
                 if (rvalue instanceof Identifier) {
                     compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
                             getAvailableRegister(compiler)));
-                            compiler.addInstruction(new BNE(getLabel()));
+                    compiler.addInstruction(new BNE(getLabel()));
                 } else {
                     rvalue.codeGenInst(compiler);
                 }
             }
-        // si dans un if
+            // si dans un if
         } else {
             labelTmpOr = getLabel();
-            setLabelOr();
             setLabel(getLabelOr());
             //En cas de booléen a gauche:
             if (getLeftOperand() instanceof BooleanLiteral) {
                 if (!(((BooleanLiteral) getLeftOperand()).getValue())) {
                     compiler.addInstruction(new BRA(getLabel()));
                 }
-            //Pas booléen :
+                //Pas booléen :
             } else {
-                getLeftOperand().codeGenInst(compiler);
+                AbstractExpr lvalue = getLeftOperand();
+                if (lvalue instanceof Identifier) {
+                    compiler.addInstruction(new LOAD(((Identifier) lvalue).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
+                    compiler.addInstruction(new BEQ(getLabel()));
+                } else {
+                    getLeftOperand().codeGenInst(compiler);
+                }
             }
+
             compiler.addInstruction(new BRA(labelOrFin));
             compiler.addLabel(getLabelOr());
             setLabel(labelTmpOr);
-            //En cas de booléen a gauche:
+            //En cas de booléen a droite:
             if (getRightOperand() instanceof BooleanLiteral) {
                 if (!(((BooleanLiteral) getRightOperand()).getValue())) {
                     compiler.addInstruction(new BRA(getLabel()));
                 }
-            //Pas de Booléen :
+                //Pas de Booléen :
             } else {
-                getRightOperand().codeGenInst(compiler);
+                AbstractExpr rvalue = getRightOperand();
+                if (rvalue instanceof Identifier) {
+                    compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
+                            getAvailableRegister(compiler)));
+                    compiler.addInstruction(new BNE(getLabel()));
+                } else {
+                    getRightOperand().codeGenInst(compiler);
+                }
+
             }
             compiler.addLabel(labelOrFin);
         }
     }
+
 
     private void setLabelOr() {
         nbLabel++;

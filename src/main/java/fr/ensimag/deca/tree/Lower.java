@@ -4,7 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.instructions.BGT;
-import fr.ensimag.ima.pseudocode.instructions.BLT;
+import fr.ensimag.ima.pseudocode.instructions.BLE;
 
 
 /**
@@ -29,7 +29,7 @@ public class Lower extends AbstractOpIneq {
         if (Opp == 0) {
             compiler.addInstruction(new BGT(getLabel()));
         } else {
-            compiler.addInstruction(new BLT(getLabel()));
+            compiler.addInstruction(new BLE(getLabel()));
         }
     }
 
