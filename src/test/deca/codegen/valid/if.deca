@@ -4,8 +4,11 @@
 // ok
 
 {
-int x = 3;
-if ( x == 3){
-println("ok");
+int x=3;
+if (x >= 0) {
+print("x est positif");
+} else {
+print("x est negatif");
+print("hello");
 }
 }

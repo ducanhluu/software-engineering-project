@@ -9,9 +9,13 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import fr.ensimag.deca.context.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,8 +41,25 @@ public class DeclField extends AbstractDeclField {
     protected  void verifyDeclField(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError{
-         
-     }
+        //je sais pas si on doit parcourir tout les environnement parents
+         if (localEnv.get(this.varName.getName()) != null){
+             throw new ContextualError("cette variable est deja un champ",this.getLocation());
+         }
+         Type type=this.type.verifyType(compiler);
+         if (type.isVoid()){
+             throw new ContextualError("in each field type shouldn't be void",this.getLocation());
+         }
+        try {
+            localEnv.declare(this.varName.getName(), new FieldDefinition(type,this.getLocation(),this.v,currentClass,currentClass.getNumberOfFields()+1));
+        } catch (EnvironmentExp.DoubleDefException ex) {
+            Logger.getLogger(DeclField.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
+        this.varName.verifyExpr(compiler, localEnv, currentClass);
+        currentClass.incNumberOfFields();
+        System.out.println(compiler.getEnvType().toString()); 
+        
+    }
     
     @Override
     protected  void codeGenDeclField(DecacCompiler compiler){

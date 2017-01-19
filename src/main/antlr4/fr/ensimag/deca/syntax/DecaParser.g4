@@ -38,7 +38,7 @@ options {
 }
 
 prog returns[AbstractProgram tree]
-    : list_classes main EOF {
+    :  list_classes main EOF {
             assert($list_classes.tree != null);
             assert($main.tree != null);
             $tree = new Program($list_classes.tree, $main.tree);
@@ -197,7 +197,8 @@ if_then_else returns[IfThenElse tree]
             Iterator<AbstractInst> it = $li_else.tree.iterator();
             if ( myList.size() > 1 ) {
                 while (it.hasNext()){
-                    cour.add(it.next());
+
+                cour.add(it.next());
                 }
             } else {
                 while(it.hasNext()){
@@ -611,7 +612,6 @@ decl_method returns[AbstractDeclMethod tree]
             assert($block.insts != null);
             body=new MethodBody($block.insts,$block.decls);
             setLocation(body,$block.start);
-            
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
             assert($code.text != null);

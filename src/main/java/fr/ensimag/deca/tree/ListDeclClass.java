@@ -11,6 +11,7 @@ import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import java.util.Iterator;
 import org.apache.log4j.Logger;
 
 /**
@@ -35,15 +36,27 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      */
     void verifyListClass(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify listClass: start");
-        throw new UnsupportedOperationException("not yet implemented");
-        // LOG.debug("verify listClass: end");
+         Iterator it = this.iterator();
+            while(it.hasNext()){
+                AbstractDeclClass cour= (AbstractDeclClass) it.next();
+                cour.verifyClass(compiler);
+            }
+        LOG.debug("verify listClass: end");
     }
 
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
     public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        LOG.debug("verify listClassMembers: start");
+        Iterator it = this.iterator();
+            while(it.hasNext()){
+                AbstractDeclClass cour= (AbstractDeclClass) it.next();
+                cour.verifyClassMembers(compiler);
+            }
+         LOG.debug("verify listClass: end");
+            
+         
     }
 
     /**

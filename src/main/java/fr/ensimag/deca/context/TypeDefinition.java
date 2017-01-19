@@ -23,5 +23,5 @@ public class TypeDefinition extends Definition {
     public boolean isExpression() {
         return false;
     }
-
+   
 }

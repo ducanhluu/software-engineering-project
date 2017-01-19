@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.context.ClassType;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
@@ -46,13 +48,31 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (compiler.getEnvType().find(this.name.getName())){
+            throw new ContextualError("erreur Contextuelle:cette class a deja etait déclaré",this.getLocation());
+        }
+        if (!compiler.getEnvType().find(this.extension.getName())){
+            throw new ContextualError("erreur Contextuelle:la class mére est non encore delcaré",this.getLocation());
+        }
+        ClassDefinition superClass= (ClassDefinition) compiler.getEnvType().get(this.extension.getName());
+        ClassType type=new ClassType(this.name.getName(),this.getLocation(),superClass);
+        ClassDefinition currentClass=new ClassDefinition(type,this.getLocation(),superClass);
+        compiler.getEnvType().declare(this.name.getName(), currentClass);
+        
+       // System.out.println(compiler.getEnvType().get(this.name.getName()).toString());
+     //   System.out.println(compiler.getEnvType().toString());
     }
+    
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.name.verifyType(compiler);
+        this.extension.verifyType(compiler);
+        ClassDefinition currentClass=(ClassDefinition) compiler.getEnvType().get(this.name.getName());
+        currentClass.incNumberOfMethods();
+        this.fields.verifyListDeclField(compiler, currentClass.getMembers(), currentClass);
+        //this.method.verifyListDeclMethod(compiler, currentClass.getMembers(), currentClass);
     }
     
     @Override

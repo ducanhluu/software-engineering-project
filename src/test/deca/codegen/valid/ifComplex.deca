@@ -20,7 +20,7 @@ if (5 <= 2) {
 }
 
 if (5>2){
-println(ok);
+println("ok");
 }
 
 }
