@@ -5,6 +5,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.LabelOperand;
 
 /**
  * @author Ensimag
@@ -22,6 +24,10 @@ public class LOAD extends BinaryInstructionDValToReg {
     
     public LOAD(float i, GPRegister r) {
         this(new ImmediateFloat(i), r);
+    }
+    
+    public LOAD(String i, GPRegister r) {
+        this(new LabelOperand(new Label(i)), r);
     }
 
 }

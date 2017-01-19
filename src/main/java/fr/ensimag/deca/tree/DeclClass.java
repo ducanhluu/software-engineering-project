@@ -1,9 +1,17 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
+import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
+import static fr.ensimag.ima.pseudocode.Register.GB;
+import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +29,7 @@ public class DeclClass extends AbstractDeclClass {
     private  ListDeclField fields;
     private ListDeclMethod methods;
     private List<String> vtable = new ArrayList<String>();
-    public DeclClass(AbstractIdentifier name,AbstractIdentifier extension, ListDeclField fields, ListDeclMethod methods){
+    public DeclClass(AbstractIdentifier name, AbstractIdentifier extension, ListDeclField fields, ListDeclMethod methods){
             Validate.notNull(name);
             Validate.notNull(extension);
             Validate.notNull(fields);
@@ -68,10 +76,30 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void buildTableOfLabels() {
+        name.getClassDefinition().getMembers();
         vtable.add("code.Object.equals");
         for (AbstractDeclMethod i : methods.getList()){
             vtable.add("code." + name + "." + i.getName());
         }
+    }
+
+    @Override
+    protected void codeGenBuildVTable(DecacCompiler compiler) {
+        DAddr addrVTSP = extension.getClassDefinition().getAddressOfVTable();
+        DAddr addrVT = new RegisterOffset(getSizeOfVTables() + 1, GB);
+        name.getClassDefinition().setAddressOfVTable(addrVT);
+        
+        compiler.addInstruction(new LEA(addrVTSP, getR(0)));
+        compiler.addInstruction(new STORE(getR(0), addrVT));
+        
+        int i = 1;
+        for (String s : vtable) {
+           i++;
+           compiler.addInstruction(new LOAD(s, getR(0)));
+           compiler.addInstruction(new STORE(getR(0), new RegisterOffset(getSizeOfVTables() + i, GB))); 
+        }
+        
+        increSizeOfVtables(i);
     }
 
 }

@@ -1,7 +1,9 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.DAddr;
+import static fr.ensimag.ima.pseudocode.Register.GB;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -41,6 +43,15 @@ public class ClassDefinition extends TypeDefinition {
 
     private int numberOfFields = 0;
     private int numberOfMethods = 0;
+    private DAddr addrVT = new RegisterOffset(1, GB);
+    
+    public DAddr getAddressOfVTable() {
+        return addrVT;
+    }
+    
+    public void setAddressOfVTable(DAddr val) {
+        addrVT = val;
+    }
     
     @Override
     public boolean isClass() {
