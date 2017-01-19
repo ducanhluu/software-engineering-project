@@ -1,0 +1,6 @@
+class A { 
+int set(){
+}
+float set(){
+}
+}

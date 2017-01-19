@@ -35,6 +35,7 @@ public class EnvironmentType {
         declare(Dict.create("null"),new TypeDefinition(nullT,null));
         declare(Dict.create("Object"),new ClassDefinition(classObjT,null,null));
         ClassDefinition objectClass=(ClassDefinition) get(Dict.create("Object"));
+        //ClassDefinition objectClass=classObjT.getDefinition();
         Signature signatureEquals=new Signature();
         signatureEquals.add(classObjT);
         try {
@@ -84,24 +85,5 @@ public class EnvironmentType {
             return  true;
         }
     }
-    /*
-    @Override
-    public String toString(){
-        String s="";
-        Set<Map.Entry<Symbol, TypeDefinition>> couples = map.entrySet();
-        Iterator<Map.Entry<Symbol, TypeDefinition>> itCouples = couples.iterator();
-    while (itCouples.hasNext()) {
-      Map.Entry<Symbol, TypeDefinition> couple = itCouples.next();
-        s=s+couple.getKey().toString()+" => "+ couple.getValue().toString()+"\n";
-      if (couple.getValue() instanceof ClassDefinition){
-          ClassDefinition cour=(ClassDefinition) couple.getValue();
-          s=s+" voila l'environnement exp de cette class :\n"+cour.getMembers().toString();
-   
-    }
-       
-    }
-        return s;
-   }
-    */
 
 }

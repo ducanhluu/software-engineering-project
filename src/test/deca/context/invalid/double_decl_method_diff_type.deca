@@ -1,0 +1,6 @@
+class A {
+
+int equals(Object o){
+}
+
+}

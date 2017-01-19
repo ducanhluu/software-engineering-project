@@ -54,13 +54,10 @@ public class DeclClass extends AbstractDeclClass {
         if (!compiler.getEnvType().find(this.extension.getName())){
             throw new ContextualError("erreur Contextuelle:la class mére est non encore delcaré",this.getLocation());
         }
-        ClassDefinition superClass= (ClassDefinition) compiler.getEnvType().get(this.extension.getName());
+        ClassDefinition superClass= (ClassDefinition) compiler.getEnvType().get(this.extension.getName()); 
         ClassType type=new ClassType(this.name.getName(),this.getLocation(),superClass);
-        ClassDefinition currentClass=new ClassDefinition(type,this.getLocation(),superClass);
+        ClassDefinition currentClass=type.getDefinition();
         compiler.getEnvType().declare(this.name.getName(), currentClass);
-        
-       // System.out.println(compiler.getEnvType().get(this.name.getName()).toString());
-     //   System.out.println(compiler.getEnvType().toString());
     }
     
 
@@ -72,7 +69,8 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition currentClass=(ClassDefinition) compiler.getEnvType().get(this.name.getName());
         currentClass.incNumberOfMethods();
         this.fields.verifyListDeclField(compiler, currentClass.getMembers(), currentClass);
-        //this.method.verifyListDeclMethod(compiler, currentClass.getMembers(), currentClass);
+        this.methods.verifyListDeclMethod(compiler, currentClass.getMembers(), currentClass);
+
     }
     
     @Override

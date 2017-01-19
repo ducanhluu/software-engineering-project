@@ -41,15 +41,20 @@ public class DeclField extends AbstractDeclField {
     protected  void verifyDeclField(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError{
-        //je sais pas si on doit parcourir tout les environnement parents
-         if (localEnv.get(this.varName.getName()) != null){
-             throw new ContextualError("cette variable est deja un champ",this.getLocation());
+         ClassDefinition cour=currentClass;
+         while (cour != null){
+        
+            if (cour.getMembers().get(this.varName.getName()) != null){
+                 throw new ContextualError("variable is already a field or a method in a super class",this.getLocation());
+            }
+            cour=cour.getSuperClass();
          }
          Type type=this.type.verifyType(compiler);
          if (type.isVoid()){
-             throw new ContextualError("in each field type shouldn't be void",this.getLocation());
+             throw new ContextualError("in a field type shouldn't be void",this.getLocation());
          }
         try {
+            //cela est l'environnment de la classe courante 
             localEnv.declare(this.varName.getName(), new FieldDefinition(type,this.getLocation(),this.v,currentClass,currentClass.getNumberOfFields()+1));
         } catch (EnvironmentExp.DoubleDefException ex) {
             Logger.getLogger(DeclField.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,7 +62,7 @@ public class DeclField extends AbstractDeclField {
         this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
         this.varName.verifyExpr(compiler, localEnv, currentClass);
         currentClass.incNumberOfFields();
-        System.out.println(compiler.getEnvType().toString()); 
+      
         
     }
     
