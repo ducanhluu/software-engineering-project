@@ -1,7 +1,0 @@
-class A{
-flaot a=2;
-float method(int x){
-int y = 5%2;
-return x+y+a;
-}
-}
