@@ -1,4 +1,4 @@
-class A extends Objects{
+class A extends Object{
 void method(){
 }
 }

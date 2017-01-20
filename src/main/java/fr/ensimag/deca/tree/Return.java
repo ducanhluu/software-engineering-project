@@ -40,7 +40,9 @@ public class Return extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        s.print("return ");
+        this.operand.decompile(s);
+        s.print(";");
     }
 
     @Override

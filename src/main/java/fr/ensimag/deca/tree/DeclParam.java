@@ -58,7 +58,9 @@ public class DeclParam extends AbstractDeclParam{
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       this.type.decompile(s);
+       s.print(" ");
+       this.name.decompile(s);
     }
 
     @Override

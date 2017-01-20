@@ -1,0 +1,12 @@
+class A {
+A fct(){
+}
+}
+class B extends A {
+B fct(){
+}
+}
+class C extends B {
+A fct(){
+}
+}

@@ -71,17 +71,7 @@ public abstract class AbstractPrint extends AbstractInst {
                 s.print("x");
             }
             s.print("(");
-           
-            Iterator it = this.arguments.iterator();
-        
-            while(it.hasNext()){
-		AbstractExpr cour = (AbstractExpr)it.next();
-                
-		cour.decompile(s);
-                if (it.hasNext()){
-                    s.print(",");
-                }
-            }
+            this.arguments.decompile(s);
             s.print(");");
         
     }
