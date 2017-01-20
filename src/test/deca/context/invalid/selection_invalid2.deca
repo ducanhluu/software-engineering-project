@@ -1,0 +1,11 @@
+class A{
+protected int x;
+}
+class B { 
+A a;
+int x;
+}
+{
+B b;
+int y=b.a.x;
+}

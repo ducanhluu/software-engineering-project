@@ -1,0 +1,16 @@
+class A{
+float x=1.2;
+int y = 2;
+boolean g ;
+}
+class B extends A {
+int z = this.y;
+}
+{
+A a;
+B b;
+float x=a.x;
+int y = a.y;
+int z = b.z;
+z = b.z;
+}
