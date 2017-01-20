@@ -1,0 +1,10 @@
+class A{
+float x = 1+2.3/2%3;
+int method(int x){
+return 2;}
+}
+class B extends A{
+int y = 5;
+float method(int x){
+return x;}
+}

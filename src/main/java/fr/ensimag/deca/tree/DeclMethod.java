@@ -40,11 +40,62 @@ public class DeclMethod extends AbstractDeclMethod{
          this.parametres=parametres;
          this.body=body;
     }
-    
+    /*
+    public void verifyDeclMethodCurrent(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, 
+            ClassDefinition superClass,Type currentType,Signature sign) throws ContextualError{
+         MethodDefinition currentMethod= (MethodDefinition) currentClass.getMembers().get(this.name.getName());
+                if(currentMethod.getSignature().sameSignature(sign) && currentType.sameType(currentMethod.getType())){
+                    throw new ContextualError("this method exist in the current class with the same signature and return type",this.getLocation());
+                }else{
+                     try {
+                localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
+            } catch (EnvironmentExp.DoubleDefException ex) {
+                Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            currentClass.incNumberOfMethods();
+            }
+    }*/
+    protected void verifyDeclMethodSuper(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, 
+            ClassDefinition superClass,Type currentType,Signature sign) throws ContextualError {
+        if (superClass ==null){
+            try {
+                localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
+            } catch (EnvironmentExp.DoubleDefException ex) {
+                Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            currentClass.incNumberOfMethods();
+        }else{
+            MethodDefinition SuperMethod= (MethodDefinition) superClass.getMembers().get(this.name.getName());
+                if(!SuperMethod.getSignature().sameSignature(sign)){
+                    throw new ContextualError("this method does not have the same signature as the method in the superclass",this.getLocation());
+                }else if (!SuperMethod.getType().isClass()){
+                    if  (!SuperMethod.getType().sameType(this.typeM.getType())){// ici on doit voir si il est un soustype 
+                        throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
+                    }
+                }else{
+                     if ( !this.typeM.getType().isClass()){
+                         throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
+                     }else{
+                         ClassType currentType1= (ClassType) this.typeM.getType();
+                         ClassType superType= (ClassType) SuperMethod.getType();
+                         if (!currentType1.isSubClassOf(superType)){
+                             throw new ContextualError("this method type is not a sub type of the method in the super Class",this.getLocation());
+                         }
+                         try {
+                             localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,SuperMethod.getIndex()));
+                         } catch (EnvironmentExp.DoubleDefException ex) {
+                             Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                    }
+                }
+                
+        }
+    }
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        boolean current=false;
         if ( localEnv.get(this.name.getName()) != null){
-            throw new ContextualError("this name has been already used in the current class either as a field or a method",this.getLocation());
+            current=true;
         }
         ClassDefinition mem=null;
         ClassDefinition cour=currentClass.getSuperClass();
@@ -60,46 +111,18 @@ public class DeclMethod extends AbstractDeclMethod{
                 cour=cour.getSuperClass();
             }
         }
-        // declarer l'environment de la methode 
         EnvironmentExp methodEnv=new EnvironmentExp(localEnv);
         this.parametres.verifyListDeclParam(compiler, methodEnv, currentClass);
         Type type=this.typeM.verifyType(compiler);
         this.typeM.setType(type);
         Signature sign=this.getSignatureParams();
-        if (mem ==null){
-            try {
-                localEnv.declare(this.name.getName(), new MethodDefinition(type,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
-            } catch (EnvironmentExp.DoubleDefException ex) {
-                Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            currentClass.incNumberOfMethods();
+        // test si il exsite une method de meme nom dans la classe courante 
+        if ( current){
+            throw new ContextualError("this name is already used for a field or method in the current class ",this.getLocation());
+            //this.verifyDeclMethodCurrent(compiler, localEnv, currentClass, currentClass, type, sign);
         }else{
-            MethodDefinition SuperMethod= (MethodDefinition) mem.getMembers().get(this.name.getName());
-                if(!SuperMethod.getSignature().sameSignature(sign)){
-                    throw new ContextualError("this method does not have the same signature as the method in the superclass",this.getLocation());
-                }else if (!SuperMethod.getType().isClass()){
-                    if  (!SuperMethod.getType().sameType(this.typeM.getType())){// ici on doit voir si il est un soustype 
-                        throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
-                    }
-                }else{
-                     if ( !this.typeM.getType().isClass()){
-                         throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
-                     }else{
-                         ClassType currentType= (ClassType) this.typeM.getType();
-                         ClassType superType= (ClassType) SuperMethod.getType();
-                         if (!currentType.isSubClassOf(superType)){
-                             throw new ContextualError("this method type is not a sub type of the method in the super Class",this.getLocation());
-                         }
-                         try {
-                             localEnv.declare(this.name.getName(), new MethodDefinition(type,this.getLocation(),sign,SuperMethod.getIndex()));
-                         } catch (EnvironmentExp.DoubleDefException ex) {
-                             Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                    }
-                }
-                
+            this.verifyDeclMethodSuper(compiler,localEnv,currentClass,mem,typeM.getType(),sign);
         }
-        
         MethodDefinition m=(MethodDefinition) localEnv.get(this.name.getName());
         m.setEnv(methodEnv);
         this.name.verifyExpr(compiler, localEnv, currentClass);
@@ -127,7 +150,17 @@ public class DeclMethod extends AbstractDeclMethod{
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        this.typeM.decompile(s);
+        s.print(" ");
+        this.name.decompile(s);
+        s.print(" (");
+        this.parametres.decompile(s);
+        s.print(" ) {");
+        s.println();
+        this.body.decompile(s);
+        s.println("}");
+        
     }
 
     @Override
@@ -140,7 +173,10 @@ public class DeclMethod extends AbstractDeclMethod{
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeM.iterChildren(f);
+        name.iterChildren(f);
+        parametres.iterChildren(f);
+        body.iterChildren(f);
     }
 
     @Override

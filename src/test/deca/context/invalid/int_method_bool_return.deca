@@ -1,0 +1,5 @@
+class A {
+int method(boolean y){
+return y;
+}
+}

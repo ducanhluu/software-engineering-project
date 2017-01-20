@@ -111,6 +111,7 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        s.print(v.toString()+ " ");
         this.type.decompile(s);
         s.print(" ");
         this.varName.decompile(s);
