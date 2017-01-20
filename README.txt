@@ -11,3 +11,5 @@ Pour lancer tous les tests de notre base soit :
 			   ./src/test/script/test-context-invalid.sh
 -> la partie de la génération du code : ./src/test/script/test-gencode-valid.sh
 		              	 ./src/test/script/test-gencode-invalid.sh
+
+Pour supprimer les fichers .ass, .res et .dec générés par les commandes ci-dessus tapez la commande : ./src/test/script/removeResult.sh
