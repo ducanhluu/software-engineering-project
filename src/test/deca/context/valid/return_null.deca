@@ -1,0 +1,5 @@
+class A{
+A methode(int x,int y, float z, boolean f){
+return null;
+}
+}

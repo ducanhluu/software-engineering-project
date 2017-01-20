@@ -27,22 +27,24 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         Type type2=this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         this.getLeftOperand().setType(type1);
         this.getRightOperand().setType(type2);
-        if (this.getOperatorName() == "==" || this.getOperatorName() == "<" || this.getOperatorName() == ">"  ){
-            if (!type1.sameType(type2)){
-                if(type1.isInt() && type2.isFloat()){
-                    ConvFloat cf=new ConvFloat(this.getLeftOperand());
-                    this.setLeftOperand(cf);
+        
+        if(type1.isInt() && type2.isFloat()){
+            ConvFloat cf=new ConvFloat(this.getLeftOperand());
+            this.setLeftOperand(cf);
 
-                }else if (type2.isInt() && type1.isFloat()){
-                    ConvFloat cf=new ConvFloat(this.getLeftOperand());
-                    this.setRightOperand(cf);
-
-                }else{
-                    throw new ContextualError("cannot use operator"+this.getOperatorName()+" on two different type",this.getLocation());
-                }
+        }else if (type2.isInt() && type1.isFloat()){
+            ConvFloat cf=new ConvFloat(this.getLeftOperand());
+            this.setRightOperand(cf);
                     /*throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());*/
+        }else if(type1.isClassOrNull() && type2.isClassOrNull() ) {
+            if(this.getOperatorName() != "==" && this.getOperatorName() != "!=" ){
+                throw new ContextualError("cannot use operator "+this.getOperatorName()+" on this type",this.getLocation());
             }
+  
+        }else if(((!type1.isInt()) && (!type1.isFloat())) || ((!type2.isInt()) && (!type2.isFloat()))) {
+            throw new ContextualError("cannot use operator"+this.getOperatorName()+" on this type",this.getLocation());
         }
+        
         //plusieurs a lever selon les cas possibles 
         TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
         this.setType(typeDef.getType());

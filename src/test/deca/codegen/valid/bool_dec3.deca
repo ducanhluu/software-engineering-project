@@ -1,0 +1,14 @@
+//Description
+//Test declaration bool avec false false
+
+
+//Resultat:
+///ok
+
+{ 
+boolean bool = (false||false);
+if (bool){
+print("not ok");
+}
+print("ok");
+}
