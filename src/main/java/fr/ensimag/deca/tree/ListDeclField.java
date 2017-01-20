@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.util.Iterator;
 
 /**
@@ -53,9 +54,21 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
 				cour.verifyDeclFieldInit(compiler,localEnv,currentClass);
 	    }
     }
-    public void codeGenListDeclField(DecacCompiler compiler) {
+    public void codeGenListDeclField(IMAProgram subProg) {
         for (AbstractDeclField i : getList()) {
-            i.codeGenDeclField(compiler);
+            i.codeGenDeclField(subProg);
+        }
+    }
+
+    public void codeGenInitNull(IMAProgram subProg) {
+        for (AbstractDeclField i : getList()) {
+            i.codeGenInitNull(subProg);
+        }
+    }
+
+    public void codeGenInitExplicit(IMAProgram subProg) {
+        for (AbstractDeclField i : getList()) {
+            i.codeGenInitExplicit(subProg);
         }
     }
 }

@@ -8,13 +8,11 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import fr.ensimag.deca.context.TypeDefinition;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.getR;
 
 /**
  * Integer literal
@@ -70,5 +68,10 @@ public class IntLiteral extends AbstractExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         compiler.addInstruction(new LOAD(value, getAvailableRegister(compiler)));
+    }
+
+    @Override
+    protected void codeGenInstObject(IMAProgram subProg) {
+        subProg.addInstruction(new LOAD(value, getR(0)));
     }
 }

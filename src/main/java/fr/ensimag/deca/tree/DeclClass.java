@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -13,12 +14,18 @@ import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.GB;
+import static fr.ensimag.ima.pseudocode.Register.LB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.SUBSP;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -144,14 +151,28 @@ public class DeclClass extends AbstractDeclClass {
     protected void codeGenMethods(DecacCompiler compiler) {
         IMAProgram subProg = new IMAProgram();
         subProg.addLabel(new Label("init." + name.getName().toString()));
-        for (AbstractDeclField i : fields.getList()) {
-            i.codeGenInit(subProg);
+        subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
+        
+        if (extension.getClassDefinition().getSuperClass() == null) {
+            fields.codeGenListDeclField(subProg);
+        } else {
+            subProg.addInstruction(new TSTO(3));
+            subProg.addInstruction(new BOV(new Label("stack_overflow_error")));
+            overflowNeeded = true;
+            fields.codeGenInitNull(subProg);
+            subProg.addInstruction(new PUSH(getR(1)));
+            subProg.addInstruction(new BSR(new Label("init." + extension.getName().toString())));
+            subProg.addInstruction(new SUBSP(1));
+            subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
+            fields.codeGenInitExplicit(subProg);
         }
+        
         subProg.addInstruction(new RTS());
         for (AbstractDeclMethod i : methods.getList()) {
             i.codeGenMethods(subProg);
         }
         compiler.append(subProg);
+        
     }
 
 }
