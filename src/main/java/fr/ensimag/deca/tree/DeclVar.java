@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
  */
 public class DeclVar extends AbstractDeclVar {
 
-    
+    protected static int dec = 0;
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
@@ -89,6 +89,8 @@ public class DeclVar extends AbstractDeclVar {
     protected void codeGenDeclVar(DecacCompiler compiler) {
         increNumberGlobalVariables();
         varName.getVariableDefinition().setOperand(new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
+        dec=1;
         initialization.codeGenInit(compiler, varName.getVariableDefinition().getOperand());
+        dec=0;
     }
 }

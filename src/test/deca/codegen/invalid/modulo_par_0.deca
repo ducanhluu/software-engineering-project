@@ -2,7 +2,7 @@
 //   test modulo par 0
 
 // Résultats :
-//   Error: division by zero
+///Error: division by zero
 {
 int x = 1;
 x = x % 0;

@@ -19,7 +19,7 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
  * @date 01/01/2017
  */
 public class Assign extends AbstractBinaryExpr {
-
+    protected static int ass = 0;
     @Override
     public AbstractLValue getLeftOperand() {
         // The cast succeeds by construction, as the leftOperand has been set
@@ -59,7 +59,9 @@ public class Assign extends AbstractBinaryExpr {
         AbstractExpr rvalue = getRightOperand();
         //Il y a 2 cas: un Identifier ou une selection
         if (lvalue instanceof Identifier) {
+            ass = 1;
             rvalue.codeGenInst(compiler);
+            ass = 0;
             codeGenSaveLastValue(compiler, ((Identifier) lvalue).getVariableDefinition().getOperand());
         }
     }

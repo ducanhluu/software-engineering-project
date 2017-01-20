@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
+import static fr.ensimag.deca.tree.Assign.ass;
+import static fr.ensimag.deca.tree.DeclVar.dec;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
@@ -40,44 +43,72 @@ public class Or extends AbstractOpBool {
         AbstractExpr rvalue = getRightOperand();
         // si dans un while
         setLabelOr();
-        if (Opp == 0) {
+        if (ass == 1|| dec ==1) {
+            boolean tmp;
+            tmp = true;
             if (getLeftOperand() instanceof AbstractBinaryExpr) {
                 lvalue.codeGenInst(compiler);
             } else {
-                lvalue.codeGenInst(compiler);
-                compiler.addInstruction(new BNE(getLabel()));
+                if (((BooleanLiteral) lvalue).getValue() == true) {
+                    lvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
+                }else{
+                    tmp = false;
+                }
             }
-
             if (getRightOperand() instanceof AbstractBinaryExpr) {
                 rvalue.codeGenInst(compiler);
             } else {
-                rvalue.codeGenInst(compiler);
-                compiler.addInstruction(new BNE(getLabel()));
+                if (((BooleanLiteral) rvalue).getValue() == true) {
+                    rvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
+                }else if(tmp == false){
+                    rvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new LOAD(0, getAvailableRegister(compiler)));
+                }
             }
-
-            // si dans un if
         } else {
-            labelTmpOr = getLabel();
-            setLabel(getLabelOr());
-            if (getLeftOperand() instanceof AbstractBinaryExpr) {
-                lvalue.codeGenInst(compiler);
-            } else {
-                lvalue.codeGenInst(compiler);
-                compiler.addInstruction(new BEQ(getLabel()));
-            }
+            if (Opp == 0) {
+                if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                    lvalue.codeGenInst(compiler);
+                } else {
+                    lvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new BNE(getLabel()));
+                }
+                
+                if (getRightOperand() instanceof AbstractBinaryExpr) {
+                    rvalue.codeGenInst(compiler);
+                } else {
+                    rvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new BNE(getLabel()));
+                }
 
-            compiler.addInstruction(new BRA(labelOrFin));
-            compiler.addLabel(getLabelOr());
-            setLabel(labelTmpOr);
-            if (getRightOperand() instanceof AbstractBinaryExpr) {
-                rvalue.codeGenInst(compiler);
+                // si dans un if
             } else {
-                rvalue.codeGenInst(compiler);
-                compiler.addInstruction(new BEQ(getLabel()));
+                labelTmpOr = getLabel();
+                setLabel(getLabelOr());
+                if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                    lvalue.codeGenInst(compiler);
+                } else {
+                    lvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new BEQ(getLabel()));
+                }
+                
+                compiler.addInstruction(new BRA(labelOrFin));
+                compiler.addLabel(getLabelOr());
+                setLabel(labelTmpOr);
+                if (getRightOperand() instanceof AbstractBinaryExpr) {
+                    rvalue.codeGenInst(compiler);
+                } else {
+                    rvalue.codeGenInst(compiler);
+                    compiler.addInstruction(new BEQ(getLabel()));
+                }
+                compiler.addLabel(labelOrFin);
             }
-            compiler.addLabel(labelOrFin);
         }
+        
     }
+
 
     private void setLabelOr() {
         nbLabel++;
