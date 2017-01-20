@@ -1,0 +1,7 @@
+class A {
+int x;
+void method(int y){
+int x=2;
+y=x;
+}
+}

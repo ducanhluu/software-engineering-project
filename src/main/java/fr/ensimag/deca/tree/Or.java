@@ -36,82 +36,48 @@ public class Or extends AbstractOpBool {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        AbstractExpr lvalue = getLeftOperand();
+        AbstractExpr rvalue = getRightOperand();
         // si dans un while
         setLabelOr();
         if (Opp == 0) {
-            if (getLeftOperand() instanceof BooleanLiteral) {
-                if (((BooleanLiteral) getLeftOperand()).getValue()) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
-            }
-            if (getRightOperand() instanceof BooleanLiteral) {
-                if (((BooleanLiteral) getRightOperand()).getValue()) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
+            if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                lvalue.codeGenInst(compiler);
             } else {
-                AbstractExpr lvalue = getLeftOperand();
-                AbstractExpr rvalue = getRightOperand();
-                if (lvalue instanceof Identifier) {
-                    compiler.addInstruction(new LOAD(((Identifier) lvalue).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
-                    compiler.addInstruction(new BNE(getLabel()));
-                } else {
-                    lvalue.codeGenInst(compiler);
-                }
-
-                if (rvalue instanceof Identifier) {
-                    compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
-                    compiler.addInstruction(new BNE(getLabel()));
-                } else {
-                    rvalue.codeGenInst(compiler);
-                }
+                lvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BNE(getLabel()));
             }
+
+            if (getRightOperand() instanceof AbstractBinaryExpr) {
+                rvalue.codeGenInst(compiler);
+            } else {
+                rvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BNE(getLabel()));
+            }
+
             // si dans un if
         } else {
             labelTmpOr = getLabel();
             setLabel(getLabelOr());
-            //En cas de booléen a gauche:
-            if (getLeftOperand() instanceof BooleanLiteral) {
-                if (!(((BooleanLiteral) getLeftOperand()).getValue())) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
-                //Pas booléen :
+            if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                lvalue.codeGenInst(compiler);
             } else {
-                AbstractExpr lvalue = getLeftOperand();
-                if (lvalue instanceof Identifier) {
-                    compiler.addInstruction(new LOAD(((Identifier) lvalue).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
-                    compiler.addInstruction(new BEQ(getLabel()));
-                } else {
-                    getLeftOperand().codeGenInst(compiler);
-                }
+                lvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BEQ(getLabel()));
             }
 
             compiler.addInstruction(new BRA(labelOrFin));
             compiler.addLabel(getLabelOr());
             setLabel(labelTmpOr);
-            //En cas de booléen a droite:
-            if (getRightOperand() instanceof BooleanLiteral) {
-                if (!(((BooleanLiteral) getRightOperand()).getValue())) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
-                //Pas de Booléen :
+            if (getRightOperand() instanceof AbstractBinaryExpr) {
+                rvalue.codeGenInst(compiler);
             } else {
-                AbstractExpr rvalue = getRightOperand();
-                if (rvalue instanceof Identifier) {
-                    compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
-                    compiler.addInstruction(new BNE(getLabel()));
-                } else {
-                    getRightOperand().codeGenInst(compiler);
-                }
-
+                rvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BEQ(getLabel()));
             }
             compiler.addLabel(labelOrFin);
         }
     }
-
 
     private void setLabelOr() {
         nbLabel++;

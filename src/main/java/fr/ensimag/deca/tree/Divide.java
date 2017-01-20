@@ -2,7 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.divisionIsUsed;
-import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowOPNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
@@ -62,7 +62,7 @@ public class Divide extends AbstractOpArith {
                 compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
 
             } else {
-                overflowNeeded = true;
+                overflowOPNeeded = true;
                 compiler.addInstruction(new LOAD((float) 0.0, getAvailableRegister(compiler)));
                 GPRegister regTemps = getLastUsedRegisterToStore();
                 compiler.addInstruction(new LOAD(val, getAvailableRegister(compiler)));

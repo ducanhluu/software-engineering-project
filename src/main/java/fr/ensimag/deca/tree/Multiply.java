@@ -1,7 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowOPNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
@@ -28,7 +28,7 @@ public class Multiply extends AbstractOpArith {
         super.codeGenInst(compiler);
         compiler.addInstruction(new MUL(val,reg));
         if (!(getLeftOperand().getType().isInt() && getRightOperand().getType().isInt())) {
-            overflowNeeded = true;
+            overflowOPNeeded = true;
             compiler.addInstruction(new BOV(new Label("overflow_error")));
         }
         setLastUsedRegister(reg.getNumber());

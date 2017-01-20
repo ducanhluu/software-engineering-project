@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabelFin;
@@ -11,6 +12,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -42,25 +44,20 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        if (condition instanceof BooleanLiteral) {
-            if (((BooleanLiteral) condition).getValue()) {
-                setLabelWhile();
-                compiler.addLabel(getLabelDebut());
-                body.codeGenListInst(compiler);
-                compiler.addInstruction(new BRA(getLabelDebut()));
-                compiler.addLabel(getLabelFinWhile());
-            }
-        } else {
-            setLabelWhile();
-            compiler.addInstruction(new BRA(getLabelCond()));
-            compiler.addLabel(getLabelDebut());
-            body.codeGenListInst(compiler);
-            compiler.addLabel(getLabelCond());
-            setLabel(getLabelDebut());
-            setLabelFin(getLabelFinWhile());
+        setLabelWhile();
+        compiler.addInstruction(new BRA(getLabelCond()));
+        compiler.addLabel(getLabelDebut());
+        body.codeGenListInst(compiler);
+        compiler.addLabel(getLabelCond());
+        setLabel(getLabelDebut());
+        setLabelFin(getLabelFinWhile());
+        if (condition instanceof AbstractBinaryExpr) {
             condition.codeGenInst(compiler);
-            compiler.addLabel(getLabelFinWhile());
+        } else {
+            condition.codeGenInst(compiler);
+            compiler.addInstruction(new BNE(getLabel()));
         }
+        compiler.addLabel(getLabelFinWhile());
     }
 
     @Override

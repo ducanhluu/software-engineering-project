@@ -4,7 +4,6 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -60,7 +59,11 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 3 of [SyntaxeContextuelle]
      */
     public void verifyListClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+       Iterator it = this.iterator();
+            while(it.hasNext()){
+                AbstractDeclClass cour= (AbstractDeclClass) it.next();
+                cour.verifyClassBody(compiler);
+            }
     }
 
     /**
@@ -76,13 +79,15 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 1 of [Gencode] - generation of code to build table of methods
      */
     public void codeGenBuildVTable(DecacCompiler compiler) {
-        buildTableOfLabels();
-        compiler.addComment("Code des tables des methodes");
-        codeGenBuildVTableObject(compiler);
-        for (AbstractDeclClass i : getList()) {
-            i.codeGenBuildVTable(compiler);
+        if (!getList().isEmpty()) {
+            buildTableOfLabels();
+            compiler.addComment("Code des tables des methodes");
+            codeGenBuildVTableObject(compiler);
+            for (AbstractDeclClass i : getList()) {
+                i.codeGenBuildVTable(compiler);
+            }
+            compiler.addComment("-----------------------------------------------");
         }
-        compiler.addComment("-----------------------------------------------");
     }
 
     private void codeGenBuildVTableObject(DecacCompiler compiler) {
@@ -91,5 +96,14 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         compiler.addInstruction(new LOAD("code.Object.equals", getR(0)));
         compiler.addInstruction(new STORE(getR(0), new RegisterOffset(2, GB)));
         increSizeOfVtables(2);
+    }
+
+    /**
+     * Pass 2 of [Gencode] - generation of code of methods
+     */
+    public void codeGenMethods(DecacCompiler compiler) {
+        for (AbstractDeclClass i : getList()) {
+            i.codeGenMethods(compiler);
+        }
     }
 }

@@ -4,7 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintFloat;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintInteger;
-import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -19,6 +19,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  * Deca Identifier
@@ -169,13 +170,22 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-            if (localEnv.get(name) == null){
-               throw new ContextualError("variable not declared ",this.getLocation());
+            EnvironmentExp cour=localEnv;
+            EnvironmentExp mem=null;
+            while (cour != null){
+               if (cour.get(name) != null){
+                   mem=cour;
+                   cour=null;
+               } else{
+                   cour=cour.getParent();
+                   if (cour ==null){
+                       throw new ContextualError("variable not declared ",this.getLocation());
+                   }
+               }
             }
             //System.out.println("helo");
-            this.setDefinition(localEnv.get(name));
-            System.out.println(this.definition.toString());
-            return localEnv.get(name).getType();
+            this.setDefinition(mem.get(name));
+            return mem.get(name).getType();
     }
 
     /**
@@ -241,6 +251,6 @@ public class Identifier extends AbstractIdentifier {
     
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        codeGenSaveLastValue(compiler, getVariableDefinition().getOperand());
+        compiler.addInstruction(new LOAD(getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
     }
 }

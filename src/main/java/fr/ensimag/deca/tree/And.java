@@ -6,6 +6,8 @@ import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 
 /**
@@ -30,39 +32,40 @@ public class And extends AbstractOpBool {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        AbstractExpr lvalue = getLeftOperand();
+        AbstractExpr rvalue = getRightOperand();
         if (Opp == 0) {
             labelTmpAnd = getLabel();
             setLabelAnd();
             setLabel(getLabelAnd());
-            if (getLeftOperand() instanceof BooleanLiteral) {
-                if (((BooleanLiteral) getLeftOperand()).getValue()) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
+            if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                lvalue.codeGenInst(compiler);
             } else {
-                getLeftOperand().codeGenInst(compiler);
+                lvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BNE(getLabel()));
             }
             compiler.addInstruction(new BRA(getLabelFin()));
             compiler.addLabel(getLabelAnd());
             setLabel(labelTmpAnd);
-            if (getRightOperand() instanceof BooleanLiteral) {
-                if (((BooleanLiteral) getRightOperand()).getValue()) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
+             if (getRightOperand() instanceof AbstractBinaryExpr) {
+                rvalue.codeGenInst(compiler);
             } else {
-                getRightOperand().codeGenInst(compiler);
+                rvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BNE(getLabel()));
             }
         } else {
-            if (getLeftOperand() instanceof BooleanLiteral) {
-                if (!(((BooleanLiteral) getLeftOperand()).getValue())) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
-            } else if (getRightOperand() instanceof BooleanLiteral) {
-                if (!(((BooleanLiteral) getRightOperand()).getValue())) {
-                    compiler.addInstruction(new BRA(getLabel()));
-                }
+            if (getLeftOperand() instanceof AbstractBinaryExpr) {
+                lvalue.codeGenInst(compiler);
             } else {
-                getLeftOperand().codeGenInst(compiler);
-                getRightOperand().codeGenInst(compiler);
+                lvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BEQ(getLabel()));
+            }
+
+            if (getRightOperand() instanceof AbstractBinaryExpr) {
+                rvalue.codeGenInst(compiler);
+            } else {
+                rvalue.codeGenInst(compiler);
+                compiler.addInstruction(new BEQ(getLabel()));
             }
         }
 

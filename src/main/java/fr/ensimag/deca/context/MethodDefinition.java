@@ -11,7 +11,14 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2017
  */
 public class MethodDefinition extends ExpDefinition {
-
+    
+    private EnvironmentExp methodEnv;
+    public void setEnv(EnvironmentExp Env){
+        this.methodEnv=Env;
+    }
+    public EnvironmentExp getEnv(){
+        return this.methodEnv;
+    }
     @Override
     public boolean isMethod() {
         return true;

@@ -135,6 +135,13 @@ public class DecacCompiler {
     }
 
     /**
+     * @see
+     * fr.ensimag.ima.pseudocode.IMAProgram#append(fr.ensimag.ima.pseudocode.IMAProgram)
+     */
+    public void append(IMAProgram p) {
+        program.append(p);
+    }
+    /**
      * @see fr.ensimag.ima.pseudocode.IMAProgram#display()
      */
     public String displayIMAProgram() {

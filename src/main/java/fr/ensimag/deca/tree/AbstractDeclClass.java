@@ -39,4 +39,9 @@ public abstract class AbstractDeclClass extends Tree {
 
     protected abstract void codeGenBuildVTable(DecacCompiler compiler);
 
+    /**
+     * Pass 2 of [Gencode] - generation of code of methods
+     */
+    protected abstract void codeGenMethods(DecacCompiler compiler);
+
 }

@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -51,20 +52,15 @@ public class Assign extends AbstractBinaryExpr {
     protected String getOperatorName() {
         return "=";
     }
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         AbstractExpr lvalue = getLeftOperand();
         AbstractExpr rvalue = getRightOperand();
         //Il y a 2 cas: un Identifier ou une selection
         if (lvalue instanceof Identifier) {
-            if (rvalue instanceof Identifier) {
-                compiler.addInstruction(new LOAD(((Identifier) rvalue).getVariableDefinition().getOperand(),
-                        getAvailableRegister(compiler)));
-
-            } else {
-                rvalue.codeGenInst(compiler);
-            }
-            lvalue.codeGenInst(compiler);
+            rvalue.codeGenInst(compiler);
+            codeGenSaveLastValue(compiler, ((Identifier) lvalue).getVariableDefinition().getOperand());
         }
     }
 }

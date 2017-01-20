@@ -34,7 +34,9 @@ public class EnvironmentExp {
     public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
     }
-
+    public EnvironmentExp getParent(){
+        return parentEnvironment;
+    }
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
     }

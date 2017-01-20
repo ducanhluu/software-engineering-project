@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  *
@@ -30,7 +31,9 @@ public abstract class AbstractDeclMethod extends Tree {
     protected abstract void verifyDeclMethod(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
-    
+    protected abstract void verifyDeclMethodBody(DecacCompiler compiler,
+            EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError;
     /**
      * Generate assembly code for the instruction.
      * 
@@ -39,4 +42,6 @@ public abstract class AbstractDeclMethod extends Tree {
     protected abstract void codeGenDeclMethod(DecacCompiler compiler);
 
     protected abstract String getName();
+
+    protected abstract void codeGenMethods(IMAProgram subProg);
 }

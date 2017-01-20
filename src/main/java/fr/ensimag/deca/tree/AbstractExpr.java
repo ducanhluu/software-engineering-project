@@ -88,8 +88,16 @@ public abstract class AbstractExpr extends AbstractInst {
             Type expectedType)
             throws ContextualError {
         //throw new UnsupportedOperationException("not yet implemented");
+        
         Type type = this.verifyExpr(compiler, localEnv, currentClass);
         this.setType(type);
+        if (expectedType.isClass() ){
+            if (!type.isClassOrNull()){
+            throw new ContextualError("type not expected",this.getLocation());
+            }else{
+                return this;
+            }
+        }
         if(!expectedType.sameType(this.type)){
             throw new ContextualError("type not expected",this.getLocation());
         }
