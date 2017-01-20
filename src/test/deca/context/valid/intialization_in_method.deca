@@ -1,0 +1,11 @@
+class A { 
+int y;
+void method(){
+int x=y;
+}
+}
+class B extends A {
+void method1(){
+int l=y;
+}
+}

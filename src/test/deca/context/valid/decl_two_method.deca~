@@ -1,0 +1,6 @@
+class A {
+void setX(int x){
+}
+int getX(int x){
+}
+}

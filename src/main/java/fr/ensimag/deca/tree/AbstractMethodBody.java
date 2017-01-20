@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 /**
  *
@@ -29,7 +30,7 @@ public  abstract class AbstractMethodBody extends Tree{
      *          corresponds to the "class" attribute (null in the main bloc).
      */    
     protected abstract void verifyMethodBody(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+            EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType)
             throws ContextualError;
     
     /**
