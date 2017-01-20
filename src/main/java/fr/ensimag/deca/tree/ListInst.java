@@ -50,9 +50,5 @@ public class ListInst extends TreeList<AbstractInst> {
             s.println();
         }
     }
-        /*for (AbstractInst i : getList()) {
-            i.decompileInst(s);
-            s.println();
-        }*/
     
 }

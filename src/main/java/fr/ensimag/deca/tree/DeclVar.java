@@ -88,11 +88,7 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     protected void codeGenDeclVar(DecacCompiler compiler) {
         increNumberGlobalVariables();
-        varName.getVariableDefinition().setOperand(
-                new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
-        if (initialization instanceof Initialization) {
-            ((Initialization) initialization).getExpression().codeGenInst(compiler);
-            codeGenSaveLastValue(compiler, varName.getVariableDefinition().getOperand());
-        }
+        varName.getVariableDefinition().setOperand(new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
+        initialization.codeGenInit(compiler, varName.getVariableDefinition().getOperand());
     }
 }
