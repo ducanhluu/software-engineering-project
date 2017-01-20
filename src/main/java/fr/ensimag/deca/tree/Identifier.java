@@ -4,7 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintFloat;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintInteger;
-import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
@@ -19,6 +19,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  * Deca Identifier
@@ -241,6 +242,6 @@ public class Identifier extends AbstractIdentifier {
     
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        codeGenSaveLastValue(compiler, getVariableDefinition().getOperand());
+        compiler.addInstruction(new LOAD(getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
     }
 }

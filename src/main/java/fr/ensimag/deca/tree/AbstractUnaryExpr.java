@@ -1,12 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.OPP;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -50,14 +47,8 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 
     protected GPRegister reg;
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        AbstractExpr expr = getOperand();
-        if (expr instanceof Identifier) {
-            compiler.addInstruction(new LOAD(((Identifier) expr).getVariableDefinition().getOperand(),
-                    getAvailableRegister(compiler)));
-        } else {
-            expr.codeGenInst(compiler);
-        }
+    protected void codeGenInst(DecacCompiler compiler) { 
+        getOperand().codeGenInst(compiler);
         reg = getLastUsedRegisterToStore();
     }
 }
