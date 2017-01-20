@@ -79,13 +79,15 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 1 of [Gencode] - generation of code to build table of methods
      */
     public void codeGenBuildVTable(DecacCompiler compiler) {
-        buildTableOfLabels();
-        compiler.addComment("Code des tables des methodes");
-        codeGenBuildVTableObject(compiler);
-        for (AbstractDeclClass i : getList()) {
-            i.codeGenBuildVTable(compiler);
+        if (!getList().isEmpty()) {
+            buildTableOfLabels();
+            compiler.addComment("Code des tables des methodes");
+            codeGenBuildVTableObject(compiler);
+            for (AbstractDeclClass i : getList()) {
+                i.codeGenBuildVTable(compiler);
+            }
+            compiler.addComment("-----------------------------------------------");
         }
-        compiler.addComment("-----------------------------------------------");
     }
 
     private void codeGenBuildVTableObject(DecacCompiler compiler) {
