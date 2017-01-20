@@ -14,6 +14,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,5 +104,9 @@ public class DeclField extends AbstractDeclField {
         type.prettyPrint(s, prefix, false);    
         varName.prettyPrint(s, prefix, false);
         initialization.prettyPrint(s, prefix, true);
+    }
+
+    @Override
+    protected void codeGenInit(IMAProgram subProg) {
     }
 }

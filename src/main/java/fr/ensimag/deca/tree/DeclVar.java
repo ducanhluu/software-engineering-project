@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
+import static fr.ensimag.deca.codegen.MemoryManagement.increNumberGlobalVariables;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -90,7 +91,8 @@ public class DeclVar extends AbstractDeclVar {
     }
 
     @Override
-    protected void codeGenDeclVar(DecacCompiler compiler) {    
+    protected void codeGenDeclVar(DecacCompiler compiler) {
+        increNumberGlobalVariables();
         varName.getVariableDefinition().setOperand(
                 new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
         if (initialization instanceof Initialization) {

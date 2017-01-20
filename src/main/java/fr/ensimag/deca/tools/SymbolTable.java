@@ -28,7 +28,7 @@ public class SymbolTable {
         if ( !this.map.containsKey(name)){  
             this.map.put(name, new Symbol(name));
         }
-         return this.map.get(name); 
+        return this.map.get(name); 
     }
     
     public static class Symbol {

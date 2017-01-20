@@ -4,6 +4,13 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.DAddr;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -44,6 +51,8 @@ public class ClassDefinition extends TypeDefinition {
     private int numberOfFields = 0;
     private int numberOfMethods = 0;
     private DAddr addrVT = new RegisterOffset(1, GB);
+    private Map<Integer, String> vtable = new TreeMap<Integer, String>();
+
     
     public DAddr getAddressOfVTable() {
         return addrVT;
@@ -53,6 +62,21 @@ public class ClassDefinition extends TypeDefinition {
         addrVT = val;
     }
     
+    public Map getVTable() {
+        return vtable;
+    }
+    
+    public void copyAllElements(Map<Integer, String> map) {
+        vtable.putAll(map);
+    }
+    
+    public void addLabelToVTable(int index, String s) {
+        vtable.put(index, s);
+    }
+    
+    public Iterator getIteratorIndex() {
+        return vtable.keySet().iterator();
+    }
     @Override
     public boolean isClass() {
         return true;
@@ -95,6 +119,7 @@ public class ClassDefinition extends TypeDefinition {
         }
         members = new EnvironmentExp(parent);
         this.superClass = superClass;
+        vtable.put(1, "code.Object.equals");
     }
     
 }

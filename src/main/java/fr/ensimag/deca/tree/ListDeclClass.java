@@ -4,7 +4,6 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -95,5 +94,14 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         compiler.addInstruction(new LOAD("code.Object.equals", getR(0)));
         compiler.addInstruction(new STORE(getR(0), new RegisterOffset(2, GB)));
         increSizeOfVtables(2);
+    }
+
+    /**
+     * Pass 2 of [Gencode] - generation of code of methods
+     */
+    public void codeGenMethods(DecacCompiler compiler) {
+        for (AbstractDeclClass i : getList()) {
+            i.codeGenMethods(compiler);
+        }
     }
 }
