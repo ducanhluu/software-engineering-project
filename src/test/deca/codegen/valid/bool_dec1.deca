@@ -1,0 +1,14 @@
+// Description:
+// Test de déclaration et assignement d'opération bool 
+
+//Resultat: 
+///ok
+
+{
+boolean bool = (true || false);
+bool = (false||true);
+while(bool){
+print("ok");
+bool = false;
+}
+}
