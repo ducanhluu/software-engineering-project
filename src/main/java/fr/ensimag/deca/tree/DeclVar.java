@@ -57,7 +57,7 @@ public class DeclVar extends AbstractDeclVar {
                 //Logger.getLogger(DeclVar.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.varName.verifyExpr(compiler, localEnv, currentClass);
-            System.out.println(this.varName.getDefinition().toString());
+           
     }
 
     

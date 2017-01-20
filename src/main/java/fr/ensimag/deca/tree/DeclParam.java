@@ -42,8 +42,7 @@ public class DeclParam extends AbstractDeclParam{
         ParamDefinition param=new ParamDefinition(type1,this.name.getLocation());
         this.name.setDefinition(param);
         //a revoir cette implementation 
-        try {
-                
+        try {   
                 localEnv.declare(this.name.getName(), param);
         } catch (EnvironmentExp.DoubleDefException ex) {
                 throw new ContextualError("this parametres is already declared",this.name.getLocation());

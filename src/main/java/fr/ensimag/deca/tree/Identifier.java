@@ -170,13 +170,22 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-            if (localEnv.get(name) == null){
-               throw new ContextualError("variable not declared ",this.getLocation());
+            EnvironmentExp cour=localEnv;
+            EnvironmentExp mem=null;
+            while (cour != null){
+               if (cour.get(name) != null){
+                   mem=cour;
+                   cour=null;
+               } else{
+                   cour=cour.getParent();
+                   if (cour ==null){
+                       throw new ContextualError("variable not declared ",this.getLocation());
+                   }
+               }
             }
             //System.out.println("helo");
-            this.setDefinition(localEnv.get(name));
-            System.out.println(this.definition.toString());
-            return localEnv.get(name).getType();
+            this.setDefinition(mem.get(name));
+            return mem.get(name).getType();
     }
 
     /**

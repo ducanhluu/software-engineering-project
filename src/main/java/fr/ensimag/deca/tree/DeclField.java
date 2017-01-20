@@ -51,6 +51,7 @@ public class DeclField extends AbstractDeclField {
             cour=cour.getSuperClass();
          }
          Type type=this.type.verifyType(compiler);
+         this.type.setType(type);
          if (type.isVoid()){
              throw new ContextualError("in a field type shouldn't be void",this.getLocation());
          }
@@ -60,11 +61,17 @@ public class DeclField extends AbstractDeclField {
         } catch (EnvironmentExp.DoubleDefException ex) {
             Logger.getLogger(DeclField.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.initialization.verifyInitialization(compiler, type, localEnv, currentClass);
         this.varName.verifyExpr(compiler, localEnv, currentClass);
         currentClass.incNumberOfFields();
       
         
+    }
+    //nouvelle fonction verify 
+    @Override
+    protected  void verifyDeclFieldInit(DecacCompiler compiler,
+            EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError{
+        this.initialization.verifyInitialization(compiler, this.type.getType(), localEnv, currentClass);
     }
     
     @Override

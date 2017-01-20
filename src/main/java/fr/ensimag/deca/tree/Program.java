@@ -41,6 +41,7 @@ public class Program extends AbstractProgram {
 
         this.classes.verifyListClass(compiler);
         this.classes.verifyListClassMembers(compiler);
+        this.classes.verifyListClassBody(compiler);
         this.main.verifyMain(compiler);
 
     }

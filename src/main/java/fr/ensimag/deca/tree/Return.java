@@ -18,24 +18,23 @@ import org.apache.commons.lang.Validate;
  *
  * @author chakirs
  */
-public class MethodBody extends AbstractMethodBody{
-    private ListDeclVar declVariables;
-    private ListInst insts;
-    public MethodBody(ListInst insts,ListDeclVar declVariables){
-        Validate.notNull(insts);
-        Validate.notNull(declVariables);
-        this.declVariables=declVariables;
-        this.insts=insts;
+public class Return extends AbstractInst {
+    private AbstractExpr operand;
+    public AbstractExpr getOperand(){
+        return this.operand;
     }
-        
+    public Return(AbstractExpr operand){
+        Validate.notNull(operand);
+        this.operand=operand;
+    }
     @Override
-    protected void verifyMethodBody(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
-        this.declVariables.verifyListDeclVariable(compiler, localEnv, currentClass);
-        this.insts.verifyListInst(compiler, localEnv, currentClass, returnType);
+    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
+        this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
+        
     }
 
     @Override
-    protected void codeGenMethodBody(DecacCompiler compiler) {
+    protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -46,8 +45,7 @@ public class MethodBody extends AbstractMethodBody{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-         declVariables.prettyPrint(s, prefix, false);
-         insts.prettyPrint(s, prefix, true);
+        operand.prettyPrint(s, prefix, true);
     }
 
     @Override

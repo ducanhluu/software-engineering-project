@@ -31,6 +31,9 @@ public abstract class AbstractDeclField extends Tree {
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
     
+    protected abstract void verifyDeclFieldInit(DecacCompiler compiler,
+            EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError;
     /**
      * Generate assembly code for the instruction.
      * 

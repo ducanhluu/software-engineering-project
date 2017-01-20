@@ -60,15 +60,12 @@ public class DeclMethod extends AbstractDeclMethod{
                 cour=cour.getSuperClass();
             }
         }
-        this.parametres.verifyListDeclParam(compiler, localEnv, currentClass);
+        // declarer l'environment de la methode 
+        EnvironmentExp methodEnv=new EnvironmentExp(localEnv);
+        this.parametres.verifyListDeclParam(compiler, methodEnv, currentClass);
         Type type=this.typeM.verifyType(compiler);
         this.typeM.setType(type);
-        Signature sign=new Signature();
-        Iterator it = this.parametres.iterator();
-        while(it.hasNext()){
-            DeclParam cour2 = (DeclParam)it.next();
-            sign.add(cour2.getType().getType());
-        }
+        Signature sign=this.getSignatureParams();
         if (mem ==null){
             try {
                 localEnv.declare(this.name.getName(), new MethodDefinition(type,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
@@ -102,9 +99,27 @@ public class DeclMethod extends AbstractDeclMethod{
                 }
                 
         }
+        
+        MethodDefinition m=(MethodDefinition) localEnv.get(this.name.getName());
+        m.setEnv(methodEnv);
         this.name.verifyExpr(compiler, localEnv, currentClass);
     }
-
+    public Signature getSignatureParams(){
+        Signature sign=new Signature();
+        Iterator it = this.parametres.iterator();
+        while(it.hasNext()){
+            DeclParam cour2 = (DeclParam)it.next();
+            sign.add(cour2.getType().getType());
+        }
+        return sign;
+    }
+     @Override
+    protected  void verifyDeclMethodBody(DecacCompiler compiler,
+            EnvironmentExp localEnv, ClassDefinition currentClass)
+            throws ContextualError{
+        MethodDefinition m=(MethodDefinition) localEnv.get(this.name.getName());
+        this.body.verifyMethodBody(compiler, m.getEnv(), currentClass, this.typeM.getType());
+    }
     @Override
     protected void codeGenDeclMethod(DecacCompiler compiler) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
