@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabelFin;
@@ -10,6 +11,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -61,14 +63,14 @@ public class IfThenElse extends AbstractInst {
     protected void codeGenInst(DecacCompiler compiler) {
         setLabelInit();
         setLabelFin(getLabelFinIf());
-        if (condition instanceof BooleanLiteral) {
-            if (((BooleanLiteral) condition).getValue()) {
-            }
-        } else {
-            setLabel(getLabelSinon());
+        setLabel(getLabelSinon());
+        if (condition instanceof AbstractBinaryExpr) {
             Opp = 1;
             condition.codeGenInst(compiler);
             Opp = 0;
+        } else {
+            condition.codeGenInst(compiler);
+            compiler.addInstruction(new BEQ(getLabel()));
         }
         thenBranch.codeGenListInst(compiler);
         compiler.addInstruction(new BRA(labelFinIf));
