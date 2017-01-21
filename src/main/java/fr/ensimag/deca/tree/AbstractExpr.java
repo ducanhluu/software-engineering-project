@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -92,10 +93,16 @@ public abstract class AbstractExpr extends AbstractInst {
         Type type = this.verifyExpr(compiler, localEnv, currentClass);
         this.setType(type);
         if (expectedType.isClass() ){
-            if (!type.isClassOrNull()){
-            throw new ContextualError("type not expected",this.getLocation());
+            if (!type.isClassOrNull()  ){
+                 throw new ContextualError("type not expected",this.getLocation());
             }else{
-                return this;
+                ClassType type1=(ClassType) type;
+                ClassType type2= (ClassType) expectedType;
+                if (type1.isSubClassOf(type2)){
+                    return this;
+                }else{
+                    throw new ContextualError("type not expected",this.getLocation());
+                }
             }
         }
         if(!expectedType.sameType(this.type)){

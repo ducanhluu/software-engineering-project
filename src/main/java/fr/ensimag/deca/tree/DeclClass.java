@@ -77,6 +77,7 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition superClass= (ClassDefinition) compiler.getEnvType().get(this.extension.getName()); 
         ClassType type=new ClassType(this.name.getName(),this.getLocation(),superClass);
         ClassDefinition currentClass=type.getDefinition();
+        
         compiler.getEnvType().declare(this.name.getName(), currentClass);
     }
     
@@ -87,10 +88,11 @@ public class DeclClass extends AbstractDeclClass {
         this.name.verifyType(compiler);
         this.extension.verifyType(compiler);
         ClassDefinition currentClass=(ClassDefinition) compiler.getEnvType().get(this.name.getName());
-        currentClass.incNumberOfMethods();
+        currentClass.setNumberOfMethods(currentClass.getSuperClass().getNumberOfMethods()); 
+        currentClass.setNumberOfFields(currentClass.getSuperClass().getNumberOfFields());
         this.fields.verifyListDeclField(compiler, currentClass.getMembers(), currentClass);
         this.methods.verifyListDeclMethod(compiler, currentClass.getMembers(), currentClass);
-
+      
     }
     
     @Override
@@ -148,7 +150,6 @@ public class DeclClass extends AbstractDeclClass {
            i++;
            int index = it.next();
            s = vtable.get(index);
-           compiler.addComment(Integer.toString(index));
            compiler.addInstruction(new LOAD(s, getR(0)));
            compiler.addInstruction(new STORE(getR(0), new RegisterOffset(getSizeOfVTables() + i, GB))); 
         }
