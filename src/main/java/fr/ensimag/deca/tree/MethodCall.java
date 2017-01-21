@@ -7,8 +7,12 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
@@ -31,9 +35,34 @@ public class MethodCall extends AbstractExpr {
         this.arguments=arguments;
      
     }
+    public Signature getSignatureArgs(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)throws ContextualError{
+        Signature sign=new Signature();
+        for (AbstractExpr i : arguments.getList()){
+            sign.add(this.verifyExpr(compiler,localEnv, currentClass));
+        }
+        return sign;
+        
+    }
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            Type type=this.object.verifyExpr(compiler, localEnv, currentClass);
+            if ( !type.isClass()){
+                throw new ContextualError("can't call a method : left operand is not a class",this.getLocation());
+            }else{
+                ClassType typeClass=(ClassType) type;
+                Identifier methodIdent=(Identifier) ident;
+                ExpDefinition def= methodIdent.verifySelection(compiler, typeClass.getDefinition().getMembers(), typeClass.getDefinition());
+                if ( !def.isMethod()){
+                     throw new ContextualError("this ident is not a method",this.getLocation());
+                }else{
+                   Signature signExpected= ((MethodDefinition) def).getSignature();
+                   Signature args =this.getSignatureArgs(compiler, localEnv, currentClass);
+                   if ( !signExpected.sameSignature(args)){
+                       throw new ContextualError("this method has a different signature ",this.getLocation());
+                   }
+                   return def.getType();
+                }
+            }            
     }
 
     @Override

@@ -181,7 +181,6 @@ public class Identifier extends AbstractIdentifier {
                    }
                }
             }
-            //System.out.println("helo");
             this.setDefinition(mem.get(name));
             return mem.get(name);
     }
@@ -197,11 +196,10 @@ public class Identifier extends AbstractIdentifier {
                } else{
                    cour=cour.getParent();
                    if (cour ==null){
-                       throw new ContextualError("variable not declared ",this.getLocation());
+                       throw new ContextualError("variable or field  not declared ",this.getLocation());
                    }
                }
             }
-            //System.out.println("helo");
             this.setDefinition(mem.get(name));
             return mem.get(name).getType();
     }
