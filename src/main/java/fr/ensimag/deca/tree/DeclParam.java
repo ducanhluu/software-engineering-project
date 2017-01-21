@@ -73,6 +73,7 @@ public class DeclParam extends AbstractDeclParam{
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.name.iterChildren(f);
+        this.type.iterChildren(f);
     }
 }

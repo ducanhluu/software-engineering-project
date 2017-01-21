@@ -12,6 +12,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getDAddr;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.setDAddr;
 import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
+import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -122,6 +123,8 @@ public class Selection extends AbstractLValue {
         leftOperand.codeGenInst(compiler);
         compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
         compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
+        freeRegister(getLastUsedRegisterToStore().getNumber());
+        ident.codeGenInst(compiler);
         setDAddr(new RegisterOffset(ident.getFieldDefinition().getIndex(), getLastUsedRegisterToStore()));
     }
     

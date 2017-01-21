@@ -52,13 +52,14 @@ public class MethodBody extends AbstractMethodBody{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-         declVariables.prettyPrint(s, prefix, false);
-         insts.prettyPrint(s, prefix, true);
+        declVariables.prettyPrint(s, prefix, false);
+        insts.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.declVariables.iterChildren(f);
+        this.insts.iterChildren(f);
     }
     
 }

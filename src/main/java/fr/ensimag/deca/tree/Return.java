@@ -25,25 +25,29 @@ import org.apache.commons.lang.Validate;
  * @author chakirs
  */
 public class Return extends AbstractInst {
+
     private AbstractExpr operand;
-    public AbstractExpr getOperand(){
+
+    public AbstractExpr getOperand() {
         return this.operand;
     }
-    public Return(AbstractExpr operand){
+
+    public Return(AbstractExpr operand) {
         Validate.notNull(operand);
-        this.operand=operand;
+        this.operand = operand;
     }
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
-        
-        AbstractExpr op=this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
-        if ( op instanceof Identifier ){
-            Identifier ident= (Identifier) op;
-            if ( ident.getDefinition() instanceof FieldDefinition){
-                AbstractExpr thisInstruction=new Selection(new This(),ident);
-                this.operand=thisInstruction;
+
+        AbstractExpr op = this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
+        if (op instanceof Identifier) {
+            Identifier ident = (Identifier) op;
+            if (ident.getDefinition() instanceof FieldDefinition) {
+                AbstractExpr thisInstruction = new Selection(new This(), ident);
+                this.operand = thisInstruction;
             }
-            
+
         }
     }
 
@@ -68,7 +72,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.operand.iterChildren(f);
     }
-    
+
 }
