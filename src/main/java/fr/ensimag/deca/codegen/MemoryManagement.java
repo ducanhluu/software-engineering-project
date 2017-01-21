@@ -35,35 +35,53 @@ public class MemoryManagement {
         true, true, true, true};
     private static Deque<GPRegister> pushedRegs = new LinkedList<GPRegister>();
     private static DAddr daddr;
-    private static int lastMReg = 2;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
+    private static int numberTempMots = 0; //nombre maximal de paramètres des méthodes appelées
     public static boolean overflowOPNeeded = false;
     public static boolean divisionIsUsed = false;
     public static boolean overflowNeeded = false;
     public static boolean heapOverflowNeeded = false;
     public static boolean dereferencementNull = false;
+    public static boolean returnNeeded = false;
+    
 
+    public static Deque<GPRegister> getPusedRegs() {
+        return pushedRegs;
+    }
+    
+    public static void increNumberSavedRegisters(int val) {
+        numberSavedRegisters += val;
+    }
+    
+    public static void increNumberTempMots(int val) {
+        numberTempMots += val;
+    }
+    
+    public static int getNumberTempMots() {
+        return numberTempMots;
+    }
     
     public static DAddr getDAddr() {
         return daddr;
     }
-    
+
     public static void setDAddr(DAddr val) {
         daddr = val;
     }
+
     public static void increNumberGlobalVariables() {
         numberGlobalVariables++;
     }
-    
+
     public static int getNumberGlobalVariables() {
         return numberGlobalVariables;
     }
-    
+
     public static int getSizeOfVTables() {
         return sizeOfVTables;
     }
-    
+
     public static void increSizeOfVtables(int val) {
         sizeOfVTables += val;
     }
@@ -74,13 +92,15 @@ public class MemoryManagement {
 
     public static void freeRegisters() {
         for (int i = 2; i <= RMAX; i++) {
-            if (avaRegs[i]) {
-                avaRegs[i] = true;
-            }
+            avaRegs[i] = true;
         }
         pushedRegs.clear();
     }
-    
+
+    public static void freeRegister(int i) {
+        avaRegs[i] = true;
+    }
+
     public static GPRegister getAvailableRegister(IMAProgram compiler) {
         int i;
         for (i = 2; i <= RMAX; i++) {
@@ -100,19 +120,6 @@ public class MemoryManagement {
         return getR(i);
     }
 
-    public static GPRegister getAvailableMRegister(IMAProgram compiler) {
-        int i;
-        for (i = 2; i <= RMAX; i++) {
-            if (mRegs[i]) {
-                mRegs[i] = false;
-                lastMReg = i;
-                break;
-            }
-        }
-        pushedRegs.addFirst(getR(i));
-        return getR(i);
-    }
-    
     public static GPRegister getLastUsedRegisterToStore() {
         return getR(lastReg);
     }

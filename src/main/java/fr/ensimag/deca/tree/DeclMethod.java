@@ -200,7 +200,7 @@ public class DeclMethod extends AbstractDeclMethod {
 
     @Override
     protected void codeGenDeclMethod(IMAProgram subProg) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        body.codeGenMethodBody(subProg);
     }
 
 }

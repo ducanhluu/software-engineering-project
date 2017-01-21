@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -35,8 +36,8 @@ public class MethodBody extends AbstractMethodBody{
     }
 
     @Override
-    protected void codeGenMethodBody(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void codeGenMethodBody(IMAProgram compiler) {
+        insts.codeGenListInst(compiler);
     }
 
     @Override

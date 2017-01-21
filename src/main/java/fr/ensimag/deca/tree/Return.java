@@ -6,12 +6,16 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import static fr.ensimag.deca.codegen.MemoryManagement.returnNeeded;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -36,7 +40,9 @@ public class Return extends AbstractInst {
 
     @Override
     protected void codeGenInst(IMAProgram compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        operand.codeGenInst(compiler);
+        compiler.addInstruction(new LOAD(getLastUsedRegisterToStore(), getR(0)));
+        returnNeeded = true;
     }
 
     @Override

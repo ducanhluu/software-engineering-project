@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  *
@@ -38,5 +39,5 @@ public  abstract class AbstractMethodBody extends Tree{
      * 
      * @param compiler
      */
-    protected abstract void codeGenMethodBody(DecacCompiler compiler);
+    protected abstract void codeGenMethodBody(IMAProgram compiler);
 }

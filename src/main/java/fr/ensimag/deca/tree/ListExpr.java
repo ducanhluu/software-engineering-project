@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -32,11 +33,12 @@ public class ListExpr extends TreeList<AbstractExpr> {
     }
 
     public void codeGenInst(IMAProgram compiler) {
-        int i = -2;
+        int i = 0;
         for (AbstractExpr e : getList()){
             i--;
             e.codeGenInst(compiler);
             compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), new RegisterOffset(i, SP)));
+            freeRegister(getLastUsedRegisterToStore().getNumber());
         }
         
     }

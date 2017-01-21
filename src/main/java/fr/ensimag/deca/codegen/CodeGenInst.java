@@ -5,7 +5,6 @@
  */
 package fr.ensimag.deca.codegen;
 
-import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.divisionIsUsed;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeLastUsedRegister;
@@ -13,6 +12,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberSavedRegisters;
+import static fr.ensimag.deca.codegen.MemoryManagement.getNumberTempMots;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.heapOverflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
@@ -82,17 +82,20 @@ public class CodeGenInst {
     }
 
     public static void addEPOverflow(IMAProgram compiler) {
-        int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables();
+        int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables() + getNumberTempMots();
         if (i > 0) {
             overflowNeeded = true;
             compiler.addFirst(new ADDSP(getNumberGlobalVariables() + getSizeOfVTables()));
             compiler.addFirst(new BOV(new Label("stack_overflow_error")));
             compiler.addFirst(new TSTO(i), "test de debordement de pile");
             compiler.addFirst(new Line("start main program"));
-            compiler.addLabel(new Label("stack_overflow_error"));
         }
 
         if (overflowNeeded) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: Stack Overflow Error");
+            compiler.addComment("----------------------------------------------------");
+            compiler.addLabel(new Label("stack_overflow_error"));
             compiler.addInstruction(new WSTR("Error: Stack Overflow"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
@@ -115,6 +118,9 @@ public class CodeGenInst {
 
     public static void addEPIO(IMAProgram compiler) {
         if (ioIsUsed) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: IO Error");
+            compiler.addComment("----------------------------------------------------");
             compiler.addLabel(new Label("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
             compiler.addInstruction(new WNL());
@@ -124,6 +130,9 @@ public class CodeGenInst {
 
     public static void addEPOverflowOP(IMAProgram compiler) {
         if (overflowOPNeeded) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: Overflow Error");
+            compiler.addComment("----------------------------------------------------");
             compiler.addLabel(new Label("overflow_error"));
             compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
             compiler.addInstruction(new WNL());
@@ -133,6 +142,9 @@ public class CodeGenInst {
 
     public static void addEPHeapOverflow(IMAProgram compiler) {
         if (heapOverflowNeeded) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: Heap Overflow Error");
+            compiler.addComment("----------------------------------------------------");
             compiler.addLabel(new Label("heap_overflow_error"));
             compiler.addInstruction(new WSTR("Error: Impossible allocation, heap overflow"));
             compiler.addInstruction(new WNL());
@@ -142,15 +154,21 @@ public class CodeGenInst {
 
     public static void addEPDivideBy0(IMAProgram compiler) {
         if (divisionIsUsed) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: Division By Zero Error");
+            compiler.addComment("----------------------------------------------------");
             compiler.addLabel(new Label("division_by_zero_error"));
             compiler.addInstruction(new WSTR("Error: division by zero"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
     }
-    
+
     public static void addEPDereferencementNull(IMAProgram compiler) {
         if (dereferencementNull) {
+            compiler.addComment("----------------------------------------------------");
+            compiler.addComment("          Error Message: Dereferencement Null Error");
+            compiler.addComment("----------------------------------------------------");
             compiler.addLabel(new Label("dereferencement_null_error"));
             compiler.addInstruction(new WSTR("Error: Dereferencement null"));
             compiler.addInstruction(new WNL());
@@ -166,7 +184,6 @@ public class CodeGenInst {
         labelFin = lab;
     }
 
-    
     public static Label getLabel() {
         return label;
     }
