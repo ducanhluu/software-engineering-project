@@ -55,7 +55,7 @@ public class MethodCall extends AbstractExpr {
     public Signature getSignatureArgs(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass)throws ContextualError{
         Signature sign=new Signature();
         for (AbstractExpr i : arguments.getList()){
-            sign.add(this.verifyExpr(compiler,localEnv, currentClass));
+            sign.add(i.verifyExpr(compiler,localEnv, currentClass));
         }
         return sign;
         
