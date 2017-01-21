@@ -137,7 +137,7 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenBuildVTable(DecacCompiler compiler) {
+    protected void codeGenBuildVTable(IMAProgram compiler) {
         DAddr addrVTSP = extension.getClassDefinition().getAddressOfVTable();
         DAddr addrVT = new RegisterOffset(getSizeOfVTables() + 1, GB);
         name.getClassDefinition().setAddressOfVTable(addrVT);
@@ -161,7 +161,7 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenMethods(DecacCompiler compiler) {
+    protected void codeGenMethods(IMAProgram compiler) {
         IMAProgram subProg = new IMAProgram();
         subProg.addComment("----------------------------------------------------");
         subProg.addComment("                      Classe " + name.getName().toString());

@@ -53,7 +53,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         compiler.addInstruction(new CMP(val,reg));
         setLastUsedRegister(reg.getNumber());

@@ -5,6 +5,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStor
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -77,7 +78,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     protected DVal val;
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         
         if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
             val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();

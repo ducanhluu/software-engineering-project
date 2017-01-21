@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.SP;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
@@ -30,7 +31,7 @@ public class ListExpr extends TreeList<AbstractExpr> {
         }
     }
 
-    public void codeGenInst(DecacCompiler compiler) {
+    public void codeGenInst(IMAProgram compiler) {
         int i = -2;
         for (AbstractExpr e : getList()){
             i--;

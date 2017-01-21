@@ -61,12 +61,12 @@ public class IntLiteral extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         codeGenPrintInteger(compiler, value);
    }
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         compiler.addInstruction(new LOAD(value, getAvailableRegister(compiler)));
     }
 

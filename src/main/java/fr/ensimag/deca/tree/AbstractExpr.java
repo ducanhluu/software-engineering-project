@@ -144,7 +144,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         codeGenInst(compiler);
         if (getType().isInt()) {
             compiler.addInstruction(new LOAD(getLastUsedRegisterToStore(), getR(1)));
@@ -156,7 +156,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     

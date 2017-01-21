@@ -8,6 +8,7 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.util.Deque;
@@ -80,7 +81,7 @@ public class MemoryManagement {
         pushedRegs.clear();
     }
     
-    public static GPRegister getAvailableRegister(DecacCompiler compiler) {
+    public static GPRegister getAvailableRegister(IMAProgram compiler) {
         int i;
         for (i = 2; i <= RMAX; i++) {
             if (avaRegs[i]) {
@@ -99,7 +100,7 @@ public class MemoryManagement {
         return getR(i);
     }
 
-    public static GPRegister getAvailableMRegister(DecacCompiler compiler) {
+    public static GPRegister getAvailableMRegister(IMAProgram compiler) {
         int i;
         for (i = 2; i <= RMAX; i++) {
             if (mRegs[i]) {

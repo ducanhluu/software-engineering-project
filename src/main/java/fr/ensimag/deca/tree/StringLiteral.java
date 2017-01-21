@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * String literal
@@ -43,7 +44,7 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
     }
 

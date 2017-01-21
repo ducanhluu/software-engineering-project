@@ -13,6 +13,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import static fr.ensimag.ima.pseudocode.Register.SP;
@@ -78,7 +79,7 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         compiler.addInstruction(new ADDSP(ident.getClassDefinition().getNumberOfFields() + 1));
         object.codeGenInst(compiler);
         compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), new RegisterOffset(0, SP)));

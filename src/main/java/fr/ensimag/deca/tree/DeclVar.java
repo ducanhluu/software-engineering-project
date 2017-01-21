@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import java.io.PrintStream;
@@ -86,7 +87,7 @@ public class DeclVar extends AbstractDeclVar {
     }
 
     @Override
-    protected void codeGenDeclVar(DecacCompiler compiler) {
+    protected void codeGenDeclVar(IMAProgram compiler) {
         increNumberGlobalVariables();
         varName.getVariableDefinition().setOperand(new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
         dec=1;

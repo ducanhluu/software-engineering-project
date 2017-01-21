@@ -51,7 +51,7 @@ public class NoInitialization extends AbstractInitialization {
     }
 
     @Override
-    protected void codeGenInit(DecacCompiler compiler, DAddr operand) {
+    protected void codeGenInit(IMAProgram compiler, DAddr operand) {
         // nothing
     }
 

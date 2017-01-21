@@ -5,6 +5,7 @@ import static fr.ensimag.deca.codegen.CodeGenInst.addTestOverall;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegisters;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -50,15 +51,16 @@ public class Program extends AbstractProgram {
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
         // A FAIRE: compléter ce squelette très rudimentaire de code
-        classes.codeGenBuildVTable(compiler);
-        compiler.addComment("Main program");
-        main.codeGenMain(compiler);
-        compiler.addInstruction(new HALT());
-        compiler.addComment("end main program");
+        IMAProgram subProg = new IMAProgram();
+        classes.codeGenBuildVTable(subProg);
+        subProg.addComment("Main program");
+        main.codeGenMain(subProg);
+        subProg.addInstruction(new HALT());
+        subProg.addComment("end main program");
         freeRegisters();
-        classes.codeGenMethods(compiler);
-        addTestOverall(compiler);
-
+        classes.codeGenMethods(subProg);
+        addTestOverall(subProg);
+        compiler.append(subProg);
     }
 
     @Override

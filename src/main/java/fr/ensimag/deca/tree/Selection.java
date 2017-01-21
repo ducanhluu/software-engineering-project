@@ -18,6 +18,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
@@ -115,7 +116,7 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         dereferencementNull = true;
         leftOperand.codeGenInst(compiler);
         compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
@@ -124,7 +125,7 @@ public class Selection extends AbstractLValue {
     }
     
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         codeGenInst(compiler);
         if (ident.getType().isInt()) {
             codeGenPrintInteger(compiler, getDAddr());

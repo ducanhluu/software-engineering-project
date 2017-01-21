@@ -61,7 +61,7 @@ public class Initialization extends AbstractInitialization {
     }
 
     @Override
-    protected void codeGenInit(DecacCompiler compiler, DAddr operand) {
+    protected void codeGenInit(IMAProgram compiler, DAddr operand) {
         expression.codeGenInst(compiler);
         codeGenSaveLastValue(compiler, operand);
     }

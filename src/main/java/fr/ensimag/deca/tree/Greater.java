@@ -6,6 +6,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.tree.Assign.ass;
 import static fr.ensimag.deca.tree.DeclVar.dec;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.BGT;
 import fr.ensimag.ima.pseudocode.instructions.BLT;
 import fr.ensimag.ima.pseudocode.instructions.SLT;
@@ -29,7 +30,7 @@ public class Greater extends AbstractOpIneq {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         if (ass == 1 || dec == 1) {
             compiler.addInstruction(new SLT(getAvailableRegister(compiler)));

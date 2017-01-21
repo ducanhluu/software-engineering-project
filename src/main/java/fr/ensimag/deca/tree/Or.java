@@ -9,6 +9,7 @@ import static fr.ensimag.deca.tree.Assign.ass;
 import static fr.ensimag.deca.tree.DeclVar.dec;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
@@ -38,7 +39,7 @@ public class Or extends AbstractOpBool {
     private static int nbLabel = 0;
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         AbstractExpr lvalue = getLeftOperand();
         AbstractExpr rvalue = getRightOperand();
         // si dans un while

@@ -33,10 +33,9 @@ public class BooleanLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-            TypeDefinition typeDef=compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
-            return typeDef.getType();
+        TypeDefinition typeDef = compiler.getEnvType().get(compiler.getEnvType().getDict().create("boolean"));
+        return typeDef.getType();
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -58,13 +57,13 @@ public class BooleanLiteral extends AbstractExpr {
         return "BooleanLiteral (" + value + ")";
     }
 
-        @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    @Override
+    protected void codeGenInst(IMAProgram compiler) {
         if (value) {
             compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
         } else {
             compiler.addInstruction(new LOAD(0, getAvailableRegister(compiler)));
-        }  
+        }
     }
 
     @Override
@@ -73,7 +72,7 @@ public class BooleanLiteral extends AbstractExpr {
             subProg.addInstruction(new LOAD(1, getR(0)));
         } else {
             subProg.addInstruction(new LOAD(0, getR(0)));
-        }  
+        }
     }
-        
+
 }
