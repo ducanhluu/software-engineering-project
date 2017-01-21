@@ -72,7 +72,7 @@ public class DeclMethod extends AbstractDeclMethod{
                     if  (!SuperMethod.getType().sameType(this.typeM.getType())){// ici on doit voir si il est un soustype 
                         throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
                     }else{
-                         try {
+                        try {
                              localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,SuperMethod.getIndex()));
                          } catch (EnvironmentExp.DoubleDefException ex) {
                              Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
