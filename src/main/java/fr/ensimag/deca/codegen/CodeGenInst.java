@@ -6,6 +6,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.divisionIsUsed;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeLastUsedRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
@@ -79,6 +80,7 @@ public class CodeGenInst {
         addEPOverflowOP(compiler);
         addEPHeapOverflow(compiler);
         addEPDivideBy0(compiler);
+        addEPDereferencementNull(compiler);
     }
 
     public static void addEPOverflow(DecacCompiler compiler) {
@@ -144,6 +146,15 @@ public class CodeGenInst {
         if (divisionIsUsed) {
             compiler.addLabel(new Label("division_by_zero_error"));
             compiler.addInstruction(new WSTR("Error: division by zero"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+    }
+    
+    public static void addEPDereferencementNull(DecacCompiler compiler) {
+        if (dereferencementNull) {
+            compiler.addLabel(new Label("dereferencement_null_error"));
+            compiler.addInstruction(new WSTR("Error: Dereferencement null"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }

@@ -9,7 +9,6 @@ import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
@@ -125,10 +124,9 @@ public class DeclClass extends AbstractDeclClass {
         nameDefinition.copyAllElements(vtable);
         String s;
         int index;
-        SymbolTable st = nameDefinition.getMembers().getSymTable();
         for (AbstractDeclMethod i : methods.getList()) {
-            s = "code." + name.getName().toString() + "." + i.getName().toString();
-            index = ((MethodDefinition) nameDefinition.getMembers().get(st.create(i.getName()))).getIndex();
+            s = "code." + name.getName().toString() + "." + i.getStringName();
+            index = ((MethodDefinition) nameDefinition.getMembers().get(i.getSymbolName())).getIndex();
             nameDefinition.addLabelToVTable(index, s);
         }
     }
@@ -148,7 +146,9 @@ public class DeclClass extends AbstractDeclClass {
         Iterator<Integer> it = name.getClassDefinition().getIteratorIndex();
         while (it.hasNext()) {
            i++;
-           s = vtable.get(it.next());
+           int index = it.next();
+           s = vtable.get(index);
+           compiler.addComment(Integer.toString(index));
            compiler.addInstruction(new LOAD(s, getR(0)));
            compiler.addInstruction(new STORE(getR(0), new RegisterOffset(getSizeOfVTables() + i, GB))); 
         }

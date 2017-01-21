@@ -6,8 +6,8 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.util.Deque;
@@ -33,7 +33,7 @@ public class MemoryManagement {
         true, true, true, true,
         true, true, true, true};
     private static Deque<GPRegister> pushedRegs = new LinkedList<GPRegister>();
-    
+    private static DAddr daddr;
     private static int lastMReg = 2;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
@@ -41,8 +41,16 @@ public class MemoryManagement {
     public static boolean divisionIsUsed = false;
     public static boolean overflowNeeded = false;
     public static boolean heapOverflowNeeded = false;
+    public static boolean dereferencementNull = false;
 
     
+    public static DAddr getDAddr() {
+        return daddr;
+    }
+    
+    public static void setDAddr(DAddr val) {
+        daddr = val;
+    }
     public static void increNumberGlobalVariables() {
         numberGlobalVariables++;
     }

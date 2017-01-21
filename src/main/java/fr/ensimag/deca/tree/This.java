@@ -6,11 +6,15 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import static fr.ensimag.ima.pseudocode.Register.LB;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 
 /**
@@ -18,11 +22,11 @@ import java.io.PrintStream;
  * @author chakirs
  */
 public class This extends AbstractExpr {
-    
+
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        if (currentClass == null){
-            throw new ContextualError("you can't call this in a main ",this.getLocation());
+        if (currentClass == null) {
+            throw new ContextualError("you can't call this in a main ", this.getLocation());
         }
         return currentClass.getType();
     }
@@ -36,13 +40,19 @@ public class This extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         //leaf node nothing to do 
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "this";
     }
+
     @Override
     protected void iterChildren(TreeFunction f) {
-       //leaf node nothing to do
+        //leaf node nothing to do
     }
-    
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, LB), getAvailableRegister(compiler)));
+    }
 }

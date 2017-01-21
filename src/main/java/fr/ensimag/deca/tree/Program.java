@@ -56,7 +56,7 @@ public class Program extends AbstractProgram {
         compiler.addInstruction(new HALT());
         compiler.addComment("end main program");
         freeRegisters();
-        classes.codeGenMethods(compiler);
+        //classes.codeGenMethods(compiler);
         addTestOverall(compiler);
 
     }
