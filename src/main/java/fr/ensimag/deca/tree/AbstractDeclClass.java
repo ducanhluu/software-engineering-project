@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Class declaration.
@@ -37,11 +38,11 @@ public abstract class AbstractDeclClass extends Tree {
      */
     protected abstract void buildTableOfLabels();
 
-    protected abstract void codeGenBuildVTable(DecacCompiler compiler);
+    protected abstract void codeGenBuildVTable(IMAProgram compiler);
 
     /**
      * Pass 2 of [Gencode] - generation of code of methods
      */
-    protected abstract void codeGenMethods(DecacCompiler compiler);
+    protected abstract void codeGenMethods(IMAProgram compiler);
 
 }

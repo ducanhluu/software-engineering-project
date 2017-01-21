@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 
 /**
@@ -31,9 +32,9 @@ public abstract class AbstractInst extends Tree {
     /**
      * Generate assembly code for the instruction.
      * 
-     * @param compiler
+     * @param subProg
      */
-    protected abstract void codeGenInst(DecacCompiler compiler);
+    protected abstract void codeGenInst(IMAProgram subProg);
 
 
     /**

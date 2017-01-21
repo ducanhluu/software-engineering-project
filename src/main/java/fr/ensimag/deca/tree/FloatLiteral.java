@@ -9,7 +9,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -65,11 +66,16 @@ public class FloatLiteral extends AbstractExpr {
     }
     
     @Override
-  protected void codeGenPrint(DecacCompiler compiler) {
+  protected void codeGenPrint(IMAProgram compiler) {
         codeGenPrintFloat(compiler, value);
    }
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         compiler.addInstruction(new LOAD(value, getAvailableRegister(compiler)));
+    }
+
+    @Override
+    protected void codeGenInstObject(IMAProgram subProg) {
+        subProg.addInstruction(new LOAD(value, getR(0)));
     }
 }

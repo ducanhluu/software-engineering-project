@@ -5,20 +5,26 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
+import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.GB;
+import static fr.ensimag.ima.pseudocode.Register.LB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.SUBSP;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
@@ -109,7 +115,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        this.name.iterChildren(f);
+        this.extension.iterChildren(f);
+        this.fields.iterChildren(f);
+        this.methods.iterChildren(f);
     }
 
     @Override
@@ -120,16 +129,15 @@ public class DeclClass extends AbstractDeclClass {
         nameDefinition.copyAllElements(vtable);
         String s;
         int index;
-        SymbolTable st = nameDefinition.getMembers().getSymTable();
         for (AbstractDeclMethod i : methods.getList()) {
-            s = "code." + name.getName().toString() + "." + i.getName().toString();
-            index = ((MethodDefinition) nameDefinition.getMembers().get(st.create(i.getName()))).getIndex();
+            s = "code." + name.getName().toString() + "." + i.getStringName();
+            index = ((MethodDefinition) nameDefinition.getMembers().get(i.getSymbolName())).getIndex();
             nameDefinition.addLabelToVTable(index, s);
         }
     }
 
     @Override
-    protected void codeGenBuildVTable(DecacCompiler compiler) {
+    protected void codeGenBuildVTable(IMAProgram compiler) {
         DAddr addrVTSP = extension.getClassDefinition().getAddressOfVTable();
         DAddr addrVT = new RegisterOffset(getSizeOfVTables() + 1, GB);
         name.getClassDefinition().setAddressOfVTable(addrVT);
@@ -143,7 +151,8 @@ public class DeclClass extends AbstractDeclClass {
         Iterator<Integer> it = name.getClassDefinition().getIteratorIndex();
         while (it.hasNext()) {
            i++;
-           s = vtable.get(it.next());
+           int index = it.next();
+           s = vtable.get(index);
            compiler.addInstruction(new LOAD(s, getR(0)));
            compiler.addInstruction(new STORE(getR(0), new RegisterOffset(getSizeOfVTables() + i, GB))); 
         }
@@ -152,17 +161,37 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenMethods(DecacCompiler compiler) {
+    protected void codeGenMethods(IMAProgram compiler) {
         IMAProgram subProg = new IMAProgram();
+        subProg.addComment("----------------------------------------------------");
+        subProg.addComment("                      Classe " + name.getName().toString());
+        subProg.addComment("----------------------------------------------------");
+
         subProg.addLabel(new Label("init." + name.getName().toString()));
-        for (AbstractDeclField i : fields.getList()) {
-            i.codeGenInit(subProg);
+        
+        
+        if (extension.getClassDefinition().getSuperClass() == null) {
+            fields.codeGenListDeclField(subProg);
+        } else {
+            subProg.addInstruction(new TSTO(3));
+            subProg.addInstruction(new BOV(new Label("stack_overflow_error")));
+            overflowNeeded = true;
+            fields.codeGenInitNull(subProg);
+            subProg.addInstruction(new PUSH(getR(1)));
+            subProg.addInstruction(new BSR(new Label("init." + extension.getName().toString())));
+            subProg.addInstruction(new SUBSP(1));
+            fields.codeGenInitExplicit(subProg);
         }
+        
         subProg.addInstruction(new RTS());
         for (AbstractDeclMethod i : methods.getList()) {
-            i.codeGenMethods(subProg);
+            subProg.addComment("---------- Codage de la methode " + i.getStringName() + " dans la classe " + name.getName().toString());
+            subProg.addLabel(new Label("code." + name.getName().toString() + "." + i.getStringName()));
+            i.codeGenDeclMethod(subProg);
+            subProg.addInstruction(new RTS());
         }
         compiler.append(subProg);
+        
     }
 
 }

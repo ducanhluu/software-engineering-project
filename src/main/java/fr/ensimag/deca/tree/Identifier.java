@@ -19,6 +19,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
@@ -256,7 +257,7 @@ public class Identifier extends AbstractIdentifier {
     }
     
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         if (definition.getType().isInt()) {
             codeGenPrintInteger(compiler, getVariableDefinition().getOperand());
         }
@@ -266,7 +267,7 @@ public class Identifier extends AbstractIdentifier {
     }
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         compiler.addInstruction(new LOAD(getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
     }
 }

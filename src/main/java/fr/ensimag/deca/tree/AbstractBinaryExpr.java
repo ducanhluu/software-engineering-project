@@ -1,11 +1,11 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -78,13 +78,11 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     protected DVal val;
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         
         if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
             val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
-            compiler.addInstruction(
-                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
+            getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
 
         } else if (getRightOperand() instanceof Identifier) {
@@ -93,9 +91,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             reg = getLastUsedRegisterToStore();
 
         } else if (getLeftOperand() instanceof Identifier) {
-            compiler.addInstruction(
-                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
+            getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
             getRightOperand().codeGenInst(compiler);
             val = getLastUsedRegisterToStore();

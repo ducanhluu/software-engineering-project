@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
@@ -37,11 +38,11 @@ public abstract class AbstractDeclMethod extends Tree {
     /**
      * Generate assembly code for the instruction.
      * 
-     * @param compiler
+     * @param IMAProgram
      */
-    protected abstract void codeGenDeclMethod(DecacCompiler compiler);
+    protected abstract void codeGenDeclMethod(IMAProgram subProg);
 
-    protected abstract String getName();
-
-    protected abstract void codeGenMethods(IMAProgram subProg);
+    protected abstract SymbolTable.Symbol getSymbolName();
+    
+    protected abstract String getStringName();
 }

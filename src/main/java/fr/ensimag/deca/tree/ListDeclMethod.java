@@ -55,9 +55,4 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
 				cour.verifyDeclMethodBody(compiler,localEnv,currentClass);
 			}
     }
-    public void codeGenListDeclMethod(DecacCompiler compiler) {
-        for (AbstractDeclMethod i : getList()) {
-            i.codeGenDeclMethod(compiler);
-        }
-    }
 }
