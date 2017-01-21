@@ -34,15 +34,20 @@ import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 /**
  * CodeGen
- * 
+ *
  * @author gl17
  * @date 13/01/2017
  */
 public class CodeGenInst {
+
     private static Label label;
     private static Label labelFin;
+    private static Label labelFalse;
+    private static Label labelTrue;
+    private static int nbTrue = 0;
+    private static int nbFalse = 0;
     private static boolean ioIsUsed = false;
-    
+
     public static void codeGenPrintInteger(DecacCompiler compiler, int value) {
         compiler.addInstruction(new LOAD(value, getR(1)));
         compiler.addInstruction(new WINT());
@@ -62,12 +67,12 @@ public class CodeGenInst {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WFLOAT());
     }
-    
+
     public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
-        freeLastUsedRegister(); 
+        freeLastUsedRegister();
         compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), val));
     }
-    
+
     public static void addTestOverall(DecacCompiler compiler) {
         addEPOverflow(compiler);
         addEPIO(compiler);
@@ -75,7 +80,7 @@ public class CodeGenInst {
         addEPHeapOverflow(compiler);
         addEPDivideBy0(compiler);
     }
-    
+
     public static void addEPOverflow(DecacCompiler compiler) {
         int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables();
         if (i > 0) {
@@ -86,7 +91,7 @@ public class CodeGenInst {
             compiler.addFirstComment("start main program");
             compiler.addLabel(new Label("stack_overflow_error"));
         }
-        
+
         if (overflowNeeded) {
             compiler.addInstruction(new WSTR("Error: Stack Overflow"));
             compiler.addInstruction(new WNL());
@@ -125,7 +130,7 @@ public class CodeGenInst {
             compiler.addInstruction(new ERROR());
         }
     }
-    
+
     public static void addEPHeapOverflow(DecacCompiler compiler) {
         if (heapOverflowNeeded) {
             compiler.addLabel(new Label("heap_overflow_error"));
@@ -147,17 +152,33 @@ public class CodeGenInst {
     public static void setLabel(Label lab) {
         label = lab;
     }
-    
+
     public static void setLabelFin(Label lab) {
         labelFin = lab;
     }
 
-
+    public static void setLabelFalse() {
+        nbFalse++;
+        labelFalse = new Label("False_" + nbFalse);
+    }
+    
+    public static void setLabelTrue() {
+        nbTrue++;
+        labelTrue = new Label("True_" + nbTrue);
+    }
+    
     public static Label getLabel() {
         return label;
     }
-    
-    public static Label getLabelFin(){
+
+    public static Label getLabelFin() {
         return labelFin;
+    }
+
+    public static Label getLabelFalse() {
+        return labelFalse;
+    }
+   public static Label getLabelTrue() {
+        return labelTrue;
     }
 }

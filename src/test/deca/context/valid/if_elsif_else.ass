@@ -1,0 +1,38 @@
+; start main program
+	TSTO #1	; test de debordement de pile
+	BOV stack_overflow_error
+	ADDSP #1
+; start main program
+; Main program
+; Variables declarations:
+; Beginning of main instructions:
+	LOAD #1, R2
+	LOAD #2, R3
+	CMP R3, R2
+	BGT E_Sinon.01
+	WSTR "hello"
+	BRA E_Fin.0
+E_Sinon.01:
+	LOAD #2, R4
+	LOAD #3, R5
+	CMP R5, R4
+	BGT E_Sinon.02
+	WSTR "ok"
+	BRA E_Fin.0
+E_Sinon.02:
+	LOAD #3, R6
+	LOAD #4, R7
+	CMP R7, R6
+	BGT E_Sinon.03
+	WSTR "ko"
+	BRA E_Fin.0
+E_Sinon.03:
+	WSTR "bye"
+E_Fin.0:
+	HALT
+; end main program
+stack_overflow_error:
+	WSTR "Error: Stack Overflow"
+	WNL
+	ERROR
+; end main program

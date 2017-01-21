@@ -166,7 +166,25 @@ public class Identifier extends AbstractIdentifier {
         Validate.notNull(name);
         this.name = name;
     }
-
+    public ExpDefinition verifySelection(DecacCompiler compiler, EnvironmentExp localEnv,
+            ClassDefinition currentClass) throws ContextualError {
+            EnvironmentExp cour=localEnv;
+            EnvironmentExp mem=null;
+            while (cour != null){
+               if (cour.get(name) != null){
+                   mem=cour;
+                   cour=null;
+               } else{
+                   cour=cour.getParent();
+                   if (cour ==null){
+                       throw new ContextualError("variable not declared ",this.getLocation());
+                   }
+               }
+            }
+            //System.out.println("helo");
+            this.setDefinition(mem.get(name));
+            return mem.get(name);
+    }
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {

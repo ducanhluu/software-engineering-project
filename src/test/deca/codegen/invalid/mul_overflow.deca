@@ -2,7 +2,7 @@
 //   test diviser par 0
 
 // Résultats :
-//   Error: Overflow during arithmetic operation
+///Error: Overflow during arithmetic operation
 
 
 {

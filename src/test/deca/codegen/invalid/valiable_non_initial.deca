@@ -2,7 +2,8 @@
 //   test d'acceder a une variable non initialise
 
 // Résultats :
-//   IMA leve une erreur
+///  ** IMA ** ERREUR ** Ligne 10 : 
+//    WINT avec R1 indefini
 {
 	int x;
 	print(x);

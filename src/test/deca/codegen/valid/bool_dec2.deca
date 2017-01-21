@@ -1,0 +1,13 @@
+// Description:
+// Test de déclaration et assignement d'opération d'inégalités avec ou 
+
+//Resultat: 
+///ok
+
+{
+boolean bool = (5 > 2 || 2 < 2);
+while(bool){
+print("ok");
+bool = ( 5 <= 2 || 2 >= 3);
+}
+}

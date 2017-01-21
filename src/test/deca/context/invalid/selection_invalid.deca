@@ -1,0 +1,7 @@
+class B{
+protected int x;
+}
+{
+B b=new B();
+int y= b.x;
+}

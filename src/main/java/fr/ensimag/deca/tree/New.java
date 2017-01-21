@@ -40,7 +40,12 @@ public class New extends AbstractExpr {
     }
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type type=this.name.verifyType(compiler);
+        name.setType(type);
+        if ( !name.getType().isClass()){    
+            throw new ContextualError("new can be applied only on classes",this.getLocation());
+        }
+        return name.getType();
     }
 
     @Override
