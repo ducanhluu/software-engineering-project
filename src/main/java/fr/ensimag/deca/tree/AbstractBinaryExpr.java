@@ -1,7 +1,6 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -82,9 +81,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         
         if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
             val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
-            compiler.addInstruction(
-                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
+            getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
 
         } else if (getRightOperand() instanceof Identifier) {
@@ -93,9 +90,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             reg = getLastUsedRegisterToStore();
 
         } else if (getLeftOperand() instanceof Identifier) {
-            compiler.addInstruction(
-                    new LOAD(((Identifier) getLeftOperand()).getVariableDefinition().getOperand(),
-                            getAvailableRegister(compiler)));
+            getLeftOperand().codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
             getRightOperand().codeGenInst(compiler);
             val = getLastUsedRegisterToStore();

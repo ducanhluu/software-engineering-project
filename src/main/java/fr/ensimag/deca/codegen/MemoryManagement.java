@@ -7,8 +7,11 @@ package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * Management of registers
@@ -25,6 +28,13 @@ public class MemoryManagement {
         true, true, true, true,
         true, true, true, true,
         true, true, true, true};
+    private static boolean[] mRegs = {true, true, true, true,
+        true, true, true, true,
+        true, true, true, true,
+        true, true, true, true};
+    private static Deque<GPRegister> pushedRegs = new LinkedList<GPRegister>();
+    
+    private static int lastMReg = 2;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
     public static boolean overflowOPNeeded = false;
@@ -53,6 +63,15 @@ public class MemoryManagement {
         RMAX = max;
     }
 
+    public static void freeRegisters() {
+        for (int i = 2; i <= RMAX; i++) {
+            if (avaRegs[i]) {
+                avaRegs[i] = true;
+            }
+        }
+        pushedRegs.clear();
+    }
+    
     public static GPRegister getAvailableRegister(DecacCompiler compiler) {
         int i;
         for (i = 2; i <= RMAX; i++) {
@@ -68,9 +87,23 @@ public class MemoryManagement {
             numberSavedRegisters++;
             return getR(2);
         }
+        pushedRegs.addFirst(getR(i));
         return getR(i);
     }
 
+    public static GPRegister getAvailableMRegister(DecacCompiler compiler) {
+        int i;
+        for (i = 2; i <= RMAX; i++) {
+            if (mRegs[i]) {
+                mRegs[i] = false;
+                lastMReg = i;
+                break;
+            }
+        }
+        pushedRegs.addFirst(getR(i));
+        return getR(i);
+    }
+    
     public static GPRegister getLastUsedRegisterToStore() {
         return getR(lastReg);
     }
