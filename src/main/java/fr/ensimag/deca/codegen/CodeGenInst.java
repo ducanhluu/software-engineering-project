@@ -42,10 +42,6 @@ public class CodeGenInst {
 
     private static Label label;
     private static Label labelFin;
-    private static Label labelFalse;
-    private static Label labelTrue;
-    private static int nbTrue = 0;
-    private static int nbFalse = 0;
     private static boolean ioIsUsed = false;
 
     public static void codeGenPrintInteger(DecacCompiler compiler, int value) {
@@ -157,15 +153,6 @@ public class CodeGenInst {
         labelFin = lab;
     }
 
-    public static void setLabelFalse() {
-        nbFalse++;
-        labelFalse = new Label("False_" + nbFalse);
-    }
-    
-    public static void setLabelTrue() {
-        nbTrue++;
-        labelTrue = new Label("True_" + nbTrue);
-    }
     
     public static Label getLabel() {
         return label;
@@ -173,12 +160,5 @@ public class CodeGenInst {
 
     public static Label getLabelFin() {
         return labelFin;
-    }
-
-    public static Label getLabelFalse() {
-        return labelFalse;
-    }
-   public static Label getLabelTrue() {
-        return labelTrue;
     }
 }
