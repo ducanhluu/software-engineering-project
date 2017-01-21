@@ -1,6 +1,0 @@
-class B{
-protected int x;
-}
-{
-int y= B.x;
-}

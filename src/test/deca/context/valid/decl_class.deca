@@ -1,0 +1,8 @@
+class A {
+int x;
+}
+{
+A p = new A();
+A a = p;
+int x = p.x;
+}
