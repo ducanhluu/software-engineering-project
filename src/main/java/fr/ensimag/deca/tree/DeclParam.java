@@ -23,6 +23,7 @@ import org.apache.commons.lang.Validate;
 public class DeclParam extends AbstractDeclParam{
     private final AbstractIdentifier type;
     private final AbstractIdentifier name;
+    public int  simulationIndex;
     public DeclParam(AbstractIdentifier type,AbstractIdentifier name){
         Validate.notNull(type);
         Validate.notNull(name);
@@ -40,6 +41,7 @@ public class DeclParam extends AbstractDeclParam{
                 throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
         }
         ParamDefinition param=new ParamDefinition(type1,this.name.getLocation());
+        param.setIndex(simulationIndex);
         this.name.setDefinition(param);
         //a revoir cette implementation 
         try {   
