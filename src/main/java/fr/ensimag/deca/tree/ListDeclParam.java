@@ -42,9 +42,13 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
     void verifyListDeclParam(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError{
             Iterator it = this.iterator();
+            int i=1;
             while(it.hasNext()){
-				AbstractDeclParam cour = (AbstractDeclParam)it.next();
-				cour.verifyDeclParam(compiler,localEnv,currentClass);
+                
+				DeclParam cour = (DeclParam)it.next();
+                                cour.simulationIndex=i;
+                                cour.verifyDeclParam(compiler,localEnv,currentClass);
+                                i=i+1;
 			}
     }
 

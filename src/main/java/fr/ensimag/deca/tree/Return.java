@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -30,8 +31,16 @@ public class Return extends AbstractInst {
     }
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
-        this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
         
+        AbstractExpr op=this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
+        if ( op instanceof Identifier ){
+            Identifier ident= (Identifier) op;
+            if ( ident.getDefinition() instanceof FieldDefinition){
+                AbstractExpr thisInstruction=new Selection(new This(),ident);
+                this.operand=thisInstruction;
+            }
+            
+        }
     }
 
     @Override
