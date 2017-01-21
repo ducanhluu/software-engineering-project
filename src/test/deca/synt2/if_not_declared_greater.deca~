@@ -1,0 +1,10 @@
+// Description : 
+//       la condition de if manipule une variable non déclaré 
+//Resultat:
+//       Erreur contextulle : toute les variable de la condition doit être déclaré.
+//       Ligne 7 : /src/test/deca/etapeB/invalid/if_not_declared_greater.deca:7:5: variable not declared
+{
+if ( x > 2 ) {
+   print("Instruction et non déclaration");
+}
+}

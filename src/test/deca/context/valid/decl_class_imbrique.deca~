@@ -1,0 +1,12 @@
+class A {
+A a = new A();
+int x
+}
+class B{
+B a = new A();
+int y;
+}
+{
+B a = new B();
+int x = a.a.a.a.a.y;
+}

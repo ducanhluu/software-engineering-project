@@ -1,0 +1,8 @@
+class A{
+protected int x;
+}
+class B extends A{
+int y = this.x;
+A a =new A();
+int z = a.x;
+}

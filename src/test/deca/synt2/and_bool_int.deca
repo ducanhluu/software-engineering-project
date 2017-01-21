@@ -1,0 +1,10 @@
+// Description : 
+// 	test d'operation Booléen sur des variable de type non booléen 
+//Resultat:
+//      Erreur Contextuelle :
+//      Ligne 7 : /src/test/deca/etapeB/invalid/and_bool_int.deca:7:6: this operation can be done only on boolean types
+{
+	if (true ||| 5 ){
+	   println("this text shouldn't be printed");
+	}
+}

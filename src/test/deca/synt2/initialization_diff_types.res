@@ -1,0 +1,1 @@
+./src/test/deca/synt2/initialization_diff_types.deca:7:14: extraneous input '"hello"' expecting {'instanceof', ',', ';', '=', '&&', '||', '==', '!=', '<=', '>=', '<', '>', '+', '-', '*', '/', '%', '.'}

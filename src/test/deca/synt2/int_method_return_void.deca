@@ -1,0 +1,9 @@
+class A{
+boolean x;
+}
+class B extends A {
+
+void method()
+return x;
+}
+}

@@ -1,0 +1,7 @@
+class A {
+float x;
+}
+{
+A a = new A();
+printlnx(a.x);
+}

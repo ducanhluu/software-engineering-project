@@ -1,0 +1,10 @@
+// Description : comparaison d'un entier aver une chaine de caractère
+// 	 
+//Resultat:
+//      Erreur Contextuelle : la comparaison d'un entier avec une chaine de caractère n'a pas de sens.
+//      Ligne 7 : /src/test/deca/etapeB/invalid/equals_notvalid_float_string.deca:7:5: cannot use operator eqquals on two different type
+{
+if ( 3.2=="hello""){
+   println("this shouldn't be printed");
+}
+}

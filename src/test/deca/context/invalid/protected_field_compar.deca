@@ -1,0 +1,17 @@
+class A {
+boolean x;
+protected boolean y;
+}
+class B extends A{
+int z;
+}
+class C extends A{
+int z;
+}
+{
+A a = new A();
+B b = new B();
+C c = new C();
+boolean x = a.x || b.z == c.z;
+boolean y = c.y;
+}
