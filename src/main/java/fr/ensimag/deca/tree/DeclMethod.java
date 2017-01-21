@@ -71,6 +71,12 @@ public class DeclMethod extends AbstractDeclMethod{
                 }else if (!SuperMethod.getType().isClass()){
                     if  (!SuperMethod.getType().sameType(this.typeM.getType())){// ici on doit voir si il est un soustype 
                         throw new ContextualError("this method is already exsisting in a superClass with a different type",this.getLocation());
+                    }else{
+                         try {
+                             localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,SuperMethod.getIndex()));
+                         } catch (EnvironmentExp.DoubleDefException ex) {
+                             Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
+                         }
                     }
                 }else{
                      if ( !this.typeM.getType().isClass()){
@@ -87,8 +93,7 @@ public class DeclMethod extends AbstractDeclMethod{
                              Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
                          }
                     }
-                }
-                
+                } 
         }
     }
     @Override
