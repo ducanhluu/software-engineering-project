@@ -93,8 +93,7 @@ public class DeclMethod extends AbstractDeclMethod{
                              Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
                          }
                     }
-                }
-                
+                } 
         }
     }
     @Override

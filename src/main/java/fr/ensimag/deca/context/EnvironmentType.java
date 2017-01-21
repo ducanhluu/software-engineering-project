@@ -38,8 +38,11 @@ public class EnvironmentType {
         //ClassDefinition objectClass=classObjT.getDefinition();
         Signature signatureEquals=new Signature();
         signatureEquals.add(classObjT);
+        objectClass.setNumberOfFields(0);
+       
         try {
-            objectClass.getMembers().declare(Dict.create("equals"), new MethodDefinition(boolT,Location.BUILTIN,signatureEquals,1));
+             objectClass.getMembers().declare(Dict.create("equals"), new MethodDefinition(boolT,Location.BUILTIN,signatureEquals,1));
+             objectClass.setNumberOfMethods(1);
         } catch (EnvironmentExp.DoubleDefException ex) {
             Logger.getLogger(EnvironmentType.class.getName()).log(Level.SEVERE, null, ex);
         }
