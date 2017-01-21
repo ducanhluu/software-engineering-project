@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
@@ -78,7 +79,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     /**
      * Pass 1 of [Gencode] - generation of code to build table of methods
      */
-    public void codeGenBuildVTable(DecacCompiler compiler) {
+    public void codeGenBuildVTable(IMAProgram compiler) {
         if (!getList().isEmpty()) {
             buildTableOfLabels();
             compiler.addComment("Code des tables des methodes");
@@ -90,7 +91,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         }
     }
 
-    private void codeGenBuildVTableObject(DecacCompiler compiler) {
+    private void codeGenBuildVTableObject(IMAProgram compiler) {
         compiler.addInstruction(new LOAD(new NullOperand(), getR(0)));
         compiler.addInstruction(new STORE(getR(0), new RegisterOffset(1, GB)));
         compiler.addInstruction(new LOAD("code.Object.equals", getR(0)));
@@ -101,7 +102,7 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
     /**
      * Pass 2 of [Gencode] - generation of code of methods
      */
-    public void codeGenMethods(DecacCompiler compiler) {
+    public void codeGenMethods(IMAProgram compiler) {
         for (AbstractDeclClass i : getList()) {
             i.codeGenMethods(compiler);
         }

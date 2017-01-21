@@ -15,6 +15,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
@@ -66,7 +67,7 @@ public class New extends AbstractExpr {
     }
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         int size = name.getClassDefinition().getNumberOfFields() + 1;
         DAddr addrVTable = name.getClassDefinition().getAddressOfVTable();
         heapOverflowNeeded = true;

@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
@@ -50,12 +51,12 @@ public class ReadInt extends AbstractReadExpr {
     }
     
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         codeGenReadInt(compiler);
     }
     
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMAProgram compiler) {
         codeGenInst(compiler);
         compiler.addInstruction(new WINT());
     }

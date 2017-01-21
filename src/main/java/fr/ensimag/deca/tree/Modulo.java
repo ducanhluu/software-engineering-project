@@ -12,6 +12,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
@@ -49,7 +50,7 @@ public class Modulo extends AbstractOpArith {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         divisionIsUsed = true;
         compiler.addInstruction(new CMP(0, reg));

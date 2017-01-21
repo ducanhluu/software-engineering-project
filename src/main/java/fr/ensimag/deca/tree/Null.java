@@ -13,6 +13,10 @@ import fr.ensimag.deca.context.NullType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 
 /**
@@ -42,6 +46,11 @@ public class Null extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         //leaf node : nothing to do 
         
+    }
+
+    @Override
+    protected void codeGenInstObject(IMAProgram subProg) {
+        subProg.addInstruction(new LOAD(new NullOperand(), getR(0)));
     }
     
 }

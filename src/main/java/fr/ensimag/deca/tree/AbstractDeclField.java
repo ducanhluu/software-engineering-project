@@ -39,7 +39,11 @@ public abstract class AbstractDeclField extends Tree {
      * 
      * @param compiler
      */
-    protected abstract void codeGenDeclField(DecacCompiler compiler);
+    protected abstract void codeGenDeclField(IMAProgram subProg);
 
-    protected abstract void codeGenInit(IMAProgram subProg);
+    protected abstract void codeGenInitNull(IMAProgram subProg);
+
+    protected abstract void codeGenInitExplicit(IMAProgram subProg);
+
+  
 }

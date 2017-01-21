@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Initialization (of variable, field, ...)
@@ -27,6 +28,8 @@ public abstract class AbstractInitialization extends Tree {
             Type t, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
-    protected abstract void codeGenInit(DecacCompiler compiler, DAddr operand);
+    protected abstract void codeGenInit(IMAProgram compiler, DAddr operand);
+
+    protected abstract void codeGenInitObject(IMAProgram subProg);
 
 }

@@ -3,14 +3,13 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.getLabel;
-import static fr.ensimag.deca.codegen.CodeGenInst.getLabelFin;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabel;
 import static fr.ensimag.deca.codegen.CodeGenInst.setLabelFin;
-import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
@@ -43,7 +42,7 @@ public class While extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         setLabelWhile();
         compiler.addInstruction(new BRA(getLabelCond()));
         compiler.addLabel(getLabelDebut());

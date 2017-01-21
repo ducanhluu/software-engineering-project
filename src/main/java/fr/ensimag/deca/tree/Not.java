@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
 
@@ -41,7 +42,7 @@ public class Not extends AbstractUnaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         compiler.addInstruction(new LOAD(1, getAvailableRegister(compiler)));
         compiler.addInstruction(new SUB(getLastUsedRegisterToStore(), reg));

@@ -6,6 +6,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.divisionIsUsed;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeLastUsedRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
@@ -17,7 +18,9 @@ import static fr.ensimag.deca.codegen.MemoryManagement.heapOverflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowOPNeeded;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Line;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
@@ -42,53 +45,50 @@ public class CodeGenInst {
 
     private static Label label;
     private static Label labelFin;
-    private static Label labelFalse;
-    private static Label labelTrue;
-    private static int nbTrue = 0;
-    private static int nbFalse = 0;
     private static boolean ioIsUsed = false;
 
-    public static void codeGenPrintInteger(DecacCompiler compiler, int value) {
+    public static void codeGenPrintInteger(IMAProgram compiler, int value) {
         compiler.addInstruction(new LOAD(value, getR(1)));
         compiler.addInstruction(new WINT());
     }
 
-    public static void codeGenPrintInteger(DecacCompiler compiler, DAddr val) {
+    public static void codeGenPrintInteger(IMAProgram compiler, DAddr val) {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WINT());
     }
 
-    public static void codeGenPrintFloat(DecacCompiler compiler, float val) {
+    public static void codeGenPrintFloat(IMAProgram compiler, float val) {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WFLOAT());
     }
 
-    public static void codeGenPrintFloat(DecacCompiler compiler, DAddr val) {
+    public static void codeGenPrintFloat(IMAProgram compiler, DAddr val) {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WFLOAT());
     }
 
-    public static void codeGenSaveLastValue(DecacCompiler compiler, DAddr val) {
+    public static void codeGenSaveLastValue(IMAProgram compiler, DAddr val) {
         freeLastUsedRegister();
         compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), val));
     }
 
-    public static void addTestOverall(DecacCompiler compiler) {
+    public static void addTestOverall(IMAProgram compiler) {
         addEPOverflow(compiler);
         addEPIO(compiler);
         addEPOverflowOP(compiler);
         addEPHeapOverflow(compiler);
         addEPDivideBy0(compiler);
+        addEPDereferencementNull(compiler);
     }
 
-    public static void addEPOverflow(DecacCompiler compiler) {
+    public static void addEPOverflow(IMAProgram compiler) {
         int i = getNumberSavedRegisters() + getNumberGlobalVariables() + getSizeOfVTables();
         if (i > 0) {
             overflowNeeded = true;
             compiler.addFirst(new ADDSP(getNumberGlobalVariables() + getSizeOfVTables()));
             compiler.addFirst(new BOV(new Label("stack_overflow_error")));
             compiler.addFirst(new TSTO(i), "test de debordement de pile");
-            compiler.addFirstComment("start main program");
+            compiler.addFirst(new Line("start main program"));
             compiler.addLabel(new Label("stack_overflow_error"));
         }
 
@@ -99,21 +99,21 @@ public class CodeGenInst {
         }
     }
 
-    public static void codeGenReadFloat(DecacCompiler compiler) {
+    public static void codeGenReadFloat(IMAProgram compiler) {
         ioIsUsed = true;
         compiler.addInstruction(new RFLOAT());
         compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
-    public static void codeGenReadInt(DecacCompiler compiler) {
+    public static void codeGenReadInt(IMAProgram compiler) {
         ioIsUsed = true;
         compiler.addInstruction(new RINT());
         compiler.addInstruction(new BOV(new Label("io_error")));
         compiler.addInstruction(new LOAD(getR(1), getAvailableRegister(compiler)));
     }
 
-    public static void addEPIO(DecacCompiler compiler) {
+    public static void addEPIO(IMAProgram compiler) {
         if (ioIsUsed) {
             compiler.addLabel(new Label("io_error"));
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
@@ -122,7 +122,7 @@ public class CodeGenInst {
         }
     }
 
-    public static void addEPOverflowOP(DecacCompiler compiler) {
+    public static void addEPOverflowOP(IMAProgram compiler) {
         if (overflowOPNeeded) {
             compiler.addLabel(new Label("overflow_error"));
             compiler.addInstruction(new WSTR("Error: Overflow during arithmetic operation"));
@@ -131,7 +131,7 @@ public class CodeGenInst {
         }
     }
 
-    public static void addEPHeapOverflow(DecacCompiler compiler) {
+    public static void addEPHeapOverflow(IMAProgram compiler) {
         if (heapOverflowNeeded) {
             compiler.addLabel(new Label("heap_overflow_error"));
             compiler.addInstruction(new WSTR("Error: Impossible allocation, heap overflow"));
@@ -140,10 +140,19 @@ public class CodeGenInst {
         }
     }
 
-    public static void addEPDivideBy0(DecacCompiler compiler) {
+    public static void addEPDivideBy0(IMAProgram compiler) {
         if (divisionIsUsed) {
             compiler.addLabel(new Label("division_by_zero_error"));
             compiler.addInstruction(new WSTR("Error: division by zero"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+    }
+    
+    public static void addEPDereferencementNull(IMAProgram compiler) {
+        if (dereferencementNull) {
+            compiler.addLabel(new Label("dereferencement_null_error"));
+            compiler.addInstruction(new WSTR("Error: Dereferencement null"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
@@ -157,15 +166,6 @@ public class CodeGenInst {
         labelFin = lab;
     }
 
-    public static void setLabelFalse() {
-        nbFalse++;
-        labelFalse = new Label("False_" + nbFalse);
-    }
-    
-    public static void setLabelTrue() {
-        nbTrue++;
-        labelTrue = new Label("True_" + nbTrue);
-    }
     
     public static Label getLabel() {
         return label;
@@ -173,12 +173,5 @@ public class CodeGenInst {
 
     public static Label getLabelFin() {
         return labelFin;
-    }
-
-    public static Label getLabelFalse() {
-        return labelFalse;
-    }
-   public static Label getLabelTrue() {
-        return labelTrue;
     }
 }

@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -47,7 +48,7 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
 
     protected GPRegister reg;
     @Override
-    protected void codeGenInst(DecacCompiler compiler) { 
+    protected void codeGenInst(IMAProgram compiler) { 
         getOperand().codeGenInst(compiler);
         reg = getLastUsedRegisterToStore();
     }
