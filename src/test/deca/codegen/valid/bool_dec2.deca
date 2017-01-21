@@ -5,9 +5,9 @@
 ///ok
 
 {
-boolean bool = (5 > 2 || 2 < 2);
+boolean bool = (5 > 2 || 2 < 3);
 while(bool){
 print("ok");
-bool = ( 5 <= 2 || 2 >= 3);
+bool = 2<=1 || 2>=6;
 }
 }

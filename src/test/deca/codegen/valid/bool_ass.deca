@@ -1,0 +1,13 @@
+///ok1 ok2
+
+{
+boolean bool;
+if (true||true){
+print(" ok1 ");
+}
+
+bool = (1!=2||1==1);
+if (bool){
+print("ok2");
+}
+}

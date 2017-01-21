@@ -1,0 +1,24 @@
+//Description:
+//Test declaration bool avec && et comparaisons exactes
+
+//Resultats:
+///okok
+
+
+{
+boolean bool = (2==2 && false);
+if(bool){
+	print("not ok1");
+}else{
+bool = true && 2!=2;
+	if(bool){
+		print("not ok2");
+	}else{
+		print("ok");
+		}
+}
+bool= (1==1 && 1!=2);
+if (bool){
+print("ok");
+}
+}

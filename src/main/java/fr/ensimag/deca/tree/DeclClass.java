@@ -115,7 +115,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        this.name.iterChildren(f);
+        this.extension.iterChildren(f);
+        this.fields.iterChildren(f);
+        this.methods.iterChildren(f);
     }
 
     @Override

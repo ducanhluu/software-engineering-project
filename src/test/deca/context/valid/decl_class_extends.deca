@@ -1,0 +1,20 @@
+class A {
+int a;
+float x =2.22;
+int method(int x){
+return x%x;
+}}
+class B extends A{
+int y;
+int method(int x){
+return this.a;
+}}
+{
+A a = new B();
+B b = new B();
+A c = new A();
+int x = a.a;
+A h;
+h = new A();
+h = new B();
+}
