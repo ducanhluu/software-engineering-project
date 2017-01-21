@@ -158,11 +158,6 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    protected void codeGenDeclMethod(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void decompile(IndentPrintStream s) {
 
         this.typeM.decompile(s);
@@ -199,13 +194,13 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    protected void codeGenMethods(IMAProgram subProg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected String getStringName() {
+        return name.getName().getName();
     }
 
     @Override
-    protected String getStringName() {
-        return name.getName().getName();
+    protected void codeGenDeclMethod(IMAProgram subProg) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

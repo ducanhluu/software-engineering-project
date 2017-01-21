@@ -16,6 +16,7 @@ import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.NullOperand;
+import static fr.ensimag.ima.pseudocode.Register.LB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
@@ -97,7 +98,7 @@ public class DeclField extends AbstractDeclField {
         } else {
             initialization.codeGenInitObject(subProg);
         }
-
+        subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
         int index = varName.getFieldDefinition().getIndex();
         subProg.addInstruction(new STORE(getR(0), new RegisterOffset(index, getR(1))));
     }
@@ -143,7 +144,7 @@ public class DeclField extends AbstractDeclField {
         } else if (type.getType().isClass()) {
             subProg.addInstruction(new LOAD(new NullOperand(), getR(0)));
         }
-        
+        subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
         int index = varName.getFieldDefinition().getIndex();
         subProg.addInstruction(new STORE(getR(0), new RegisterOffset(index, getR(1))));    
     }
@@ -152,6 +153,7 @@ public class DeclField extends AbstractDeclField {
     protected void codeGenInitExplicit(IMAProgram subProg) {
         if (initialization instanceof Initialization) {
             initialization.codeGenInitObject(subProg);
+            subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
             int index = varName.getFieldDefinition().getIndex();
             subProg.addInstruction(new STORE(getR(0), new RegisterOffset(index, getR(1))));
         }

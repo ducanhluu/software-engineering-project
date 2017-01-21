@@ -38,13 +38,11 @@ public abstract class AbstractDeclMethod extends Tree {
     /**
      * Generate assembly code for the instruction.
      * 
-     * @param compiler
+     * @param IMAProgram
      */
-    protected abstract void codeGenDeclMethod(DecacCompiler compiler);
+    protected abstract void codeGenDeclMethod(IMAProgram subProg);
 
     protected abstract SymbolTable.Symbol getSymbolName();
-
-    protected abstract void codeGenMethods(IMAProgram subProg);
-
+    
     protected abstract String getStringName();
 }

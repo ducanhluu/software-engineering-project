@@ -31,8 +31,8 @@ public class ListExpr extends TreeList<AbstractExpr> {
     }
 
     public void codeGenInst(DecacCompiler compiler) {
-        int i = 0;
-        for (AbstractExpr e : getReversedList()){
+        int i = -2;
+        for (AbstractExpr e : getList()){
             i--;
             e.codeGenInst(compiler);
             compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), new RegisterOffset(i, SP)));

@@ -160,8 +160,12 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenMethods(DecacCompiler compiler) {
         IMAProgram subProg = new IMAProgram();
+        subProg.addComment("----------------------------------------------------");
+        subProg.addComment("                      Classe " + name.getName().toString());
+        subProg.addComment("----------------------------------------------------");
+
         subProg.addLabel(new Label("init." + name.getName().toString()));
-        subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
+        
         
         if (extension.getClassDefinition().getSuperClass() == null) {
             fields.codeGenListDeclField(subProg);
@@ -173,13 +177,15 @@ public class DeclClass extends AbstractDeclClass {
             subProg.addInstruction(new PUSH(getR(1)));
             subProg.addInstruction(new BSR(new Label("init." + extension.getName().toString())));
             subProg.addInstruction(new SUBSP(1));
-            subProg.addInstruction(new LOAD(new RegisterOffset(-2, LB), getR(1)));
             fields.codeGenInitExplicit(subProg);
         }
         
         subProg.addInstruction(new RTS());
         for (AbstractDeclMethod i : methods.getList()) {
-            i.codeGenMethods(subProg);
+            subProg.addComment("---------- Codage de la methode " + i.getStringName() + " dans la classe " + name.getName().toString());
+            subProg.addLabel(new Label("code." + name.getName().toString() + "." + i.getStringName()));
+            i.codeGenDeclMethod(subProg);
+            subProg.addInstruction(new RTS());
         }
         compiler.append(subProg);
         
