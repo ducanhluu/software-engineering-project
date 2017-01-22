@@ -124,7 +124,7 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
 
         compiler.addInstruction(new LOAD(new RegisterOffset(0, getLastUsedRegisterToStore()), getLastUsedRegisterToStore()));
-        compiler.addInstruction(new BSR(new RegisterOffset(size + 1, getLastUsedRegisterToStore())));
+        compiler.addInstruction(new BSR(new RegisterOffset(ident.getMethodDefinition().getIndex(), getLastUsedRegisterToStore())));
         compiler.addInstruction(new SUBSP(size));
         setLastUsedRegister(0);
     }
