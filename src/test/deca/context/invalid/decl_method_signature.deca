@@ -1,0 +1,10 @@
+class A{
+boolean method(int x,float y){
+return x>y;
+}
+}
+class B extends A{
+boolean method(float a, float b){
+return true;
+}
+}
