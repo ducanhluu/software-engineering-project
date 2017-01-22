@@ -165,6 +165,7 @@ public class CodeGenInst {
     }
 
     public static void addEPDereferencementNull(IMAProgram compiler) {
+        
         if (dereferencementNull) {
             compiler.addComment("----------------------------------------------------");
             compiler.addComment("          Error Message: Dereferencement Null Error");

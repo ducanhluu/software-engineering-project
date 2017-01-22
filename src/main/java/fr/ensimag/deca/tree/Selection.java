@@ -8,10 +8,10 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintFloat;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenPrintInteger;
+import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.getDAddr;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.setDAddr;
-import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.isMain;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -121,6 +121,7 @@ public class Selection extends AbstractLValue {
     @Override
     protected void codeGenInst(IMAProgram compiler) {
         leftOperand.codeGenInst(compiler);
+
         if (isMain) {
             dereferencementNull = true;
             compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));

@@ -72,7 +72,7 @@ public class New extends AbstractExpr {
         DAddr addrVTable = name.getClassDefinition().getAddressOfVTable();
         heapOverflowNeeded = true;
         compiler.addInstruction(new NEW(size, getAvailableRegister(compiler)));
-        compiler.addInstruction(new BOV(new Label("heap_overflow")));
+        compiler.addInstruction(new BOV(new Label("heap_overflow_error")));
         compiler.addInstruction(new LEA(addrVTable, getR(0)));
         compiler.addInstruction(new STORE(getR(0), new RegisterOffset(0, getLastUsedRegisterToStore())));
         compiler.addInstruction(new PUSH(getLastUsedRegisterToStore()));

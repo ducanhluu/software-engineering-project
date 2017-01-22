@@ -6,6 +6,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
@@ -122,7 +123,7 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(new LOAD(new RegisterOffset(0, SP), getAvailableRegister(compiler)));
         compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
         compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
-
+        dereferencementNull = true;
         compiler.addInstruction(new LOAD(new RegisterOffset(0, getLastUsedRegisterToStore()), getLastUsedRegisterToStore()));
         compiler.addInstruction(new BSR(new RegisterOffset(ident.getMethodDefinition().getIndex(), getLastUsedRegisterToStore())));
         compiler.addInstruction(new SUBSP(size));

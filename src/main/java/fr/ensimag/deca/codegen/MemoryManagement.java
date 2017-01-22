@@ -39,11 +39,12 @@ public class MemoryManagement {
     private static int sizeOfVTables = 0;
     private static int numberLocalVariables = 0;
     private static int numberTempMots = 0; //nombre maximal de paramètres des méthodes appelées
+    
+    public static boolean dereferencementNull = false;
     public static boolean overflowOPNeeded = false;
     public static boolean divisionIsUsed = false;
     public static boolean overflowNeeded = false;
     public static boolean heapOverflowNeeded = false;
-    public static boolean dereferencementNull = false;
     public static boolean returnNeeded = false;
     public static boolean isMain = true;
     
