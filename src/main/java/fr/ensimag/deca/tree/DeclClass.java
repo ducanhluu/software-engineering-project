@@ -4,12 +4,14 @@ import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegisters;
+import static fr.ensimag.deca.codegen.MemoryManagement.getNumberLocalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getPusedRegs;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increNumberSavedRegisters;
 import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.returnNeeded;
+import static fr.ensimag.deca.codegen.MemoryManagement.isMain;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -19,9 +21,9 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Line;
 import static fr.ensimag.ima.pseudocode.Register.GB;
-import static fr.ensimag.ima.pseudocode.Register.LB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
@@ -174,6 +176,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void codeGenMethods(IMAProgram compiler) {
+        isMain = false;
         IMAProgram subProg = new IMAProgram();
         subProg.addComment("----------------------------------------------------");
         subProg.addComment("                      Classe " + name.getName().toString());
@@ -215,6 +218,7 @@ public class DeclClass extends AbstractDeclClass {
             Deque<GPRegister> list = getPusedRegs();
             if (list.size() > 0) {
                 int d = 0;
+                int v = getNumberLocalVariables();
                 metProg.addFirst(new Line("-----------------------------"));
                 metProg.addComment("Restauration des registres");
                 while (!list.isEmpty()) {
@@ -224,8 +228,11 @@ public class DeclClass extends AbstractDeclClass {
                     d++;
                 }
                 metProg.addFirst(new Line("Sauvegarde des registres"));
+                if (v > 0) {
+                    metProg.addFirst(new ADDSP(v));
+                }
                 metProg.addFirst(new BOV(new Label("stack_overflow_error")));
-                metProg.addFirst(new TSTO(d));
+                metProg.addFirst(new TSTO(d + v));
                 increNumberSavedRegisters(d);
             }
             metProg.addInstruction(new RTS());

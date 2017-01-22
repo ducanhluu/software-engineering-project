@@ -5,7 +5,6 @@
  */
 package fr.ensimag.deca.codegen;
 
-import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -22,8 +21,6 @@ import java.util.LinkedList;
  */
 public class MemoryManagement {
 
-    private static int numberGlobalVariables = 0;
-    private static int sizeOfVTables = 0;
     private static int RMAX = 15;
     private static boolean[] avaRegs = {true, true, true, true,
         true, true, true, true,
@@ -37,6 +34,9 @@ public class MemoryManagement {
     private static DAddr daddr;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
+    private static int numberGlobalVariables = 0;
+    private static int sizeOfVTables = 0;
+    private static int numberLocalVariables = 0;
     private static int numberTempMots = 0; //nombre maximal de paramètres des méthodes appelées
     public static boolean overflowOPNeeded = false;
     public static boolean divisionIsUsed = false;
@@ -44,6 +44,7 @@ public class MemoryManagement {
     public static boolean heapOverflowNeeded = false;
     public static boolean dereferencementNull = false;
     public static boolean returnNeeded = false;
+    public static boolean isMain = true;
     
 
     public static Deque<GPRegister> getPusedRegs() {
@@ -74,10 +75,18 @@ public class MemoryManagement {
         numberGlobalVariables++;
     }
 
+    public static void increNumberLocalVariables() {
+        numberLocalVariables++;
+    }
+    
     public static int getNumberGlobalVariables() {
         return numberGlobalVariables;
     }
 
+    public static int getNumberLocalVariables() {
+        return numberLocalVariables;
+    }
+    
     public static int getSizeOfVTables() {
         return sizeOfVTables;
     }
@@ -95,6 +104,7 @@ public class MemoryManagement {
             avaRegs[i] = true;
         }
         pushedRegs.clear();
+        numberLocalVariables = 0;
     }
 
     public static void freeRegister(int i) {
@@ -116,7 +126,9 @@ public class MemoryManagement {
             numberSavedRegisters++;
             return getR(2);
         }
-        pushedRegs.addFirst(getR(i));
+        if (!pushedRegs.contains(getR(i))) {
+            pushedRegs.addFirst(getR(i));
+        }
         return getR(i);
     }
 

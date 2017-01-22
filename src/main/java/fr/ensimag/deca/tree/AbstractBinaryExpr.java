@@ -2,11 +2,14 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.LB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
 import java.io.PrintStream;
@@ -79,26 +82,40 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     
     @Override
     protected void codeGenInst(IMAProgram compiler) {
+        AbstractExpr rvalue = getRightOperand();
+        AbstractExpr lvalue = getLeftOperand();
         
-        if (getLeftOperand() instanceof Identifier && getRightOperand() instanceof Identifier) {
-            val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
-            getLeftOperand().codeGenInst(compiler);
+        if (lvalue instanceof Identifier && rvalue instanceof Identifier) {
+            Definition def = ((Identifier) rvalue).getDefinition();
+            if (def.isParam()) {
+                int index = -2 - ((Identifier) rvalue).getParamDefinition().getIndex();
+                val = new RegisterOffset(index, LB);
+            } else if (def.isField()) {
+                int index = ((Identifier) rvalue).getFieldDefinition().getIndex();
+                val = new RegisterOffset(index, getLastUsedRegisterToStore());
+            } else {
+                val = ((Identifier) rvalue).getExpDefinition().getOperand();
+            }
+            lvalue.codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
 
-        } else if (getRightOperand() instanceof Identifier) {
-            val = ((Identifier) getRightOperand()).getVariableDefinition().getOperand();
-            getLeftOperand().codeGenInst(compiler);
+        } else if (rvalue instanceof Identifier) {
+            Definition def = ((Identifier) rvalue).getDefinition();
+            if (def.isParam()) {
+                int index = -2 - ((Identifier) rvalue).getParamDefinition().getIndex();
+                val = new RegisterOffset(index, LB);
+            } else if (def.isField()) {
+                int index = ((Identifier) rvalue).getFieldDefinition().getIndex();
+                val = new RegisterOffset(index, getLastUsedRegisterToStore());
+            } else {
+                val = ((Identifier) rvalue).getExpDefinition().getOperand();
+            }
+            lvalue.codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
-
-        } else if (getLeftOperand() instanceof Identifier) {
-            getLeftOperand().codeGenInst(compiler);
-            reg = getLastUsedRegisterToStore();
-            getRightOperand().codeGenInst(compiler);
-            val = getLastUsedRegisterToStore();
         } else {
-            getLeftOperand().codeGenInst(compiler);
+            lvalue.codeGenInst(compiler);
             reg = getLastUsedRegisterToStore();
-            getRightOperand().codeGenInst(compiler);
+            rvalue.codeGenInst(compiler);
             val = getLastUsedRegisterToStore();
         }
 

@@ -116,7 +116,7 @@ public class Identifier extends AbstractIdentifier {
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      *
-     * @throws DecacInternalError if the definition is not a field definition.
+     * @throws DecacInternalError if the definition is not a variable definition.
      */
     @Override
     public VariableDefinition getVariableDefinition() {
@@ -137,7 +137,7 @@ public class Identifier extends AbstractIdentifier {
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      *
-     * @throws DecacInternalError if the definition is not a field definition.
+     * @throws DecacInternalError if the definition is not a Exp definition.
      */
     @Override
     public ExpDefinition getExpDefinition() {
@@ -148,6 +148,27 @@ public class Identifier extends AbstractIdentifier {
                     "Identifier "
                     + getName()
                     + " is not a Exp identifier, you can't call getExpDefinition on it");
+        }
+    }
+    
+     /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError if the definition is not a param definition.
+     */
+    @Override
+    public ParamDefinition getParamDefinition() {
+        try {
+            return (ParamDefinition) definition;
+        } catch (ClassCastException e) {
+            throw new DecacInternalError(
+                    "Identifier "
+                    + getName()
+                    + " is not a Param identifier, you can't call getParamDefinition on it");
         }
     }
 
@@ -269,7 +290,7 @@ public class Identifier extends AbstractIdentifier {
     @Override
     protected void codeGenInst(IMAProgram compiler) {
         if (definition.isParam()) {
-            int index = 0;//(ParamDefinition) definition.
+            int index = -2 - getParamDefinition().getIndex();
             compiler.addInstruction(new LOAD(new RegisterOffset(index, LB), getAvailableRegister(compiler)));
         } else if (definition.isField()) {
             int index = getFieldDefinition().getIndex();

@@ -51,4 +51,10 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
             i.codeGenDeclVar(compiler);
         }
     }
+
+    public void codeGenListDeclVarLocal(IMAProgram compiler) {
+        for (AbstractDeclVar i : getList()) {
+            i.codeGenDeclVarLocal(compiler);
+        }
+    }
 }

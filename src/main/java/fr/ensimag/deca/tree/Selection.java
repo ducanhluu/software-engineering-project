@@ -13,6 +13,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStor
 import static fr.ensimag.deca.codegen.MemoryManagement.setDAddr;
 import static fr.ensimag.deca.codegen.MemoryManagement.dereferencementNull;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
+import static fr.ensimag.deca.codegen.MemoryManagement.isMain;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -119,10 +120,12 @@ public class Selection extends AbstractLValue {
 
     @Override
     protected void codeGenInst(IMAProgram compiler) {
-        dereferencementNull = true;
         leftOperand.codeGenInst(compiler);
-        compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
-        compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
+        if (isMain) {
+            dereferencementNull = true;
+            compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
+            compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
+        }
         freeRegister(getLastUsedRegisterToStore().getNumber());
         ident.codeGenInst(compiler);
         setDAddr(new RegisterOffset(ident.getFieldDefinition().getIndex(), getLastUsedRegisterToStore()));
@@ -131,10 +134,10 @@ public class Selection extends AbstractLValue {
     @Override
     protected void codeGenPrint(IMAProgram compiler) {
         codeGenInst(compiler);
-        if (ident.getType().isInt()) {
+        if (getType().isInt()) {
             codeGenPrintInteger(compiler, getDAddr());
         }
-        else if (ident.getType().isFloat()){
+        else if (getType().isFloat()){
             codeGenPrintFloat(compiler, getDAddr());
         }
     }

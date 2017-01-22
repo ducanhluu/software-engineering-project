@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.ParamDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.SymbolTable;
 
@@ -60,16 +61,29 @@ public abstract class AbstractIdentifier extends AbstractLValue {
     public abstract SymbolTable.Symbol getName();
 
     /**
-     * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
+     * Like {@link #getDefinition()}, but works only if the definition is a 
+     * ExpDefinition.
      *
      * This method essentially performs a cast, but throws an explicit exception
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *             if the definition is not a exp definition.
      */
     public abstract ExpDefinition getExpDefinition();
-
+    
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a 
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not a param definition.
+     */
+    
+    public abstract ParamDefinition getParamDefinition();
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
      * VariableDefinition.
@@ -78,7 +92,7 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      * when the cast fails.
      *
      * @throws DecacInternalError
-     *             if the definition is not a field definition.
+     *             if the definition is not a variable definition.
      */
     public abstract VariableDefinition getVariableDefinition();
 

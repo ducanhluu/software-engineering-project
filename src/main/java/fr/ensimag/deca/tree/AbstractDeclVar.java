@@ -37,4 +37,6 @@ public abstract class AbstractDeclVar extends Tree {
      * @param compiler
      */
     protected abstract void codeGenDeclVar(IMAProgram compiler);
+
+    protected abstract void codeGenDeclVarLocal(IMAProgram compiler);
 }

@@ -37,6 +37,7 @@ public class MethodBody extends AbstractMethodBody{
 
     @Override
     protected void codeGenMethodBody(IMAProgram compiler) {
+        declVariables.codeGenListDeclVarLocal(compiler);
         insts.codeGenListInst(compiler);
     }
 
