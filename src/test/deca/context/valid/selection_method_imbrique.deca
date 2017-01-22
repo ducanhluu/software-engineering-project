@@ -1,0 +1,19 @@
+class A {
+protected A a = new A();
+A b = new A();
+int y = 10;
+int method(int x){
+return 2;
+}
+}
+class B extends A{
+int x = this.a.method(2);
+int method(int y){
+return y;
+}
+}
+{
+B b = new B();
+int x = b.b.b.b.method(10);
+int y = b.method(10);
+}

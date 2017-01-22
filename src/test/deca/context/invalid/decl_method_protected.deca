@@ -1,0 +1,15 @@
+class B {
+protected int y;
+}
+class A {
+int x;
+protected int y;
+B a;
+int method(){
+return x*a.y;
+}
+}
+{
+A a;
+a.y;
+}

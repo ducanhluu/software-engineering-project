@@ -1,0 +1,29 @@
+class A {
+protected int x;
+int y;
+int method(int x){
+return this.x*this.y;
+}
+void set1(int a,int y){
+x = a;
+y =y;
+}
+}
+class B extends A {
+int z;
+void set(int x,int y,int z){
+this.x = x;
+this.y = y;
+this.z = z;
+}
+
+int method(int x){
+return this.y*this.z;
+}
+}
+{
+A a;
+B b;
+boolean x = a.method(10) == b.method(10);
+b.set(1,2,3);
+}
