@@ -8,10 +8,13 @@ import static fr.ensimag.deca.tree.Assign.ass;
 import static fr.ensimag.deca.tree.DeclVar.dec;
 import static fr.ensimag.deca.tree.IfThenElse.Opp;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.instructions.BGE;
 import fr.ensimag.ima.pseudocode.instructions.BGT;
 import fr.ensimag.ima.pseudocode.instructions.BLE;
+import fr.ensimag.ima.pseudocode.instructions.BLT;
 
 import fr.ensimag.ima.pseudocode.instructions.SGT;
+import fr.ensimag.ima.pseudocode.instructions.SLT;
 
 /**
  *
@@ -33,12 +36,12 @@ public class Lower extends AbstractOpIneq {
     protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         if (ass == 1 || dec == 1) {
-            compiler.addInstruction(new SGT(getAvailableRegister(compiler)));
+            compiler.addInstruction(new SLT(getAvailableRegister(compiler)));
         } else {
             if (Opp == 0) {
-                compiler.addInstruction(new BGT(getLabel()));
+                compiler.addInstruction(new BLT(getLabel()));
             } else {
-                compiler.addInstruction(new BLE(getLabel()));
+                compiler.addInstruction(new BGE(getLabel()));
             }
         }
     }
