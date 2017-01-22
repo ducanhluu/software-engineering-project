@@ -1,0 +1,10 @@
+// Description:
+//    methode simple
+//
+// Resultats:
+//    
+//
+class A{
+    void getX(){}
+    void getY(){}
+}

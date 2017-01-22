@@ -1,0 +1,44 @@
+// Description:
+//    champs et methodes, extends
+//
+// Resultats:
+//    5
+//
+class Point2D {
+   int x; // Abscisse
+   int y; // Ordonnee
+   // Deplace ce point
+   // de a en diagonale.
+   void diag(int a) 
+   {
+	this.x = this.x + a;
+	this.y = this.y + a;
+   }  
+}
+
+class Point3D extends Point2D {
+   int z; // Hauteur
+   // On redefinit la methode diag,
+   // pour tenir compte de z
+   void diag(int a) {
+      this.x = this.x + 1;
+      this.y = this.y + 1;
+      this.z = this.z + 1;
+   }
+}
+
+{
+	Point2D p1, p2;
+	Point3D p3;
+
+	p1 = new Point2D();
+	p1.diag(1);
+	
+	p3 = new Point3D();
+	p3.diag(2);
+	
+	p2 = p3;
+	p2.diag(3);
+
+	println("p3.z = ", p3.z);
+}
