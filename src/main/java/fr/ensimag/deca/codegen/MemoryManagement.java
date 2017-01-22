@@ -34,6 +34,7 @@ public class MemoryManagement {
     private static DAddr daddr;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
+    private static int numberSavedRegistersInMet = 0;
     private static int numberGlobalVariables = 0;
     private static int sizeOfVTables = 0;
     private static int numberLocalVariables = 0;
@@ -105,6 +106,7 @@ public class MemoryManagement {
         }
         pushedRegs.clear();
         numberLocalVariables = 0;
+        numberSavedRegistersInMet = 0;
     }
 
     public static void freeRegister(int i) {
@@ -124,6 +126,7 @@ public class MemoryManagement {
         if (i == RMAX + 1) {
             compiler.addInstruction(new PUSH(getR(2)), "sauvegarde");
             numberSavedRegisters++;
+            numberSavedRegistersInMet++;
             return getR(2);
         }
         if (!pushedRegs.contains(getR(i))) {
@@ -146,5 +149,9 @@ public class MemoryManagement {
 
     public static int getNumberSavedRegisters() {
         return numberSavedRegisters;
+    }
+    
+    public static int getNumberSavedRegistersInMet() {
+        return numberSavedRegistersInMet;
     }
 }

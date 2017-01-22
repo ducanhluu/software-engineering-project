@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegisters;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberLocalVariables;
+import static fr.ensimag.deca.codegen.MemoryManagement.getNumberSavedRegistersInMet;
 import static fr.ensimag.deca.codegen.MemoryManagement.getPusedRegs;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increNumberSavedRegisters;
@@ -232,7 +233,7 @@ public class DeclClass extends AbstractDeclClass {
                     metProg.addFirst(new ADDSP(v));
                 }
                 metProg.addFirst(new BOV(new Label("stack_overflow_error")));
-                metProg.addFirst(new TSTO(d + v));
+                metProg.addFirst(new TSTO(d + v + getNumberSavedRegistersInMet()));
                 increNumberSavedRegisters(d);
             }
             metProg.addInstruction(new RTS());
