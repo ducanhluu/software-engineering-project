@@ -2,10 +2,11 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
+import static fr.ensimag.deca.codegen.MemoryManagement.getNumberLocalVariables;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
 import static fr.ensimag.deca.codegen.MemoryManagement.increNumberGlobalVariables;
+import static fr.ensimag.deca.codegen.MemoryManagement.increNumberLocalVariables;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -13,6 +14,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import static fr.ensimag.ima.pseudocode.Register.GB;
+import static fr.ensimag.ima.pseudocode.Register.LB;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -90,6 +92,15 @@ public class DeclVar extends AbstractDeclVar {
     protected void codeGenDeclVar(IMAProgram compiler) {
         increNumberGlobalVariables();
         varName.getVariableDefinition().setOperand(new RegisterOffset(getSizeOfVTables() + getNumberGlobalVariables(), GB));
+        dec=1;
+        initialization.codeGenInit(compiler, varName.getVariableDefinition().getOperand());
+        dec=0;
+    }
+
+    @Override
+    protected void codeGenDeclVarLocal(IMAProgram compiler) {
+        increNumberLocalVariables();
+        varName.getVariableDefinition().setOperand(new RegisterOffset(getNumberLocalVariables(), LB));
         dec=1;
         initialization.codeGenInit(compiler, varName.getVariableDefinition().getOperand());
         dec=0;

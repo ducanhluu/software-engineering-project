@@ -23,6 +23,7 @@ import org.apache.commons.lang.Validate;
 public class DeclParam extends AbstractDeclParam{
     private final AbstractIdentifier type;
     private final AbstractIdentifier name;
+    public int  simulationIndex;
     public DeclParam(AbstractIdentifier type,AbstractIdentifier name){
         Validate.notNull(type);
         Validate.notNull(name);
@@ -40,6 +41,7 @@ public class DeclParam extends AbstractDeclParam{
                 throw new ContextualError("type shouldn't be void in declaration",this.getLocation());
         }
         ParamDefinition param=new ParamDefinition(type1,this.name.getLocation());
+        param.setIndex(simulationIndex);
         this.name.setDefinition(param);
         //a revoir cette implementation 
         try {   
@@ -71,6 +73,7 @@ public class DeclParam extends AbstractDeclParam{
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.name.iterChildren(f);
+        this.type.iterChildren(f);
     }
 }

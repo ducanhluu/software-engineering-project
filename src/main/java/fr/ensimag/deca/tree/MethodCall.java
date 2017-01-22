@@ -6,8 +6,11 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import static fr.ensimag.deca.codegen.MemoryManagement.increNumberTempMots;
+import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
@@ -109,17 +112,20 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     protected void codeGenInst(IMAProgram compiler) {
-        compiler.addInstruction(new ADDSP(ident.getClassDefinition().getNumberOfFields() + 1));
+        int size = arguments.getList().size() + 1;
+        compiler.addInstruction(new ADDSP(size));
+        increNumberTempMots(size - 1);
         object.codeGenInst(compiler);
         compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), new RegisterOffset(0, SP)));
+        freeRegister(getLastUsedRegisterToStore().getNumber());
         arguments.codeGenInst(compiler);
         compiler.addInstruction(new LOAD(new RegisterOffset(0, SP), getAvailableRegister(compiler)));
         compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
         compiler.addInstruction(new BEQ(new Label("dereferencement_null_error")));
 
         compiler.addInstruction(new LOAD(new RegisterOffset(0, getLastUsedRegisterToStore()), getLastUsedRegisterToStore()));
-        compiler.addInstruction(new BSR(new RegisterOffset(ident.getClassDefinition().getNumberOfFields() + 2, getLastUsedRegisterToStore())));
-        compiler.addInstruction(new SUBSP(ident.getClassDefinition().getNumberOfFields() + 1));
+        compiler.addInstruction(new BSR(new RegisterOffset(size + 1, getLastUsedRegisterToStore())));
+        compiler.addInstruction(new SUBSP(size));
+        setLastUsedRegister(0);
     }
-
 }

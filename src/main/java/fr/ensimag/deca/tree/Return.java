@@ -6,12 +6,17 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import static fr.ensimag.deca.codegen.MemoryManagement.returnNeeded;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.getR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -20,23 +25,37 @@ import org.apache.commons.lang.Validate;
  * @author chakirs
  */
 public class Return extends AbstractInst {
+
     private AbstractExpr operand;
-    public AbstractExpr getOperand(){
+
+    public AbstractExpr getOperand() {
         return this.operand;
     }
-    public Return(AbstractExpr operand){
+
+    public Return(AbstractExpr operand) {
         Validate.notNull(operand);
-        this.operand=operand;
+        this.operand = operand;
     }
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
-        this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
-        
+
+        AbstractExpr op = this.operand.verifyRValue(compiler, localEnv, currentClass, returnType);
+        if (op instanceof Identifier) {
+            Identifier ident = (Identifier) op;
+            if (ident.getDefinition() instanceof FieldDefinition) {
+                AbstractExpr thisInstruction = new Selection(new This(), ident);
+                this.operand = thisInstruction;
+            }
+
+        }
     }
 
     @Override
     protected void codeGenInst(IMAProgram compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        operand.codeGenInst(compiler);
+        compiler.addInstruction(new LOAD(getLastUsedRegisterToStore(), getR(0)));
+        returnNeeded = true;
     }
 
     @Override
@@ -53,7 +72,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.operand.iterChildren(f);
     }
-    
+
 }
