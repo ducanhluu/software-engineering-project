@@ -5,11 +5,13 @@ import static fr.ensimag.deca.codegen.MemoryManagement.increSizeOfVtables;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import static fr.ensimag.ima.pseudocode.Register.GB;
 import static fr.ensimag.ima.pseudocode.Register.getR;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.util.Iterator;
 import org.apache.log4j.Logger;
@@ -103,6 +105,11 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 2 of [Gencode] - generation of code of methods
      */
     public void codeGenMethods(IMAProgram compiler) {
+        compiler.addComment("----------------------------------------------------");
+        compiler.addComment("                      Classe Object");
+        compiler.addComment("----------------------------------------------------");
+        compiler.addLabel(new Label("code.Object.equals"));
+        compiler.addInstruction(new RTS());
         for (AbstractDeclClass i : getList()) {
             i.codeGenMethods(compiler);
         }

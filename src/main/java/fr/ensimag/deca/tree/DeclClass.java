@@ -179,8 +179,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void codeGenMethods(IMAProgram compiler) {
         isMain = false;
         IMAProgram subProg = new IMAProgram();
-        subProg.addLabel(new Label("code.Object.equals"));
-        subProg.addInstruction(new RTS());
+        
         subProg.addComment("----------------------------------------------------");
         subProg.addComment("                      Classe " + name.getName().toString());
         subProg.addComment("----------------------------------------------------");

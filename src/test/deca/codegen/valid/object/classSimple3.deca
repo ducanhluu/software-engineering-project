@@ -1,0 +1,22 @@
+// Description:
+//    methodes simples
+//
+// Resultats:
+//  2    
+//
+class A{
+      int get() {
+      	    return 2;
+      }
+
+}
+
+class B extends A {
+      
+}
+
+{
+	A x = new B();
+	print(x.get());
+	
+}

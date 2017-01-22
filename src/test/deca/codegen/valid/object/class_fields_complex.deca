@@ -1,0 +1,22 @@
+// Description:
+//    fields object
+//
+// Resultats:
+//  2    
+//
+class A{
+      int get() {
+      	      return 2;
+      }
+
+}
+
+class B {
+      A a = new A();
+}
+
+{
+	B x = new B();
+	print(x.A.get());
+	
+}
