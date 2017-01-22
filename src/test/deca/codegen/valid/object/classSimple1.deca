@@ -1,0 +1,18 @@
+// Description:
+//    methodes simples
+//
+// Resultats:
+//  2    
+//
+class A{
+      int get() {
+      	  return 2;
+      }
+
+}
+
+{
+	A x = new A();
+	print(x.get());
+	
+}
