@@ -1,0 +1,6 @@
+//Resultat:
+//      Erreur syntaxique : affectation invalide
+{
+float x;
+x=true true;
+}

@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : definition d'une classe à l'interieur d'une autre
+class A extends B{
+class C{}
+}

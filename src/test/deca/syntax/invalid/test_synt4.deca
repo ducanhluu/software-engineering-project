@@ -1,0 +1,6 @@
+//Resultat:
+//      Erreur syntaxique : declaration invalide
+{
+bool x x x;
+x=3.2;
+}

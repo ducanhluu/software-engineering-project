@@ -1,0 +1,7 @@
+//Resultat:
+//      Erreur syntaxique : il faut mettre || à la place de ||| 
+{
+	if (true ||| 5 ){
+	   println("this text shouldn't be printed");
+	}
+}

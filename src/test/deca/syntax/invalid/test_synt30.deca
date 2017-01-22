@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : ligne 2
+{
+int x="hello" "hello" ;
+}

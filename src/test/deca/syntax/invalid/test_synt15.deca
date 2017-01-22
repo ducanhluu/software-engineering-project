@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : } manquant ligne 4
+class A{
+int a;
+float a;

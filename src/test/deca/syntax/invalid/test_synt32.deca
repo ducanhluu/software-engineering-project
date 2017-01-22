@@ -1,0 +1,11 @@
+//Resultat:
+//      Erreur syntaxique : { manquante ligne 6 
+class A{
+boolean x;
+}
+class B extends A {
+
+void method()
+return x;
+}
+}

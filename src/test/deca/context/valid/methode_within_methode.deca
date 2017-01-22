@@ -1,0 +1,9 @@
+class A {
+int x;
+int method(){
+return this.x;
+}
+int methode2(int x){
+return method();
+}
+}

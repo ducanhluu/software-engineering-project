@@ -1,0 +1,6 @@
+//Resultat:
+//      Erreur syntaxique : declaration de la methode invalide
+class A { 
+boolean (Object o, int a){
+}
+}

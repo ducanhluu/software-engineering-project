@@ -1,0 +1,11 @@
+//Resultat:
+//      Erreur syntaxique : methode sans objet de retour
+class A{
+boolean x;
+}
+class B extends A {
+
+float method(){
+return ;
+}
+}

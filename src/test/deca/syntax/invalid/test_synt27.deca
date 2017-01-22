@@ -1,0 +1,9 @@
+//Resultat:
+//      Erreur syntaxique : ) manquante ligne 3
+{
+if ( x < 2 ) {
+   print("Instruction et non déclaration");
+}else if(true {
+
+}
+}

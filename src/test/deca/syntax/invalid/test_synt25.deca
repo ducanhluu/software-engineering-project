@@ -1,0 +1,7 @@
+//Resultat:
+//      Erreur syntaxique : else sans {} 
+{
+if ( x == 2 ) {
+   print("Instruction et non déclaration");
+}else
+}

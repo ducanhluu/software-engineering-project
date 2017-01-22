@@ -1,0 +1,13 @@
+//Resultat:
+//      Erreur syntaxique : declaration invalide
+class A {
+int x;
+}
+class B {
+float y;
+}
+{
+A a a;
+B b;
+a>b;
+}

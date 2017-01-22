@@ -1,0 +1,7 @@
+//Resultat:
+//      Erreur syntaxique : << token non reconnue
+{
+if ( 3.3 >>"hello"){
+   println("this shouldn't be printed");
+}
+}

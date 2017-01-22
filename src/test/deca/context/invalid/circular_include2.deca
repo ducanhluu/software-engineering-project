@@ -1,0 +1,4 @@
+#include "circular_include.deca"
+class B {
+int x;
+}

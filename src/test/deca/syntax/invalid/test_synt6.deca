@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : 
+int x;
+x=true;true
+}

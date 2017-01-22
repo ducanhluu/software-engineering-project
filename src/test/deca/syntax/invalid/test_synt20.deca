@@ -1,0 +1,16 @@
+//Resultat:
+//      Erreur syntaxique 
+class A {
+int a;
+A x = new A();
+{
+A a = new A();
+int x;
+x = a.b;
+}
+}
+{
+A a = new A();
+int x;
+x = a.b;
+}

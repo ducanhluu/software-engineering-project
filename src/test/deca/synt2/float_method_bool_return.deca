@@ -1,9 +1,0 @@
-class A{
-boolean x;
-}
-class B extends A {
-
-float method(){
-return ;
-}
-}
