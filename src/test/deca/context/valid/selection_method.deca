@@ -1,0 +1,15 @@
+class A{
+   protected int x;
+   int method(int x, int y , boolean i){
+      if(i){
+	this.x = x*y;
+      }else{
+	this.x =0;
+      }
+      return this.x;
+    }
+}
+{
+A a = new A();
+int x = a.method(2,3,true);
+}

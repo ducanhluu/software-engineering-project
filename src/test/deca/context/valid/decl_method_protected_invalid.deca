@@ -1,0 +1,5 @@
+class A {
+protected int x;
+A a = new A();
+int y = a.x;
+}
