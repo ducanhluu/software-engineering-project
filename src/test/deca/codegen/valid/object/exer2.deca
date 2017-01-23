@@ -21,9 +21,9 @@ class Point3D extends Point2D {
    // On redefinit la methode diag,
    // pour tenir compte de z
    void diag(int a) {
-      this.x = this.x + 1;
-      this.y = this.y + 1;
-      this.z = this.z + 1;
+      this.x = this.x + a;
+      this.y = this.y + a;
+      this.z = this.z + a;
    }
 }
 

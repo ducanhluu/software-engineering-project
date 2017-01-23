@@ -5,8 +5,13 @@
 //  2    
 //
 class A{
+    int x;
+    
+    void setX() {
+        this.x = 3;
+    }
       int get() {
-      	      return 2;
+      	      return x;
       }
 
 }
@@ -17,6 +22,7 @@ class B {
 
 {
 	B x = new B();
-	print(x.A.get());
+        x.a.setX();
+	print(x.a.get());
 	
 }
