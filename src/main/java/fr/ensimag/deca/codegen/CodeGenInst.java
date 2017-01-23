@@ -18,6 +18,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.heapOverflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowNeeded;
 import static fr.ensimag.deca.codegen.MemoryManagement.overflowOPNeeded;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Line;
@@ -52,7 +53,7 @@ public class CodeGenInst {
         compiler.addInstruction(new WINT());
     }
 
-    public static void codeGenPrintInteger(IMAProgram compiler, DAddr val) {
+    public static void codeGenPrintInteger(IMAProgram compiler, DVal val) {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WINT());
     }
@@ -62,7 +63,7 @@ public class CodeGenInst {
         compiler.addInstruction(new WFLOAT());
     }
 
-    public static void codeGenPrintFloat(IMAProgram compiler, DAddr val) {
+    public static void codeGenPrintFloat(IMAProgram compiler, DVal val) {
         compiler.addInstruction(new LOAD(val, getR(1)));
         compiler.addInstruction(new WFLOAT());
     }

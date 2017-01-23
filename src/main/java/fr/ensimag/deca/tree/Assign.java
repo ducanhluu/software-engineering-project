@@ -4,6 +4,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import static fr.ensimag.deca.codegen.CodeGenInst.codeGenSaveLastValue;
 import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
+import static fr.ensimag.deca.codegen.MemoryManagement.getDAddr;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -70,8 +71,8 @@ public class Assign extends AbstractBinaryExpr {
             rvalue.codeGenInst(compiler);
             GPRegister reg = getLastUsedRegisterToStore();
             lvalue.codeGenInst(compiler);
-
-            compiler.addInstruction(new STORE(reg, new RegisterOffset(0, getLastUsedRegisterToStore())));
+            compiler.removeLast();
+            compiler.addInstruction(new STORE(reg, getDAddr()));
             freeRegister(getLastUsedRegisterToStore().getNumber());
             freeRegister(reg.getNumber());
         }
