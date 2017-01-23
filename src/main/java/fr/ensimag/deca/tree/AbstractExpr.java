@@ -18,7 +18,6 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 /**
- * Expression, i.e. anything that has a value.
  *
  * @author gl17
  * @date 01/01/2017

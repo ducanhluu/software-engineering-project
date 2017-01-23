@@ -13,8 +13,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.util.Iterator;
 
 /**
- *
- * @author chakirs
+ *    List of declaration of parameters (e.g: int setXYZ(int x,int y, int z){...} ) 
  */
 public class ListDeclParam extends TreeList<AbstractDeclParam> {
      @Override

@@ -24,7 +24,6 @@ import org.apache.commons.lang.Validate;
 
 /**
  *
- * @author chakirs
  */
 public class DeclMethod extends AbstractDeclMethod {
 
@@ -43,21 +42,7 @@ public class DeclMethod extends AbstractDeclMethod {
         this.parametres = parametres;
         this.body = body;
     }
-    /*
-     public void verifyDeclMethodCurrent(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, 
-     ClassDefinition superClass,Type currentType,Signature sign) throws ContextualError{
-     MethodDefinition currentMethod= (MethodDefinition) currentClass.getMembers().get(this.name.getName());
-     if(currentMethod.getSignature().sameSignature(sign) && currentType.sameType(currentMethod.getType())){
-     throw new ContextualError("this method exist in the current class with the same signature and return type",this.getLocation());
-     }else{
-     try {
-     localEnv.declare(this.name.getName(), new MethodDefinition(currentType,this.getLocation(),sign,currentClass.getNumberOfMethods()+1));
-     } catch (EnvironmentExp.DoubleDefException ex) {
-     Logger.getLogger(DeclMethod.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     currentClass.incNumberOfMethods();
-     }
-     }*/
+
 
     protected void verifyDeclMethodSuper(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass,
             ClassDefinition superClass, Type currentType, Signature sign) throws ContextualError {
