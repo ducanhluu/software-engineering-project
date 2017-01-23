@@ -23,7 +23,7 @@ PATH=~/src/test/script/launchers/:"$PATH"
 
 for i in ./src/test/deca/context/valid/*.deca
 do
-    if  test_context "$i" 2>&1 | grep -q -e './src/test/deca'
+    if  test_context "$i" 2>&1 | grep -q -e './src/test/deca.*.deca:'
     then
 	test_context "$i" >&  "${i%.deca}".res
 	echo -e "${rougefonce}Fail${neutre}" "Echec inattendu pour le test ""${i#*valid/}" "du test_context"

@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author chakirs
+ * 
  */
 public class DeclField extends AbstractDeclField {
 

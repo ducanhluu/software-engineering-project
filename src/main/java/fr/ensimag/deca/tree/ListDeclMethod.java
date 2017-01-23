@@ -13,8 +13,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.util.Iterator;
 
 /**
- *
- * @author chakirs
+ *          List of declaration of methods (e.g: int getX(){...} )   
+ * 
+ * @author gl17
  */
 public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
      @Override
@@ -26,7 +27,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     }
 
     /**
-     * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "list_decl_Method" of [SyntaxeContextuelle]
      * @param compiler contains the "env_types" attribute
      * @param localEnv 
      *   its "parentEnvironment" corresponds to "env_exp_sup" attribute

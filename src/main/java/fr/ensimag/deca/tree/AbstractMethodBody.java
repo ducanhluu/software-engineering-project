@@ -14,12 +14,12 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  *
- * @author chakirs
+ * @author gl17
  */
 public  abstract class AbstractMethodBody extends Tree{
     
    /**
-     * Implements non-terminal "decl_var" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "methode_body" of [SyntaxeContextuelle]
      * @param compiler contains "env_types" attribute
      * @param localEnv 
      *   its "parentEnvironment" corresponds to the "env_exp_sup" attribute
@@ -29,6 +29,8 @@ public  abstract class AbstractMethodBody extends Tree{
      *      the synthetized attribute
      * @param currentClass 
      *          corresponds to the "class" attribute (null in the main bloc).
+     * @returnType
+     *          corresponds return type of the expression 
      */    
     protected abstract void verifyMethodBody(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType)

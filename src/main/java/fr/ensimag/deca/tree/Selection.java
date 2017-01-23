@@ -30,8 +30,8 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 /**
- *
- * @author chakirs
+ * (e.g: this.x, a.getx(),...)
+ * @author gl17
  */
 public class Selection extends AbstractLValue {
 
@@ -71,29 +71,7 @@ public class Selection extends AbstractLValue {
         Identifier classIdent = null;
         FieldDefinition def = null;
         Type type;
-        /* if (leftOperand instanceof Identifier){
-         classIdent= (Identifier) leftOperand;
-         type=classIdent.verifyExpr(compiler, localEnv, currentClass);
-         System.out.println("hello");
-         classIdent.setType(type);
-         if (!type.isClass()){
-         throw new ContextualError("you can select only from classes",this.getLocation());
-         }
-         Identifier rightIdent= (Identifier) this.ident;
-         def=(FieldDefinition) rightIdent.verifySelection(compiler,classIdent.getClassDefinition().getMembers() ,classIdent.getClassDefinition() );
-         if (def.getVisibility()== Visibility.PROTECTED ){
-         if (currentClass==null){
-         throw new ContextualError("field has protected access",this.getLocation());
-         }else{
-         assert(currentClass!= null);
-         if (!type.asClassType("not a class", Location.BUILTIN).isSubClassOf(currentClass.getType())
-         || !currentClass.getType().isSubClassOf(def.getContainingClass().getType())){
-         throw new ContextualError("field has protected access,and this class is not a subclass",this.getLocation());
-         }
-         } 
-         }
-         return def.getType();
-         }else{*/
+
         type = this.leftOperand.verifyExpr(compiler, localEnv, currentClass);
         this.leftOperand.setType(type);
         if (!type.isClass()) {

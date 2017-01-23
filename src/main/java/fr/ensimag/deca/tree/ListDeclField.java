@@ -14,8 +14,7 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.util.Iterator;
 
 /**
- *
- * @author chakirs
+ *    List of declaration of fields (e.g : int x; protected float y;)
  */
 public class ListDeclField extends TreeList<AbstractDeclField> {
      @Override
@@ -27,7 +26,7 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     }
 
     /**
-     * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 3
      * @param compiler contains the "env_types" attribute
      * @param localEnv 
      *   its "parentEnvironment" corresponds to "env_exp_sup" attribute
