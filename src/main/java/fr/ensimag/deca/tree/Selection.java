@@ -115,10 +115,10 @@ public class Selection extends AbstractLValue {
     protected void codeGenPrint(IMAProgram compiler) {
         codeGenInst(compiler);
         if (getType().isInt()) {
-            codeGenPrintInteger(compiler, getDAddr());
+            codeGenPrintInteger(compiler, getLastUsedRegisterToStore());
         }
         else if (getType().isFloat()){
-            codeGenPrintFloat(compiler, getDAddr());
+            codeGenPrintFloat(compiler, getLastUsedRegisterToStore());
         }
     }
 }

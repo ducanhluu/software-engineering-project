@@ -185,7 +185,7 @@ public class DeclClass extends AbstractDeclClass {
         subProg.addComment("----------------------------------------------------");
 
         subProg.addLabel(new Label("init." + name.getName().toString()));
-
+        freeRegisters();
         if (extension.getClassDefinition().getSuperClass() == null) {
             fields.codeGenListDeclField(subProg);
         } else {

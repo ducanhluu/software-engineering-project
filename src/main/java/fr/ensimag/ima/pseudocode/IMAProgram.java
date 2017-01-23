@@ -49,6 +49,10 @@ public class IMAProgram {
         lines.addFirst(l);
     }
 
+    
+    public void removeLast() {
+        lines.remove(lines.size() - 1);
+    }
     /**
      * Display the program in a textual form readable by IMA to stream s.
      */
