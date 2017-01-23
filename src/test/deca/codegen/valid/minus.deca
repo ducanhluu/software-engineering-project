@@ -1,0 +1,15 @@
+//Description:
+//Test du moins
+
+//Resultat:
+///321
+
+{
+int x = 4 - 1;
+int y = 3 - 1;
+int z ;
+print(x);
+print(y);
+z = x - y;
+print(z);
+}

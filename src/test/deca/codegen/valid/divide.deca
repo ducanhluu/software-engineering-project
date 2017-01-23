@@ -1,0 +1,13 @@
+//Description:
+//Test du moins
+
+//Resultat:
+///1
+
+{
+int x = 4/2;
+int y = 6/3;
+int z;
+z = y/x;
+print(z);
+}
