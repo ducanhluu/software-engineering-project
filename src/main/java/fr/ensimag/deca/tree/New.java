@@ -30,8 +30,8 @@ import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
 /**
- *
- * @author ensimag
+ * (e.g : Point p = new Point() ... )
+ * @author gl17
  */
 public class New extends AbstractExpr {
     private final AbstractIdentifier name;

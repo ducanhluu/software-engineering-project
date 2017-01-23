@@ -14,11 +14,11 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  *
- * @author chakirs
+ * @author gl17
  */
 public abstract class AbstractDeclMethod extends Tree {
      /**
-     * Implements non-terminal "decl_var" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "decl_method" of [SyntaxeContextuelle]
      * @param compiler contains "env_types" attribute
      * @param localEnv 
      *   its "parentEnvironment" corresponds to the "env_exp_sup" attribute

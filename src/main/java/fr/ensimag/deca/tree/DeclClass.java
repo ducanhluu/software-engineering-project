@@ -88,7 +88,7 @@ public class DeclClass extends AbstractDeclClass {
             throw new ContextualError("erreur Contextuelle:cette class a deja etait déclaré", this.getLocation());
         }
         if (!compiler.getEnvType().find(this.extension.getName())) {
-            throw new ContextualError("erreur Contextuelle:la class mére est non encore delcaré", this.getLocation());
+            throw new ContextualError("erreur Contextuelle:la class mére est non encore déclaré", this.getLocation());
         }
         ClassDefinition superClass = (ClassDefinition) compiler.getEnvType().get(this.extension.getName());
         ClassType type = new ClassType(this.name.getName(), this.getLocation(), superClass);
