@@ -1,0 +1,11 @@
+//Resultat:
+//      Erreur syntaxique : extends manquante dans la ligne 4
+class A{
+float z;
+}
+class B  A {
+int l;
+}
+class C extends B {
+int z;
+}

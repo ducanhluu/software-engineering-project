@@ -1,0 +1,8 @@
+//Resultat:
+//      Erreur syntaxique : { de plus ligne 6
+class A { 
+int set(){
+}
+float set(){
+}}
+}

@@ -1,0 +1,6 @@
+#include "decl_class_include.deca"
+{
+A a;
+int x = a.x;
+a.method(10);
+}

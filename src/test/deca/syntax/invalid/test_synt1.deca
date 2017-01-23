@@ -1,0 +1,7 @@
+ //Resultat:
+//      Erreur Contextuelle : " manquante
+{
+	if ( 3 && 5 ){
+	   println(this text shouldn't be printed");
+	}
+}

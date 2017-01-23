@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : classs token non reconnu ligne 1
+classs A{
+void x;
+}

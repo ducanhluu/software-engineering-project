@@ -1,0 +1,6 @@
+//Resultat:Erreur syntaxique : & qui manque dans &&
+{
+	if ( true & 5.0 ){
+	   println("this text shouldn't be printed");
+	}
+}

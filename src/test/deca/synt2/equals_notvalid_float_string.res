@@ -1,1 +1,0 @@
-./src/test/deca/synt2/equals_notvalid_float_string.deca:7:17: mismatched input '"){\n   println("' expecting {'instanceof', ')', '=', '&&', '||', '==', '!=', '<=', '>=', '<', '>', '+', '-', '*', '/', '%', '.'}

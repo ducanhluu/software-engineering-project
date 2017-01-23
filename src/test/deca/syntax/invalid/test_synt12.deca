@@ -1,0 +1,9 @@
+//Resultat:
+//      Erreur syntaxique : la ligne 4 mauvaise appelation de la classe 
+class A {
+protected int x;
+}
+class B() {
+A a = new A();
+int x = a.x;
+}

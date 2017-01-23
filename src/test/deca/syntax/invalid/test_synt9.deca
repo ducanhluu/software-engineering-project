@@ -1,0 +1,5 @@
+//Resultat:
+//      Erreur syntaxique : mauvaise declaration
+class  {
+int equals ;
+}

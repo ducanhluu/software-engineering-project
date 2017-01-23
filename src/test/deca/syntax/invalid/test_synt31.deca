@@ -1,0 +1,8 @@
+//Resultat:
+//      Erreur syntaxique : ligne 5
+class A {
+int method(float y){
+return y;
+}
+int return 1;
+}

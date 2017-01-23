@@ -1,0 +1,17 @@
+class A{
+float x;
+A a;
+float method(){
+return 2.2;
+}
+float method2(){
+return a.method();
+}
+float method3(A a){
+return a.x;
+}
+}
+{
+A a = new A();
+float x = a.method3(a);
+}

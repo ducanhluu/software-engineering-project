@@ -1,5 +1,0 @@
-class A {
-int method(float y){
-return y;
-}
-}

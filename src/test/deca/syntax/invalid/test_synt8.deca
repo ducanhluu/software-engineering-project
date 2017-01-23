@@ -1,0 +1,7 @@
+//Resultat:
+//      Erreur syntaxique : l'argument de println est invalide
+{
+int x = 2;
+println("" x);
+int y;
+}

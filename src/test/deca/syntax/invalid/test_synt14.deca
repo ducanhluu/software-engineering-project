@@ -1,0 +1,8 @@
+//Resultat:
+//      Erreur syntaxique : extends deux fois ligne 4
+class A{
+int x;
+}
+class B extends A extends A{
+boolean x;
+}

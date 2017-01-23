@@ -1,0 +1,8 @@
+//Resultat:
+//      Erreur syntaxique : ligne 3
+{
+if (1){
+   println();
+if
+}
+}

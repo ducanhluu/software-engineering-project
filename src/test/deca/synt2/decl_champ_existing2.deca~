@@ -1,9 +1,0 @@
-class A{
-float z;
-}
-class B extends A {
-int l;
-}
-class C extends B {
-int z;
-}
