@@ -99,6 +99,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
     : i=ident {
             $tree = new DeclVar(t,$i.tree,new NoInitialization() );
             setLocation($tree,$i.start);
+        
         }
       (EQUALS e=expr {
             Initialization init=new Initialization($e.tree);
@@ -601,8 +602,10 @@ decl_field[AbstractIdentifier t, Visibility v] returns[AbstractDeclField tree]
           
         }
       (EQUALS e=expr {
+            Initialization init=new Initialization($e.tree);
+            setLocation(init,$e.start);
             assert($e.tree != null);
-            $tree=new DeclField($v,$t,$i.tree,new Initialization($e.tree));
+            $tree=new DeclField($v,$t,$i.tree,init);
             
         }
       )? {

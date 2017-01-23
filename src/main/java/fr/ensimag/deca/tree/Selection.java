@@ -92,6 +92,7 @@ public class Selection extends AbstractLValue {
             }
 
         }
+        this.setType(def.getType());
         return def.getType();
         //    }
     }

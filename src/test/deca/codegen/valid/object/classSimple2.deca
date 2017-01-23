@@ -7,13 +7,13 @@
 class A{
       int x = 2;
       int get() {
-      	    return 2;
+      	    return x;
       }
 
 }
 
 {
 	A x = new A();
-	print(x.x);
+	print(x.get());
 	
 }

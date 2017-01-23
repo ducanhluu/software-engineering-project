@@ -1,23 +1,171 @@
-// Grenoble INP - Ensimag projet GL -*- mode: java -*-
-// Library for class Math of Deca, coded in Deca
-
 class Math {
-    float sin(float f) {
-        println("sin(f) not yet implemented");
+
+    // Fonction de calcul de puissance de flottants
+     float _puiss(float f, int n ) {
+
+	if ( n == 0 ) {
+	    return 1.0 ;
+	}
+	return f;
     }
-    float cos(float f) {
-        println("cos(f) not yet implemented");
+    
+
+    // Fonction racine par la méthode de Newton
+     float _racine(float f) {
+	
+	float x0 = 1.0;
+	float precision = 0.000001;
+	
+	if ( f == 0 || f == 1 ) {
+	    return f ;
+	}
+	
+	while ( (x0*x0 - f > precision) || (f - x0*x0 > precision) ) {
+		x0 = (x0 + f/x0)/2;		
+	}
+	
+	return x0 ;
     }
-    float asin(float f) {
-        println("asin(f) not yet implemented");
-    }
+
+     //  Calcul de l'arctan par l'approximant de Padé
     float atan(float f) {
-        println("atan(f) not yet implemented");
+
+	float coeff0 = 1.0;
+	float coeff2 = 10.0/9.0;
+	float coeff3 = 7.0/9.0;
+	float coeff4 = 5.0/21.0;
+	float coeff5 = 64.0/945.0;
+
+	float inverse = 1/f;
+	float approximation_pi = 3.14159265;
+
+	if ( f < 0 ) {
+	   return -atan(-f);
+	} else if ( f > 1 ) {
+	   return -atan(inverse)+approximation_pi/2;
+	} else {
+	   return (f+coeff3*_puiss(f,3)+coeff5*_puiss(f,5))/(coeff0+coeff2*_puiss(f,2)+coeff4*_puiss(f,4)) ;
+	}
     }
+
+        //  Calcul de l'arcsin par l'identité arcsin(x) = arctan(x/(1-x**2)**0.5)
+    float asin(float f) {
+	
+	float approximation_pi = 3.14159265;
+
+	if ( f < 0 ) {
+	   return -asin(-f);
+	} else if ( f == 1 ) {
+	  return approximation_pi/2;
+	} else if ( f > 1 ) {
+	  return 0.0;
+	} else {
+	  return atan(f / _racine(1-f*f));
+	}
+	  
+    }
+
+    
+    //   Calcul de l'arccos par l'identité arccos(x) + arcsin(x) = pi/2
+    float _acos(float f ) {
+	
+	float approximation_pi = 3.14159265;
+
+	return approximation_pi/2 - asin(f);
+    }
+
+        /*
+      Calcul récursif de la fonction sin par développement de Taylor :
+      On utilise la relation entre le terme du rang i+1 et celui
+      du rang i pour améliorer nos calculs
+    */    
+    float sin(float f) {
+
+	float res = 1.0;
+	float terme_rang_i = 1.0;
+	float valide = 2.0;
+	int i = 29 ;
+
+	if ( f < 0 ) {
+	   return -sin(-f);
+	}
+
+	if ( f > valide ) {
+	   return 2*sin(f/2)*cos(f/2);
+	}
+	
+	while ( i > 2 )  {
+	    terme_rang_i = ( -terme_rang_i*(f*f) ) / (i*(i+1) ) ;
+	    res = res + terme_rang_i ;
+	    i = i - 2;
+	}
+	
+	return f*res;
+    }
+
+    //  Calcul récursif de la fonction cos par développement de Taylor
+    float cos(float f) {
+
+	float res = 1.0;
+	float terme_rang_i = 1.0;
+	float valide = 2.0;
+	int i = 29 ;
+
+	if ( f < 0 ) {
+	   return cos(-f);
+	}
+
+	if ( f > valide ) {
+	   return 2*cos(f/2)*cos(f/2)-1;
+	}
+	
+	while ( i > 2 )  {
+	    terme_rang_i = ( -terme_rang_i*(f*f) ) / (i*(i+1) ) ;
+	    res = res +terme_rang_i ;
+	    i = i - 2;
+	}
+
+	return res;
+    }
+
+
     float ulp(float f) {
-        println("ulp(f) not yet implemented");
+	
+	float demi = 0.5;
+	float a = 1.0;
+	float b = -1.0;
+	
+	if ( f <= 1 && f >= -1 ) {
+	    if ( f == 1 || f == 0 ) {
+		return f*_puiss(demi,23);
+	    } else if ( f <= 1 && f >= 0 ) {
+		while ( a > f ) {
+		    a = a/2;
+		}
+		return a*_puiss(demi,23);
+	    } else {
+	
+		while ( b < f ) {
+		    b = b / 2;
+		}
+		return b*_puiss(demi,24);	
+	    }
+	    
+	} else { 
+	    if ( f > 1 ) {
+		
+	       	while ( a < f ){
+		    a = a*2;
+		}
+		return b*_puiss(demi,24);	
+	    } else { 
+		
+		while ( b > f ) {
+		    b = b*2;
+		}
+		return b*_puiss(demi,23);
+	    }
+	}
     }
+
 }
-
-
-// End of Deca Math library

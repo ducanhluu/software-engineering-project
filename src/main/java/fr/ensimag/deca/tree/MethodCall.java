@@ -81,6 +81,7 @@ public class MethodCall extends AbstractExpr {
                    if ( !signExpected.sameSignature(args)){
                        throw new ContextualError("this method has a different signature ",this.getLocation());
                    }
+                   this.setType(def.getType());
                    return def.getType();
                 }
             }            
