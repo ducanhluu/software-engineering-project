@@ -32,10 +32,12 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         if(type1.isInt() && type2.isFloat()){
             ConvFloat cf=new ConvFloat(this.getLeftOperand());
             this.setLeftOperand(cf);
+            cf.verifyExpr(compiler, localEnv, currentClass);
 
         }else if (type2.isInt() && type1.isFloat()){
             ConvFloat cf=new ConvFloat(this.getLeftOperand());
             this.setRightOperand(cf);
+            cf.verifyExpr(compiler, localEnv, currentClass);
                     /*throw new ContextualError("cannot use operator eqquals on two different type",this.getLocation());*/
         }else if(type1.isClassOrNull() && type2.isClassOrNull() ) {
             if(this.getOperatorName() != "==" && this.getOperatorName() != "!=" ){
