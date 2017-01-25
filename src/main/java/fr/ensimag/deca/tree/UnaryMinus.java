@@ -41,6 +41,10 @@ public class UnaryMinus extends AbstractUnaryExpr {
     @Override
     protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
-        compiler.addInstruction(new OPP(reg, reg));
+        if (dval == null) {
+            compiler.addInstruction(new OPP(reg, reg));
+        } else {
+            compiler.addInstruction(new OPP(dval, reg));
+        }
     }
 }

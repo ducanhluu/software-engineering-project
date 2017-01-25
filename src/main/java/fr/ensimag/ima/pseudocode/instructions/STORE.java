@@ -1,7 +1,9 @@
 package fr.ensimag.ima.pseudocode.instructions;
 
+import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import fr.ensimag.ima.pseudocode.BinaryInstruction;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 
 /**
@@ -11,5 +13,8 @@ import fr.ensimag.ima.pseudocode.Register;
 public class STORE extends BinaryInstruction {
     public STORE(Register op1, DAddr op2) {
         super(op1, op2);
+        if (op1 instanceof GPRegister) {
+            freeRegister(((GPRegister) op1).getNumber());
+        }
     }
 }

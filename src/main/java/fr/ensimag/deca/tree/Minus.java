@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.freeRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.setLastUsedRegister;
@@ -29,7 +30,9 @@ public class Minus extends AbstractOpArith {
         super.codeGenInst(compiler);
         
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
-            compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
+            if (!((Identifier) getRightOperand()).getDefinition().isParam()) {
+                compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getExpDefinition().getOperand(), getAvailableRegister(compiler)));
+            }
             GPRegister reg2 = getLastUsedRegisterToStore();
             compiler.addInstruction(new SUB(reg, reg2));
             setLastUsedRegister(reg2.getNumber());

@@ -37,7 +37,10 @@ public class Divide extends AbstractOpArith {
         super.codeGenInst(compiler);
 
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
-            compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getVariableDefinition().getOperand(), getAvailableRegister(compiler)));
+            
+            if (!((Identifier) getRightOperand()).getDefinition().isParam()) {
+                compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getExpDefinition().getOperand(), getAvailableRegister(compiler)));
+            }
             GPRegister reg2 = getLastUsedRegisterToStore();
             if (getRightOperand().getType().isInt()) {
                 divisionIsUsed = true;

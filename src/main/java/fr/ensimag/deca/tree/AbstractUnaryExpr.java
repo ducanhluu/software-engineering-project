@@ -1,10 +1,16 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
+import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import static fr.ensimag.ima.pseudocode.Register.LB;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -47,9 +53,28 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
     }
 
     protected GPRegister reg;
+    protected DVal dval;
+
     @Override
-    protected void codeGenInst(IMAProgram compiler) { 
-        getOperand().codeGenInst(compiler);
-        reg = getLastUsedRegisterToStore();
+    protected void codeGenInst(IMAProgram compiler) {
+        AbstractExpr oper = getOperand();
+
+        if (oper instanceof Identifier) {
+            Definition def = ((Identifier) oper).getDefinition();
+            if (def.isParam()) {
+                int index = -2 - ((Identifier) oper).getParamDefinition().getIndex();
+                dval = new RegisterOffset(index, LB);
+            } else if (def.isField()) {
+                int index = ((Identifier) oper).getFieldDefinition().getIndex();
+                dval = new RegisterOffset(index, getLastUsedRegisterToStore());
+            } else {
+                dval = ((Identifier) oper).getExpDefinition().getOperand();
+            }
+            reg = getAvailableRegister(compiler);
+        } else {
+            oper.codeGenInst(compiler);
+            reg = getLastUsedRegisterToStore();
+            dval = null;
+        }
     }
 }

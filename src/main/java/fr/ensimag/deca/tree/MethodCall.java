@@ -119,7 +119,6 @@ public class MethodCall extends AbstractExpr {
         increNumberTempMots(size - 1);
         object.codeGenInst(compiler);
         compiler.addInstruction(new STORE(getLastUsedRegisterToStore(), new RegisterOffset(0, SP)));
-        freeRegister(getLastUsedRegisterToStore().getNumber());
         arguments.codeGenInst(compiler);
         compiler.addInstruction(new LOAD(new RegisterOffset(0, SP), getAvailableRegister(compiler)));
         compiler.addInstruction(new CMP(new NullOperand(), getLastUsedRegisterToStore()));
@@ -129,5 +128,6 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(new BSR(new RegisterOffset(ident.getMethodDefinition().getIndex(), getLastUsedRegisterToStore())));
         compiler.addInstruction(new SUBSP(size));
         setLastUsedRegister(0);
+        freeRegister(getLastUsedRegisterToStore().getNumber());
     }
 }

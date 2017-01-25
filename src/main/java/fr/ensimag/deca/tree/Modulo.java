@@ -53,8 +53,6 @@ public class Modulo extends AbstractOpArith {
     protected void codeGenInst(IMAProgram compiler) {
         super.codeGenInst(compiler);
         divisionIsUsed = true;
-        compiler.addInstruction(new CMP(0, reg));
-        compiler.addInstruction(new BEQ(new Label("division_by_zero_error")));
 
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
             compiler.addInstruction(new CMP(0, reg));
