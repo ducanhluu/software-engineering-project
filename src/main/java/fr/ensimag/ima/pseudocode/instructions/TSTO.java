@@ -1,5 +1,6 @@
 package fr.ensimag.ima.pseudocode.instructions;
 
+import static fr.ensimag.deca.codegen.MemoryManagement.increNumberInternalCycles;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.UnaryInstructionImmInt;
 
@@ -10,9 +11,11 @@ import fr.ensimag.ima.pseudocode.UnaryInstructionImmInt;
 public class TSTO extends UnaryInstructionImmInt {
     public TSTO(ImmediateInteger i) {
         super(i);
+        increNumberInternalCycles(4);
     }
 
     public TSTO(int i) {
         super(i);
+        increNumberInternalCycles(4);
     }
 }

@@ -20,8 +20,8 @@ class Math {
 	    return f ;
 	}
 	
-            while ( (x0*x0 - f > precision) || (f - x0*x0 > precision) ) {
-		x0 = (x0 + f/x0)/2.0;		
+        while ( (x0*x0 - f > precision) || (f - x0*x0 > precision) ) {
+            x0 = (x0 + f/x0)/2.0;		
 	}
 	
 	return x0 ;

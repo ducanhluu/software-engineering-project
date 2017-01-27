@@ -34,6 +34,7 @@ public class MemoryManagement {
     private static DAddr daddr;
     private static int lastReg = 2;
     private static int numberSavedRegisters = 0;
+    private static int numberInternalCycles = 0;
     private static int numberSavedRegistersInMet = 0;
     private static int numberGlobalVariables = 0;
     private static int sizeOfVTables = 0;
@@ -53,12 +54,20 @@ public class MemoryManagement {
         return pushedRegs;
     }
     
+    public static void increNumberInternalCycles(int val) {
+        numberInternalCycles += val;
+    }
+    
     public static void increNumberSavedRegisters(int val) {
         numberSavedRegisters += val;
     }
     
     public static void increNumberTempMots(int val) {
         numberTempMots += val;
+    }
+    
+    public static int getNumberInternalCycles() {
+        return numberInternalCycles;
     }
     
     public static int getNumberTempMots() {

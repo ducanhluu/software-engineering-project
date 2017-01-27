@@ -1,5 +1,6 @@
 package fr.ensimag.ima.pseudocode.instructions;
 
+import static fr.ensimag.deca.codegen.MemoryManagement.increNumberInternalCycles;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.UnaryInstruction;
 
@@ -10,5 +11,6 @@ import fr.ensimag.ima.pseudocode.UnaryInstruction;
 public class PUSH extends UnaryInstruction {
     public PUSH(Register op1) {
         super(op1);
+        increNumberInternalCycles(4);
     }
 }

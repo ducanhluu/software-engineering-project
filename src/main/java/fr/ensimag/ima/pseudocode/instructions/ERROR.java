@@ -8,5 +8,5 @@ import fr.ensimag.ima.pseudocode.NullaryInstruction;
  * @date 01/01/2017
  */
 public class ERROR extends NullaryInstruction {
-
+    
 }

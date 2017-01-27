@@ -11,6 +11,7 @@ import static fr.ensimag.deca.codegen.MemoryManagement.freeLastUsedRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getAvailableRegister;
 import static fr.ensimag.deca.codegen.MemoryManagement.getLastUsedRegisterToStore;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberGlobalVariables;
+import static fr.ensimag.deca.codegen.MemoryManagement.getNumberInternalCycles;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberSavedRegisters;
 import static fr.ensimag.deca.codegen.MemoryManagement.getNumberTempMots;
 import static fr.ensimag.deca.codegen.MemoryManagement.getSizeOfVTables;
@@ -80,6 +81,7 @@ public class CodeGenInst {
         addEPHeapOverflow(compiler);
         addEPDivideBy0(compiler);
         addEPDereferencementNull(compiler);
+        compiler.addFirst(new Line("Internal Cycles: " + Integer.toString(getNumberInternalCycles())));
     }
 
     public static void addEPOverflow(IMAProgram compiler) {

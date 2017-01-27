@@ -32,10 +32,14 @@ public class Minus extends AbstractOpArith {
         if (getRightOperand() instanceof Identifier && !(getLeftOperand() instanceof Identifier)) {
             if (!((Identifier) getRightOperand()).getDefinition().isParam()) {
                 compiler.addInstruction(new LOAD(((Identifier) getRightOperand()).getExpDefinition().getOperand(), getAvailableRegister(compiler)));
+                GPRegister reg2 = getLastUsedRegisterToStore();
+                compiler.addInstruction(new SUB(reg, reg2));
+                setLastUsedRegister(reg2.getNumber());
+            } else {
+                GPRegister reg2 = getLastUsedRegisterToStore();
+                compiler.addInstruction(new SUB(val, reg2));
+                setLastUsedRegister(reg2.getNumber());
             }
-            GPRegister reg2 = getLastUsedRegisterToStore();
-            compiler.addInstruction(new SUB(reg, reg2));
-            setLastUsedRegister(reg2.getNumber());
         } else {
             compiler.addInstruction(new SUB(val, reg));
             setLastUsedRegister(reg.getNumber());
