@@ -1,4 +1,6 @@
 # Projet Génie Logiciel, Ensimag.
+Write a compiler for an object-oriented programming language similar to Java
+Project by team of 5 students for the application of software engineering methods
 ## gl17, 01/01/2017.
 
 Pour lancer tous les tests de notre base soit :
