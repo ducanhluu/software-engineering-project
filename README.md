@@ -1,5 +1,5 @@
-Projet Génie Logiciel, Ensimag.
-gl17, 01/01/2017.
+#Projet Génie Logiciel, Ensimag.
+#gl17, 01/01/2017.
 
 
 Pour lancer tous les tests de notre base soit :
