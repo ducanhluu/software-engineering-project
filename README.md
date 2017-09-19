@@ -1,7 +1,7 @@
 #Projet Génie Logiciel, Ensimag.
-#gl17, 01/01/2017.
+gl17, 01/01/2017.
 
-
+<pre>
 Pour lancer tous les tests de notre base soit :
 *En tapant la commande: mvn test
 *En lançant les tests de chaque partie du projet séparement:
@@ -16,3 +16,4 @@ Pour lancer tous les tests de notre base soit :
 ** Pour lancer tous ces tests ci-dessus : ./src/test/script/launch-all-test.sh
 
 Pour supprimer les fichers .ass, .res et .dec générés par les commandes ci-dessus tapez la commande : ./src/test/script/removeResult.sh
+</pre>
